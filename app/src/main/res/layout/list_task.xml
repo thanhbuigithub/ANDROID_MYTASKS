@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@drawable/shape_task"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:layout_marginStart="16dp">
+
+    <CheckBox
+        android:id="@+id/chbDone"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:button="@drawable/custom_checkbox"
+        android:focusable="auto"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:orientation="vertical"
+        android:layout_weight="7"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tvtask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="task"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="0sp"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chbImportant"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:button="@drawable/custom_checkbox_important"
+        android:layout_marginLeft="15dp"
+        android:focusable="auto"/>
+</LinearLayout>
