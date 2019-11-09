@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Rename list"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:id="@+id/menu_list_task_Rename"/>
+
+    <item android:title="Sort by"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:id="@+id/menu_list_task_Sort"/>
+
+    <item android:title="Delete list"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:id="@+id/menu_list_task_Delete"/>
+</menu>

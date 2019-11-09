@@ -1,21 +1,23 @@
 package com.example.mytasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpendableListView_List extends BaseExpandableListAdapter {
-    Context context;
+    MainActivity context;
     List<String> listList;
     HashMap<String,List<Tasks>> listTask;
 
-    public ExpendableListView_List(Context context, List<String> listList, HashMap<String, List<Tasks>> listTask) {
+    public ExpendableListView_List(MainActivity context, List<String> listList, HashMap<String, List<Tasks>> listTask) {
         this.context = context;
         this.listList = listList;
         this.listTask = listTask;
@@ -62,7 +64,19 @@ public class ExpendableListView_List extends BaseExpandableListAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.list_view,null);
         TextView tvList = (TextView) convertView.findViewById(R.id.tvlist2);
+        ImageView imgList = (ImageView) convertView.findViewById(R.id.imgListView);
         tvList.setText(listName);
+
+        tvList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                intent = new Intent(context,ListTaskActivity.class);
+
+                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
