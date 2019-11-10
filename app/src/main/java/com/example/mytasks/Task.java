@@ -6,6 +6,13 @@ public class Task {
     private Integer mIsDone;
     private Integer mIsImportant;
 
+    public Task() {
+    }
+
+    public Task(String mName) {
+        this.mName = mName;
+    }
+
     public Integer getmID() {
         return mID;
     }

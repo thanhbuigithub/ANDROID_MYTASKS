@@ -61,7 +61,7 @@ public class ListTaskAdapter extends BaseAdapter {
             viewholder = (Viewholder) view.getTag();
         }
 
-        final Tasks tasks = tasksList.get(i);
+        final Task tasks = tasksList.get(i);
 
         viewholder.txtTasks.setText(tasks.getmName());
 

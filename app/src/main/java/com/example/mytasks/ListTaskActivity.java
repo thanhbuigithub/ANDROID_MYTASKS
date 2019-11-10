@@ -42,7 +42,7 @@ public class ListTaskActivity extends AppCompatActivity {
 
         lvListTask.setAdapter(listTaskAdapter);
 
-        tasksArrayList.add(new Tasks("Do something!"));
+        tasksArrayList.add(new Task("Do something!"));
         listTaskAdapter.notifyDataSetChanged();
 
         initActionBar(listName);
