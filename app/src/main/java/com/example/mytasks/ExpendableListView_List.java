@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ExpendableListView_List extends BaseExpandableListAdapter {
-    MainActivity context;
+    Context context;
     List<String> listList;
     HashMap<String,List<Tasks>> listTask;
 
-    public ExpendableListView_List(MainActivity context, List<String> listList, HashMap<String, List<Tasks>> listTask) {
+    public ExpendableListView_List(Context context, List<String> listList, HashMap<String, List<Tasks>> listTask) {
         this.context = context;
         this.listList = listList;
         this.listTask = listTask;
