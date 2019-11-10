@@ -36,7 +36,14 @@ public class ListTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_tasks);
 
         lvListTask = (ListView) findViewById(R.id.lvListTask);
+
+        tasksArrayList = new ArrayList<>();
+        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,tasksArrayList);
+
         lvListTask.setAdapter(listTaskAdapter);
+
+        tasksArrayList.add(new Tasks("Do something!"));
+        listTaskAdapter.notifyDataSetChanged();
 
         initActionBar(listName);
         //GetDataListTask();
