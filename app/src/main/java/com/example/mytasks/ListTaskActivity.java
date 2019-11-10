@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ListTaskActivity extends AppCompatActivity {
     ListView lvListTask;
-    ArrayList<Tasks> tasksArrayList;
+    ArrayList<Task> tasksArrayList;
     ListTaskAdapter listTaskAdapter;
 
     //Test case

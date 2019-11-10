@@ -13,9 +13,9 @@ import java.util.List;
 public class ListTaskAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<Tasks> tasksList;
+    private List<Task> tasksList;
 
-    public ListTaskAdapter(Context context, int layout, List<Tasks> tasksList) {
+    public ListTaskAdapter(Context context, int layout, List<Task> tasksList) {
         this.context = context;
         this.layout = layout;
         this.tasksList = tasksList;
