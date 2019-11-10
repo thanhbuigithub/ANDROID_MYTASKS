@@ -37,7 +37,7 @@ public class ListTaskAdapter extends BaseAdapter {
     }
 
     private class Viewholder{
-        TextView txtTaks;
+        TextView txtTasks;
         CheckBox cbDone;
         CheckBox cbImportant;
     }
@@ -46,19 +46,25 @@ public class ListTaskAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Viewholder viewholder;
 
-        if(view != null)
+        if(view == null)
         {
             viewholder = new Viewholder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout,null);
 
-            viewholder.txtTaks = (TextView) view.findViewById(R.id.tvtask);
+            viewholder.txtTasks = (TextView) view.findViewById(R.id.tvtask);
             viewholder.cbDone = (CheckBox) view.findViewById(R.id.chbDone);
             viewholder.cbImportant = (CheckBox) view.findViewById(R.id.chbImportant);
 
+            view.setTag(viewholder);
         }else{
             viewholder = (Viewholder) view.getTag();
         }
+
+        final Tasks tasks = tasksList.get(i);
+
+        viewholder.txtTasks.setText(tasks.getmName());
+
         return view;
     }
 }
