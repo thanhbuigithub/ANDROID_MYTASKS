@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
                 intent = new Intent(MainActivity.this,ListTaskActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("LIST_NAME", mainList.get(position).getmName());
+                bundle.putInt("LIST_ID", mainList.get(position).getmID());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -65,7 +69,12 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogAddList();
+                Intent intent;
+                intent = new Intent(MainActivity.this,ListTaskActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ACTION", "ADD");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -114,4 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataFromDbToMainList();
+        mainListAdapter.notifyDataSetChanged();
+    }
 }

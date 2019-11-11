@@ -1,6 +1,8 @@
 package com.example.mytasks;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,33 +22,70 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity {
     ListView lvListTask;
     ArrayList<Task> tasksArrayList;
     ListTaskAdapter listTaskAdapter;
-
+    DbHelper db;
+    ArrayList<TaskList> mainList = new ArrayList<>();
     //Test case
-    final String listName = "Some thing";
-    int listID = 1;
+    static String listName;
+    int listID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tasks);
-
+        db = new DbHelper(this);
+        getDataFromDbToMainList();
         lvListTask = (ListView) findViewById(R.id.lvListTask);
+        listName = "Danh sách chưa có tiêu đề";
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        initActionBar(listName);
+
+        if (bundle != null){
+            String action = bundle.getString("ACTION");
+            String name = bundle.getString("LIST_NAME");
+            listID = bundle.getInt("LIST_ID");
+            if (name != null)
+            {
+                listName = name;
+                initActionBar(listName);
+            }
+            if (action != null)
+            {
+                DialogAddList();
+            }
+        }
 
         tasksArrayList = new ArrayList<>();
         listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,tasksArrayList);
 
         lvListTask.setAdapter(listTaskAdapter);
 
-        tasksArrayList.add(new Task("Do something!"));
+        for (int i = 0; i < mainList.size();i++)
+        {
+            if (mainList.get(i).getmID() == listID)
+            {
+                Toast toast = Toast.makeText(this, String.valueOf(listID), Toast.LENGTH_SHORT);
+                toast.show();
+                tasksArrayList.clear();
+                tasksArrayList.addAll(mainList.get(i).getmListTasks());
+            }
+        }
         listTaskAdapter.notifyDataSetChanged();
 
-        initActionBar(listName);
+        addEvent();
         //GetDataListTask();
+    }
+
+    private void addEvent() {
     }
 
 //    private void GetDataListTask()
@@ -151,11 +190,24 @@ public class ListTaskActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String taskName = txtName.getText().toString().trim();
+                Task task = new Task();
+                task.setmName(txtName.getText().toString().trim());
+                task.setmIsImportant(0);
+                task.setmIsDone(0);
+                task.setmIDList(listID);
                 //Set On Database
-
+                db.insertNewTask(task);
+                getDataFromDbToMainList();
+                for (int i = 0; i < mainList.size();i++)
+                {
+                    if (mainList.get(i).getmID() == listID)
+                    {
+                        tasksArrayList.clear();
+                        tasksArrayList.addAll(mainList.get(i).getmListTasks());
+                    }
+                }
+                listTaskAdapter.notifyDataSetChanged();
                 dialog.dismiss();
-
                 //GetDataListTask();
             }
         });
@@ -193,5 +245,46 @@ public class ListTaskActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void DialogAddList(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_list);
+
+        final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addList);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
+        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String listNameAdd = txtName.getText().toString().trim();
+                TaskList taskList = new TaskList();
+                taskList.setmName(listNameAdd);
+                taskList.setmIcon(R.drawable.list);
+                db.insertNewList(taskList);
+                listName = listNameAdd;
+                initActionBar(listName);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void getDataFromDbToMainList()
+    {
+        mainList.clear();
+        List<TaskList> list = db.getAllList();
+        mainList.addAll(list);
     }
 }

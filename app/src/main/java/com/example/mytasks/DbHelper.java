@@ -65,14 +65,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void insertNewTaskToList(Task task, TaskList list){
+    public void insertNewTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN_NAME,task.getmName());
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
-        values.put(DB_COLUMN_IDLIST, list.getmID());
-        db.insertWithOnConflict(DB_TABLE_LIST,null,values,SQLiteDatabase.CONFLICT_IGNORE);
+        values.put(DB_COLUMN_IDLIST, task.getmIDList());
+        db.insertWithOnConflict(DB_TABLE_TASK,null,values,SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
@@ -109,18 +109,20 @@ public class DbHelper extends SQLiteOpenHelper {
             list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
             cursorTask.moveToPosition(-1);
             while (cursorTask.moveToNext()){
-                task = new Task();
-                task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+                if (cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)) == list.getmID()) {
+                    task = new Task();
+                    task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
 
-                task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+                    task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
 
-                task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+                    task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
 
-                task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+                    task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
 
-                task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
+                    task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
 
-                list.getmListTasks().add(task);
+                    list.getmListTasks().add(task);
+                }
             }
             allList.add(list);
         }
