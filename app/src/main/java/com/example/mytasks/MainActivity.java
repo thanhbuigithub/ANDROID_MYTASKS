@@ -16,6 +16,8 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView lvMainSpec, lvMainList;
     ArrayList<TaskList> mainList, mainSpec;
-    Button btnAdd;
+    FloatingActionButton btnAdd;
     MainListView mainListAdapter;
     MainListView specListAdapter;
     DbHelper db;
@@ -83,44 +85,9 @@ public class MainActivity extends AppCompatActivity {
         db = new DbHelper(this);
         lvMainList = (ListView) findViewById(R.id.lvMainList);
         lvMainSpec = (ListView) findViewById(R.id.lvMainSpec);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd = (FloatingActionButton) findViewById(R.id.fabMainList);
         mainList = new ArrayList<>();
         mainSpec = new ArrayList<>();
-    }
-
-    private void DialogAddList(){
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_list);
-
-        final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addList);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
-        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);
-
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String listName = txtName.getText().toString().trim();
-                TaskList taskList = new TaskList();
-                taskList.setmName(listName);
-                taskList.setmIcon(R.drawable.list);
-                db.insertNewList(taskList);
-
-                dialog.dismiss();
-                getDataFromDbToMainList();
-            }
-        });
-
-        dialog.show();
-
     }
 
     @Override
