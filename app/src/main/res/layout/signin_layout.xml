@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        android:background="@color/colorBlack">
+
+        <TextView
+            android:id="@+id/text_welcome1"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Chào mừng bạn\n đến với\n Microsoft To Do"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="320dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/text_welcome1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/logo"
+            android:scaleType="centerCrop"/>
+
+        <EditText
+            android:id="@+id/edit_username"
+            android:textColor="@color/colorBlack"
+            android:background="@color/colorWhite"
+            android:layout_width="260dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/image_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:paddingHorizontal="10dp"
+            android:hint="Email hoặc số điện thoại"
+            android:inputType="textEmailAddress"
+            android:drawableLeft="@drawable/ic_action_name"/>
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="260dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/edit_username"
+            android:background="@color/colorWhite"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_action_pass"
+            android:hint="Mật khẩu"
+            android:paddingHorizontal="10dp"
+            android:inputType="textPassword"
+            android:textColor="@color/colorBlack" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="250dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="36dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_below="@+id/edit_password"
+            android:background="@drawable/button_rectangle"
+            android:text="Đăng nhập"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_welcome2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textColor="#ffffff"
+            android:textSize="13dp"
+            android:gravity="center"
+            android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan hoặc trường học." />
+
+        <View
+            android:layout_width="280dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/text_welcome2"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorWhite"
+            />
+
+    <TextView
+        android:id="@+id/text_welcome3"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_welcome2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="Bạn không có tài khoản Microsoft?"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/text_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_welcome3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/colorBlue"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
