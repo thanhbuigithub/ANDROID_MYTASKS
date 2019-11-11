@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ public class MainListView extends BaseAdapter {
 
     Context context;
     Integer layout;
-    List<TaskList> mainList;
+    ArrayList<TaskList> mainList;
 
-    public MainListView(Context context, Integer layout, List<TaskList> mainList) {
+    public MainListView(Context context, Integer layout, ArrayList<TaskList> mainList) {
         this.context = context;
         this.layout = layout;
         this.mainList = mainList;
@@ -32,12 +33,12 @@ public class MainListView extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return mainList.get(position);
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
 
     private class Viewholder{
@@ -53,18 +54,21 @@ public class MainListView extends BaseAdapter {
         {
             viewholder = new Viewholder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layout, parent, false);
+            convertView = inflater.inflate(layout,null);
 
             viewholder.tvMainList = (TextView) convertView.findViewById(R.id.tvMainList);
-            viewholder.tvMainList.setText(mainList.get(position).getmName());
-
             viewholder.imgMainList = (ImageView) convertView.findViewById(R.id.imgMainList);
-            viewholder.imgMainList.setImageResource(mainList.get(position).getmIcon());
 
+            convertView.setTag(viewholder);
         }
         else{
             viewholder = (Viewholder) convertView.getTag();
         }
+
+        final TaskList taskList = mainList.get(position);
+        viewholder.tvMainList.setText(taskList.getmName());
+        viewholder.imgMainList.setImageResource(taskList.getmIcon());
+
         return convertView;
     }
 }

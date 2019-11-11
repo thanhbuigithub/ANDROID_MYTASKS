@@ -9,6 +9,22 @@ public class TaskList {
     private Integer mIcon;
     private List<Task> mListTasks = new ArrayList<>();
 
+    public TaskList() {
+    }
+
+    public TaskList(Integer mID, String mName, Integer mIcon, List<Task> mListTasks) {
+        this.mID = mID;
+        this.mName = mName;
+        this.mIcon = mIcon;
+        this.mListTasks = mListTasks;
+    }
+
+    public TaskList(Integer mID, String mName, Integer mIcon) {
+        this.mID = mID;
+        this.mName = mName;
+        this.mIcon = mIcon;
+    }
+
     public Integer getmID() {
         return mID;
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -37,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + DB_COLUMN_IDLIST + " integer)";
         db.execSQL(script);
 
-        script = "CREATE TABLE " + DB_TABLE_LIST + " ( "
+        script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_LIST + " ( "
                 + DB_COLUMN_ID + " integer primary key, "
                 + DB_COLUMN_NAME + " text, "
                 + DB_COLUMN_ICON + " integer)";
@@ -102,11 +103,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cursorList.moveToPosition(-1);
         while(cursorList.moveToNext()){
+            list = new TaskList();
             list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
             list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
             list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
             cursorTask.moveToPosition(-1);
             while (cursorTask.moveToNext()){
+                task = new Task();
                 task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
 
                 task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
@@ -114,6 +117,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
 
                 task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+
+                task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
 
                 list.getmListTasks().add(task);
             }

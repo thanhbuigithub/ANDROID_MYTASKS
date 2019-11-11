@@ -5,6 +5,7 @@ public class Task {
     private String mName;
     private Integer mIsDone;
     private Integer mIsImportant;
+    private Integer mIDList;
 
     public Task() {
     }
@@ -43,5 +44,21 @@ public class Task {
 
     public void setmIsImportant(Integer mIsImportant) {
         this.mIsImportant = mIsImportant;
+    }
+
+    public Task(Integer mID, String mName, Integer mIsDone, Integer mIsImportant, Integer mIDList) {
+        this.mID = mID;
+        this.mName = mName;
+        this.mIsDone = mIsDone;
+        this.mIsImportant = mIsImportant;
+        this.mIDList = mIDList;
+    }
+
+    public Integer getmIDList() {
+        return mIDList;
+    }
+
+    public void setmIDList(Integer mIDList) {
+        this.mIDList = mIDList;
     }
 }
