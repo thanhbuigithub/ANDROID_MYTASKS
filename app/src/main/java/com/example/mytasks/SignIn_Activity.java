@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mytasks.DatabaseHelper;
+import com.example.mytasks.Database_User;
 import com.example.mytasks.R;
 import com.example.mytasks.SignUp_Activity;
 
@@ -20,14 +20,14 @@ public class SignIn_Activity extends AppCompatActivity {
     ImageView imgView;
     EditText edName,edPass;
     Button btnLogin;
-    DatabaseHelper db;
+    Database_User db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_activity);
 
-        db = new DatabaseHelper(this);
+        db = new Database_User(this);
 
         tvIntro_01=(TextView)findViewById(R.id.text_welcome1);
         tvIntro_02=(TextView)findViewById(R.id.text_welcome2);
@@ -62,7 +62,10 @@ public class SignIn_Activity extends AppCompatActivity {
                     startActivity(GoHomePage);
                 }
                 else if(mName.isEmpty()||mPass.isEmpty()){
-                    Toast.makeText(SignIn_Activity.this,"Tên đăng nhập hoặc mật khẩu không được bỏ trống",Toast.LENGTH_SHORT).show();
+                    if(mName.isEmpty()){
+                        edName.setError("Tên đăng nhập không được bỏ trống");
+                    }
+                    else edPass.setError("Mật khẩu không được bỏ trống");
                 }
                 else {
                     Toast.makeText(SignIn_Activity.this,"Tên đăng nhập hoặc mật khẩu không đúng",Toast.LENGTH_SHORT).show();

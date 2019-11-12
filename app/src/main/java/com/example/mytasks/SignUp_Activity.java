@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mytasks.DatabaseHelper;
+import com.example.mytasks.Database_User;
 import com.example.mytasks.R;
 
 public class SignUp_Activity extends AppCompatActivity {
@@ -21,15 +21,15 @@ public class SignUp_Activity extends AppCompatActivity {
     EditText mTextPassAgain;
     Button mButtonSignUp;
     View mView;
-    TextView mTextViewLogin;
-    DatabaseHelper db;
+    TextView mTextViewLogin,mGoBack;
+    Database_User db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        db = new DatabaseHelper(this);
+        db = new Database_User(this);
 
         mTextView_Head=(TextView)findViewById(R.id.text_title);
         mImageView=(ImageView)findViewById(R.id.image_logo);
@@ -41,9 +41,17 @@ public class SignUp_Activity extends AppCompatActivity {
         mTextPassAgain = (EditText)findViewById(R.id.input_password_again);
         mButtonSignUp = (Button)findViewById(R.id.btn_signup);
         mView=(View)findViewById(R.id.rule);
+        mGoBack=(TextView)findViewById(R.id.text_back);
         mTextView_Foot=(TextView)findViewById(R.id.text_foot);
         mTextViewLogin = (TextView)findViewById(R.id.text_login);
 
+        mGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent GoBackIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+                startActivity(GoBackIntent);
+            }
+        });
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +60,6 @@ public class SignUp_Activity extends AppCompatActivity {
             }
         });
 
-        mView.setVisibility(View.GONE);
         mTextView_Foot.setVisibility(View.GONE);
         mTextViewLogin.setVisibility(View.GONE);
 
@@ -71,7 +78,7 @@ public class SignUp_Activity extends AppCompatActivity {
                         mView.setVisibility(View.VISIBLE);
                         mTextView_Foot.setVisibility(View.VISIBLE);
                         mTextViewLogin.setVisibility(View.VISIBLE);
-
+                        mGoBack.setVisibility(View.GONE);
                         Toast.makeText(SignUp_Activity.this,"Đăng kí thành công !",Toast.LENGTH_SHORT).show();
 
                     }
@@ -81,11 +88,18 @@ public class SignUp_Activity extends AppCompatActivity {
 
                 }
                 else
-                if(muser.isEmpty() || mpass.isEmpty()){
-                    Toast.makeText(SignUp_Activity.this,"Tên đăng nhập hoặc mật khẩu không được để trống !",Toast.LENGTH_SHORT).show();
+                if(muser.isEmpty() || mpass.isEmpty() || mpassagain.isEmpty()){
+
+                    if(muser.isEmpty()){
+                        mTextUsername.setError("Tên đăng nhập không được bỏ trống");
+                    }
+                    else if(mpass.isEmpty()){
+                        mTextPassword.setError("Mật khẩu không được bỏ trống");
+                    }
+                    else mTextPassAgain.setError("Xác nhận lại mật khẩu");
                 }
                 else {
-                    Toast.makeText(SignUp_Activity.this,"Mật khẩu không giống nhau ! Thử lại",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_Activity.this,"Mật khẩu không trùng khớp ! Thử lại",Toast.LENGTH_SHORT).show();
                 }
             }
         });

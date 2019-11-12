@@ -2,4 +2,5 @@
     <string name="app_name">MyTasks</string>
     <string name="sign_up"><u>Đăng kí</u></string>
     <string name="sign_in"><u>Đăng nhập</u></string>
+    <string name="back"><u>Quay lại</u></string>
 </resources>

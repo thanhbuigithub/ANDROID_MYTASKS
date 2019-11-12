@@ -30,7 +30,7 @@
     <EditText
         android:id="@+id/input_username"
         android:textColor="@color/colorBlack"
-        android:background="@color/colorWhite"
+        android:background="@drawable/selector_edittext"
         android:layout_width="260dp"
         android:layout_height="36dp"
         android:layout_below="@+id/image_logo"
@@ -59,7 +59,7 @@
         android:layout_width="260dp"
         android:layout_height="36dp"
         android:layout_below="@+id/input_username"
-        android:background="@color/colorWhite"
+        android:background="@drawable/selector_edittext"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:hint="Tạo mật khẩu"
@@ -84,7 +84,7 @@
         android:layout_width="260dp"
         android:layout_height="36dp"
         android:layout_below="@+id/input_password"
-        android:background="@color/colorWhite"
+        android:background="@drawable/selector_edittext"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:hint="Nhập lại mật khẩu"
@@ -115,6 +115,20 @@
         android:text="Đăng kí"
         android:textColor="#ffffff"
         android:textSize="20sp" />
+    <TextView
+        android:id="@+id/text_back"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_signup"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/back"
+        android:textColor="@color/colorWhite"
+        android:padding="5dp"
+        android:background="@drawable/text_rectangle"
+        android:textStyle="bold" />
     <View
         android:id="@+id/rule"
         android:layout_width="280dp"
