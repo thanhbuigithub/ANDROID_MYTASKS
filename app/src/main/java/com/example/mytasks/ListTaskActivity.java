@@ -56,7 +56,7 @@ public class ListTaskActivity extends AppCompatActivity {
         fabListTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogAddList();
+                DialogAddTask();
             }
         });
 
