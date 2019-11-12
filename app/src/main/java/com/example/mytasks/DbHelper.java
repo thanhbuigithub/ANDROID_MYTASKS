@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -72,6 +73,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
         values.put(DB_COLUMN_IDLIST, task.getmIDList());
+        Log.d("INSERT NEW TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
         db.insertWithOnConflict(DB_TABLE_TASK,null,values,SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }

@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -94,6 +97,12 @@ public class ListTaskActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
+        lvListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void initActionBar(String listName){
@@ -174,8 +183,8 @@ public class ListTaskActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_add_task);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addTask);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addTask);
-        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addTask);
+        final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addTask);
+        final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addTask);
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -185,30 +194,49 @@ public class ListTaskActivity extends AppCompatActivity {
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setEnabled(false);
+
+        txtName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                Task task = new Task();
-                task.setmName(txtName.getText().toString().trim());
-                task.setmIsImportant(0);
-                task.setmIsDone(0);
-                task.setmIDList(listID);
-                //Set On Database
-                db.insertNewTask(task);
-                getDataFromDbToMainList();
-                for (int i = 0; i < mainList.size();i++)
-                {
-                    if (mainList.get(i).getmID() == listID)
-                    {
-                        tasksArrayList.clear();
-                        tasksArrayList.addAll(mainList.get(i).getmListTasks());
-                    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                btnSave.setEnabled(false);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtName.getText().toString().trim().length() == 0){
+                    btnSave.setEnabled(false);
+                } else {
+                    btnSave.setEnabled(true);
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Task task = new Task();
+                            task.setmName(txtName.getText().toString().trim());
+                            task.setmIsImportant(0);
+                            task.setmIsDone(0);
+                            task.setmIDList(listID);
+                            //Set On Database
+                            db.insertNewTask(task);
+                            getDataFromDbToMainList();
+                            for (int i = 0; i < mainList.size(); i++) {
+                                if (mainList.get(i).getmID() == listID) {
+                                    tasksArrayList.clear();
+                                    tasksArrayList.addAll(mainList.get(i).getmListTasks());
+                                }
+                            }
+                            listTaskAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    });
                 }
-                listTaskAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-
         dialog.show();
 
     }

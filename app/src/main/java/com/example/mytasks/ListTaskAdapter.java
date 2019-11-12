@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,11 +75,10 @@ public class ListTaskAdapter extends BaseAdapter {
         }
 
         final Task task = tasksList.get(i);
-
         viewholder.txtTasks.setText(task.getmName());
         viewholder.cbDone.setChecked(task.getmIsDone() == 1);
         viewholder.cbImportant.setChecked(task.getmIsImportant() == 1);
-
+        Log.d("TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
         if (task.getmIsDone() == 1) {
             viewholder.txtTasks.setTextColor(Color.GRAY);
             viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -96,15 +96,14 @@ public class ListTaskAdapter extends BaseAdapter {
             viewholder.layoutTask.setBackgroundResource(R.drawable.shape_task);
         }
 
-        viewholder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewholder.cbDone.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isChecked()){
+            public void onClick(View v) {
+                if (viewholder.cbDone.isChecked()) {
                     task.setmIsDone(1);
                     viewholder.txtTasks.setTextColor(Color.GRAY);
                     viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                } else
-                {
+                } else {
                     task.setmIsDone(0);
                     viewholder.txtTasks.setTextColor(Color.BLACK);
                     viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
@@ -113,10 +112,10 @@ public class ListTaskAdapter extends BaseAdapter {
             }
         });
 
-        viewholder.cbImportant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewholder.cbImportant.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isChecked()){
+            public void onClick(View v) {
+                if (viewholder.cbImportant.isChecked()){
                     task.setmIsImportant(1);
                     viewholder.cbDone.setButtonDrawable(R.drawable.custom_checkbox_isimportant);
                     viewholder.layoutTask.setBackgroundResource(R.drawable.shape_task_isimportant);
