@@ -7,39 +7,23 @@
     android:background="#e1e1e1"
     tools:context=".TaskActivity">
 
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/actionbar_task"
-        android:background="@color/colorWhite">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbalListTaskName"
-                android:text="List Task Name"
-                android:textSize="20sp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_task" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_left"
+        android:background="@color/colorWhite"
         android:padding="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"> <!--        android:background="@drawable/border_left"-->
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <CheckBox
-                android:id="@+id/chbDone"
+                android:id="@+id/cbDone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/custom_checkbox"
@@ -60,7 +44,7 @@
                 android:textStyle="bold"/>
 
             <CheckBox
-                android:id="@+id/chbImportant"
+                android:id="@+id/cbImportant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/custom_checkbox_important"
@@ -95,7 +79,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -113,12 +97,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Nhắc tôi"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
@@ -135,12 +119,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Thêm ngày đến hạn"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
@@ -157,12 +141,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Lặp lại"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
@@ -179,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Đính kèm tệp"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
     </LinearLayout>
 
@@ -192,14 +176,14 @@
         android:background="@color/colorWhite"
         android:gravity="start"
         android:padding="20dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="60dp"
         android:textSize="18sp"
         android:hint="Ghi chú" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="-60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="-50dp"
         android:id="@+id/btnDeleteTask"
         android:paddingRight="20dp"
         android:orientation="horizontal"
@@ -214,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
     </LinearLayout>
 

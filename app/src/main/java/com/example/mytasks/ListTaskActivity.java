@@ -69,7 +69,11 @@ public class ListTaskActivity extends AppCompatActivity {
                 DialogAddList();
             }
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (listID != 0){
             list = db.getList(listID);
         }
@@ -87,14 +91,14 @@ public class ListTaskActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-        lvListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent;
-                intent = new Intent(ListTaskActivity.this,TaskActivity.class);
-                startActivity(intent);
-            }
-        });
+//        lvListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent;
+//                intent = new Intent(ListTaskActivity.this,TaskActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void initActionBar(String listName){

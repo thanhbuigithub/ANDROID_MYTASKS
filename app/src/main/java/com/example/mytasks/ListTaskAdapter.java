@@ -1,10 +1,12 @@
 package com.example.mytasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
+import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -127,6 +130,18 @@ public class ListTaskAdapter extends BaseAdapter {
                 db.updateTask(task);
             }
         });
+
+        viewholder.txtTasks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TaskActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("taskID", task.getmID());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
 
         return view;
     }
