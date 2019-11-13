@@ -74,7 +74,7 @@ public class ListTaskActivity extends AppCompatActivity {
             }
             if (action != null)
             {
-                DialogAddTask();
+                DialogAddList();
             }
         }
 
