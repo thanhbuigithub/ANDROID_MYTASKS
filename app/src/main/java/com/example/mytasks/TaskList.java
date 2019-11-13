@@ -54,6 +54,6 @@ public class TaskList {
     }
 
     public void setmListTasks(List<Task> mListTasks) {
-        this.mListTasks = mListTasks;
+        this.mListTasks.addAll(mListTasks);
     }
 }

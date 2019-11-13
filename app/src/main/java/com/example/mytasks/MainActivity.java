@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent(MainActivity.this,ListTaskActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("LIST_NAME", mainList.get(position).getmName());
                 bundle.putInt("LIST_ID", mainList.get(position).getmID());
                 intent.putExtras(bundle);
                 startActivity(intent);

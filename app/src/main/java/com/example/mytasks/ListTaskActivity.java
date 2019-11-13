@@ -33,13 +33,11 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity {
     ListView lvListTask;
-    ArrayList<Task> tasksArrayList;
+    TaskList list;
+    List<Task> tasksArrayList;
     ListTaskAdapter listTaskAdapter;
     DbHelper db;
-    ArrayList<TaskList> mainList = new ArrayList<>();
     FloatingActionButton fabListTask;
-
-    static String listName;
     int listID;
 
     @Override
@@ -47,14 +45,14 @@ public class ListTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tasks);
         db = new DbHelper(this);
-        getDataFromDbToMainList();
         lvListTask = (ListView) findViewById(R.id.lvListTask);
         fabListTask = (FloatingActionButton) findViewById(R.id.fabListTask);
-        listName = "Danh sách chưa có tiêu đề";
+        list = new TaskList();
+        list.setmName("Danh sách chưa có tiêu đề");
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        initActionBar(listName);
+        initActionBar(list.getmName());
 
         fabListTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,33 +63,25 @@ public class ListTaskActivity extends AppCompatActivity {
 
         if (bundle != null){
             String action = bundle.getString("ACTION");
-            String name = bundle.getString("LIST_NAME");
-            listID = bundle.getInt("LIST_ID");
-            if (name != null)
-            {
-                listName = name;
-                initActionBar(listName);
-            }
+            listID = bundle.getInt("LIST_ID",0);
             if (action != null)
             {
                 DialogAddList();
             }
         }
 
-        tasksArrayList = new ArrayList<>();
-        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,tasksArrayList);
+        if (listID != 0){
+            list = db.getList(listID);
+        }
+
+        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
 
         lvListTask.setAdapter(listTaskAdapter);
 
-        for (int i = 0; i < mainList.size();i++)
-        {
-            if (mainList.get(i).getmID() == listID)
-            {
-                tasksArrayList.clear();
-                tasksArrayList.addAll(mainList.get(i).getmListTasks());
-            }
-        }
-        listTaskAdapter.notifyDataSetChanged();
+        Toast toast = Toast.makeText(ListTaskActivity.this, String.valueOf(list.getmListTasks().size()),Toast.LENGTH_SHORT );
+        toast.show();
+
+        initActionBar(list.getmName());
 
         addEvent();
     }
@@ -151,7 +141,7 @@ public class ListTaskActivity extends AppCompatActivity {
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_rename);
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_rename);
 
-        txtName.setText(listName);
+        txtName.setText(list.getmName());
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,9 +159,8 @@ public class ListTaskActivity extends AppCompatActivity {
                 taskList.setmID(listID);
                 taskList.setmIcon(R.drawable.list);
                 db.updateList(taskList);
-                listName = newName;
-                initActionBar(listName);
-                getDataFromDbToMainList();
+                list.setmName(newName);
+                initActionBar(list.getmName());
                 dialog.dismiss();
             }
         });
@@ -220,14 +209,10 @@ public class ListTaskActivity extends AppCompatActivity {
                             task.setmIDList(listID);
                             //Set On Database
                             db.insertNewTask(task);
-                            getDataFromDbToMainList();
-                            for (int i = 0; i < mainList.size(); i++) {
-                                if (mainList.get(i).getmID() == listID) {
-                                    tasksArrayList.clear();
-                                    tasksArrayList.addAll(mainList.get(i).getmListTasks());
-                                }
-                            }
-                            listTaskAdapter.notifyDataSetChanged();
+                            list = db.getList(listID);
+                            Toast toast = Toast.makeText(ListTaskActivity.this, String.valueOf(list.getmListTasks().size()),Toast.LENGTH_SHORT );
+                            toast.show();
+                            lvListTask.setAdapter(new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks()));
                             dialog.dismiss();
                         }
                     });
@@ -252,7 +237,7 @@ public class ListTaskActivity extends AppCompatActivity {
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_delete);
         Button btnDelete = dialog.findViewById(R.id.btnDelete_dialog_delete);
 
-        txtName.setText("\""+listName+"\""+ " will be permanently deleted.");
+        txtName.setText("\""+list.getmName()+"\""+ " will be permanently deleted.");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,12 +249,7 @@ public class ListTaskActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TaskList taskList = new TaskList();
-                taskList.setmName(listName);
-                taskList.setmID(listID);
-                taskList.setmIcon(R.drawable.list);
-                db.deleteList(taskList);
-                getDataFromDbToMainList();
+                db.deleteList(list);
                 dialog.dismiss();
                 onBackPressed();
             }
@@ -304,21 +284,15 @@ public class ListTaskActivity extends AppCompatActivity {
                 taskList.setmName(listNameAdd);
                 taskList.setmIcon(R.drawable.list);
                 db.insertNewList(taskList);
-                listName = listNameAdd;
-                initActionBar(listName);
-                getDataFromDbToMainList();
+                initActionBar(listNameAdd);
+                List<TaskList> mainList = new ArrayList<>();
+                mainList = db.getAllList();
                 listID = mainList.get(mainList.size()-1).getmID();
+                list = db.getList(listID);
                 dialog.dismiss();
             }
         });
 
         dialog.show();
-    }
-
-    private void getDataFromDbToMainList()
-    {
-        mainList.clear();
-        List<TaskList> list = db.getAllList();
-        mainList.addAll(list);
     }
 }

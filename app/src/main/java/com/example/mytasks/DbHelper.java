@@ -176,25 +176,29 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public Task getTask(int ID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_ID + " = " + ID;
-        Cursor cursor = db.rawQuery(query, null);
+        String query = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(ID)});
         Task task = new Task();
+        cursor.moveToFirst();
         task.setmID(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ID)));
         task.setmName(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NAME)));
         task.setmIsDone(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISDONE)));
         task.setmIsImportant(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
         task.setmIDList(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_IDLIST)));
+        cursor.close();
         return task;
     }
 
     public TaskList getList(int ID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String queryList = "SELECT * FROM " + DB_TABLE_LIST + " WHERE " + DB_COLUMN_ID + " = " + ID;
-        String queryTask = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_IDLIST + " = " + ID;
-        Cursor cursorList = db.rawQuery(queryList, null);
-        Cursor cursorTask = db.rawQuery(queryTask, null);
+        String queryList = "SELECT * FROM " + DB_TABLE_LIST + " WHERE " + DB_COLUMN_ID + " = ?";
+        String queryTask = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_IDLIST + " = ?";
+        Cursor cursorList = db.rawQuery(queryList, new String[]{String.valueOf(ID)});
+        Cursor cursorTask = db.rawQuery(queryTask, new String[]{String.valueOf(ID)});
         TaskList list = new TaskList();
         Task task = new Task();
+        Log.d("Cursor List: ",ID + " " +  cursorList.getColumnIndex(DB_COLUMN_ID));
+        cursorList.moveToFirst();
         list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
         list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
         list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
@@ -213,6 +217,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
             list.getmListTasks().add(task);
         }
+        cursorList.close();
+        cursorTask.close();
         return list;
     }
 }
