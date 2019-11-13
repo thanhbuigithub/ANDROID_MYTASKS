@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_date"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:textColor="@color/colorBlue"
+            android:background="@drawable/border_bottom"
+            android:layout_height="wrap_content"
+            android:text="Ngày" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_time"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="Giờ" />
+    </LinearLayout>
+
+    <ViewSwitcher
+        android:id="@+id/view_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <DatePicker
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/DialogTheme" />
+
+        <TimePicker
+            android:id="@+id/time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/DialogTheme" />
+    </ViewSwitcher>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_weight=".5"
+        android:layout_height="0dp"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_set"
+            android:layout_width="match_parent"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlue"
+            android:background="@color/colorWhite"
+            android:text="Lưu" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="Hủy bỏ" />
+    </LinearLayout>
+</LinearLayout>
