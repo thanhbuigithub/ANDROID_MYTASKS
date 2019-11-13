@@ -57,42 +57,40 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertNewList(TaskList list){
+    public void insertNewList(TaskList list) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DB_COLUMN_NAME,list.getmName());
-        values.put(DB_COLUMN_ICON,list.getmIcon());
-        db.insertWithOnConflict(DB_TABLE_LIST,null,values,SQLiteDatabase.CONFLICT_IGNORE);
+        values.put(DB_COLUMN_NAME, list.getmName());
+        values.put(DB_COLUMN_ICON, list.getmIcon());
+        db.insertWithOnConflict(DB_TABLE_LIST, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
-    public void insertNewTask(Task task){
+    public void insertNewTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DB_COLUMN_NAME,task.getmName());
+        values.put(DB_COLUMN_NAME, task.getmName());
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
         values.put(DB_COLUMN_IDLIST, task.getmIDList());
         Log.d("INSERT NEW TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
-        db.insertWithOnConflict(DB_TABLE_TASK,null,values,SQLiteDatabase.CONFLICT_IGNORE);
+        db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
-    public void deleteTask(Task task)
-    {
+    public void deleteTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DB_TABLE_TASK, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
         db.close();
     }
 
-    public void deleteList(TaskList list)
-    {
+    public void deleteList(TaskList list) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DB_TABLE_LIST, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
         db.delete(DB_TABLE_TASK, DB_COLUMN_IDLIST + " = ?", new String[]{String.valueOf(list.getmID())});
     }
 
-    public ArrayList<TaskList> getAllList(){
+    public ArrayList<TaskList> getAllList() {
         ArrayList<TaskList> allList = new ArrayList<>();
         TaskList list = new TaskList();
         Task task = new Task();
@@ -100,17 +98,17 @@ public class DbHelper extends SQLiteOpenHelper {
         String selectQueryList = "SELECT * FROM " + DB_TABLE_LIST;
         String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
 
-        Cursor cursorList = db.rawQuery(selectQueryList,null);
-        Cursor cursorTask = db.rawQuery(selectQueryTask,null);
+        Cursor cursorList = db.rawQuery(selectQueryList, null);
+        Cursor cursorTask = db.rawQuery(selectQueryTask, null);
 
         cursorList.moveToPosition(-1);
-        while(cursorList.moveToNext()){
+        while (cursorList.moveToNext()) {
             list = new TaskList();
             list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
             list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
             list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
             cursorTask.moveToPosition(-1);
-            while (cursorTask.moveToNext()){
+            while (cursorTask.moveToNext()) {
                 if (cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)) == list.getmID()) {
                     task = new Task();
                     task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
@@ -134,34 +132,34 @@ public class DbHelper extends SQLiteOpenHelper {
         return allList;
     }
 
-    public void updateList(TaskList list){
+    public void updateList(TaskList list) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN_NAME, list.getmName());
-        values.put(DB_COLUMN_ICON,list.getmIcon());
-        db.update(DB_TABLE_LIST,values,DB_COLUMN_ID + " = ?", new String[] {String.valueOf(list.getmID())});
+        values.put(DB_COLUMN_ICON, list.getmIcon());
+        db.update(DB_TABLE_LIST, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
         db.close();
     }
 
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN_NAME, task.getmName());
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
-        db.update(DB_TABLE_TASK,values,DB_COLUMN_ID + " = ?", new String[] {String.valueOf(task.getmID())});
+        db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
         db.close();
     }
 
-    public TaskList getImportantList(){
+    public TaskList getImportantList() {
         TaskList list = new TaskList();
         list.setmName("Quan Trọng");
         Task task = new Task();
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
-        Cursor cursorTask = db.rawQuery(selectQueryTask,null);
+        Cursor cursorTask = db.rawQuery(selectQueryTask, null);
         cursorTask.moveToPosition(-1);
-        while (cursorTask.moveToNext()){
+        while (cursorTask.moveToNext()) {
             task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
 
             task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
@@ -173,6 +171,48 @@ public class DbHelper extends SQLiteOpenHelper {
             list.getmListTasks().add(task);
         }
 
+        return list;
+    }
+
+    public Task getTask(int ID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_ID + " = " + ID;
+        Cursor cursor = db.rawQuery(query, null);
+        Task task = new Task();
+        task.setmID(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ID)));
+        task.setmName(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NAME)));
+        task.setmIsDone(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISDONE)));
+        task.setmIsImportant(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+        task.setmIDList(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_IDLIST)));
+        return task;
+    }
+
+    public TaskList getList(int ID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryList = "SELECT * FROM " + DB_TABLE_LIST + " WHERE " + DB_COLUMN_ID + " = " + ID;
+        String queryTask = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_IDLIST + " = " + ID;
+        Cursor cursorList = db.rawQuery(queryList, null);
+        Cursor cursorTask = db.rawQuery(queryTask, null);
+        TaskList list = new TaskList();
+        Task task = new Task();
+        list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
+        list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
+        list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
+        cursorTask.moveToPosition(-1);
+        while (cursorTask.moveToNext()) {
+            task = new Task();
+            task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+
+            task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+
+            task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+
+            task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+
+            task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
+
+            list.getmListTasks().add(task);
+        }
         return list;
     }
 }
