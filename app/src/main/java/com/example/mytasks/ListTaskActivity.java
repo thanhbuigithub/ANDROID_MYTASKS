@@ -74,7 +74,7 @@ public class ListTaskActivity extends AppCompatActivity {
             }
             if (action != null)
             {
-                DialogAddList();
+                DialogAddTask();
             }
         }
 
@@ -100,7 +100,9 @@ public class ListTaskActivity extends AppCompatActivity {
         lvListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent;
+                intent = new Intent(ListTaskActivity.this,TaskActivity.class);
+                startActivity(intent);
             }
         });
     }
