@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <inset android:insetBottom="-2px" xmlns:android="http://schemas.android.com/apk/res/android">
     <selector>
-
         <item android:state_pressed="true">
             <shape android:shape="rectangle">
                 <gradient
@@ -16,6 +15,19 @@
             </shape>
         </item>
 
+        <item android:state_selected="true">
+            <shape android:shape="rectangle">
+                <gradient
+                    android:endColor="#FFFFFF"
+                    android:startColor="#A9A9A9"
+                    android:type="linear" />
+
+                <corners
+                    android:radius="4dip" />
+                <stroke android:width="2dp"
+                    android:color="#D60606" />
+            </shape>
+        </item>
 
         <item>
             <shape android:shape="rectangle">

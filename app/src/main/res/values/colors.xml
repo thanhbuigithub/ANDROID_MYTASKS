@@ -7,4 +7,6 @@
     <color name="colorWhite">#FDFCFC</color>
     <color name="colorButton">#8082F0</color>
     <color name="colorBlue">#406FEE</color>
+    <color name="colorBlueLight">#05c3f9</color>
+    <color name="colorBlueDark">#0691b8</color>
 </resources>

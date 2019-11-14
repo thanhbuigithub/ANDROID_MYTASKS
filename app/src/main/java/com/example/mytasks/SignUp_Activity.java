@@ -16,7 +16,6 @@ import com.example.mytasks.R;
 
 public class SignUp_Activity extends AppCompatActivity {
     TextView mTextView_Head,mTextView_UserName,mTextView_Pass,mTextView_PassAgain,mTextView_Foot;
-    ImageView mImageView;
     EditText mTextUsername,mTextPassword;
     EditText mTextPassAgain;
     Button mButtonSignUp;
@@ -32,7 +31,6 @@ public class SignUp_Activity extends AppCompatActivity {
         db = new Database_User(this);
 
         mTextView_Head=(TextView)findViewById(R.id.text_title);
-        mImageView=(ImageView)findViewById(R.id.image_logo);
         mTextView_UserName=(TextView)findViewById(R.id.username);
         mTextUsername = (EditText)findViewById(R.id.input_username);
         mTextView_Pass=(TextView)findViewById(R.id.password);
