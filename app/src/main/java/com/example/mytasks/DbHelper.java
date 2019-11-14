@@ -23,6 +23,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_ISDONE = "IsDone";
     public static final String DB_COLUMN_IDLIST = "IDList";
     public static final String DB_COLUMN_ICON = "Icon";
+    public static final String DB_COLUMN_REMIND = "Remind";
+    public static final String DB_COLUMN_DEADLINE = "Deadline";
+    public static final String DB_COLUMN_REPEAT = "Repeat";
+    public static final String DB_COLUMN_FILE = "File";
+    public static final String DB_COLUMN_NOTE = "Note";
+
 
 
     public DbHelper(@Nullable Context context) {
@@ -31,12 +37,17 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String script = "CREATE TABLE " + DB_TABLE_TASK + " ( "
+        String script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_TASK + " ( "
                 + DB_COLUMN_ID + " integer primary key, "
                 + DB_COLUMN_NAME + " text, "
                 + DB_COLUMN_ISDONE + " integer, "
                 + DB_COLUMN_ISIMPORTANT + " integer, "
-                + DB_COLUMN_IDLIST + " integer)";
+                + DB_COLUMN_IDLIST + " integer, "
+                + DB_COLUMN_REMIND + " text, "
+                + DB_COLUMN_DEADLINE + " text, "
+                + DB_COLUMN_REPEAT + " integer, "
+                + DB_COLUMN_FILE + " integer, "
+                + DB_COLUMN_NOTE + " text)";
         db.execSQL(script);
 
         script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_LIST + " ( "
@@ -73,6 +84,11 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
         values.put(DB_COLUMN_IDLIST, task.getmIDList());
+        values.put(DB_COLUMN_REMIND, task.getmRemind());
+        values.put(DB_COLUMN_DEADLINE, task.getmDeadline());
+        values.put(DB_COLUMN_REPEAT, task.getmRepeat());
+        values.put(DB_COLUMN_FILE, task.getmFile());
+        values.put(DB_COLUMN_NOTE, task.getmNote());
         Log.d("INSERT NEW TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
         db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
@@ -112,14 +128,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 if (cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)) == list.getmID()) {
                     task = new Task();
                     task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
-
                     task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
-
                     task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
-
                     task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-
                     task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
+                    task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+                    task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+                    task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+                    task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+                    task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
 
                     list.getmListTasks().add(task);
                 }
@@ -147,6 +164,11 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_NAME, task.getmName());
         values.put(DB_COLUMN_ISDONE, task.getmIsDone());
         values.put(DB_COLUMN_ISIMPORTANT, task.getmIsImportant());
+        values.put(DB_COLUMN_REMIND, task.getmRemind());
+        values.put(DB_COLUMN_DEADLINE, task.getmDeadline());
+        values.put(DB_COLUMN_REPEAT, task.getmRepeat());
+        values.put(DB_COLUMN_FILE, task.getmFile());
+        values.put(DB_COLUMN_NOTE, task.getmNote());
         db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
         db.close();
     }
@@ -161,13 +183,14 @@ public class DbHelper extends SQLiteOpenHelper {
         cursorTask.moveToPosition(-1);
         while (cursorTask.moveToNext()) {
             task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
-
             task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
-
             task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
-
             task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-
+            task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+            task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+            task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+            task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+            task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
             list.getmListTasks().add(task);
         }
 
@@ -185,6 +208,11 @@ public class DbHelper extends SQLiteOpenHelper {
         task.setmIsDone(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISDONE)));
         task.setmIsImportant(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
         task.setmIDList(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_IDLIST)));
+        task.setmRemind(cursor.getString(cursor.getColumnIndex(DB_COLUMN_REMIND)));
+        task.setmDeadline(cursor.getString(cursor.getColumnIndex(DB_COLUMN_DEADLINE)));
+        task.setmRepeat(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_REPEAT)));
+        task.setmFile(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_FILE)));
+        task.setmNote(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NOTE)));
         cursor.close();
         return task;
     }
@@ -206,14 +234,15 @@ public class DbHelper extends SQLiteOpenHelper {
         while (cursorTask.moveToNext()) {
             task = new Task();
             task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
-
             task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
-
             task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
-
             task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-
             task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
+            task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+            task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+            task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+            task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+            task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
 
             list.getmListTasks().add(task);
         }

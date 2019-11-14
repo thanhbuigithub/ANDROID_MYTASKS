@@ -34,7 +34,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class ListTaskActivity extends AppCompatActivity {
     ListView lvListTask;
     TaskList list;
-    List<Task> tasksArrayList;
     ListTaskAdapter listTaskAdapter;
     DbHelper db;
     FloatingActionButton fabListTask;
@@ -208,8 +207,6 @@ public class ListTaskActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             Task task = new Task();
                             task.setmName(txtName.getText().toString().trim());
-                            task.setmIsImportant(0);
-                            task.setmIsDone(0);
                             task.setmIDList(listID);
                             //Set On Database
                             db.insertNewTask(task);

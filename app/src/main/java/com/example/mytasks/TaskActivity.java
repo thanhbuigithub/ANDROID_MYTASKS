@@ -22,12 +22,12 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class TaskActivity extends AppCompatActivity {
     DbHelper db;
     Task currentTask;
     TaskList currentTaskList;
-
 
     Toolbar toolbar;
     EditText edTaskName;
@@ -39,6 +39,8 @@ public class TaskActivity extends AppCompatActivity {
     LinearLayout btnRepeat;
     LinearLayout btnAttach;
     LinearLayout btnDelete;
+    TextView txtRemind, txtDeadline, txtRepeat, txtFile;
+    EditText edNote;
 
 
 
@@ -57,6 +59,11 @@ public class TaskActivity extends AppCompatActivity {
         btnRepeat = (LinearLayout) findViewById(R.id.btnRepeat);
         btnAttach = (LinearLayout) findViewById(R.id.btnAttach);
         btnDelete = (LinearLayout) findViewById(R.id.btnDeleteTask);
+        txtRemind =(TextView) findViewById(R.id.txtRemind);
+        txtDeadline =(TextView) findViewById(R.id.txtDeadline);
+        txtRepeat =(TextView) findViewById(R.id.txtRepeat);
+        txtFile =(TextView) findViewById(R.id.txtFile);
+        edNote =(EditText) findViewById(R.id.edNote);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -129,7 +136,8 @@ public class TaskActivity extends AppCompatActivity {
         new CustomDateTimePicker(this, new CustomDateTimePicker.ICustomDateTimeListener() {
             @Override
             public void onSet(Dialog dialog, Calendar calendarSelected, Date dateSelected, int year, String monthFullName, String monthShortName, int monthNumber, int day, String weekDayFullName, String weekDayShortName, int hour24, int hour12, int min, int sec, String AM_PM) {
-
+                txtRemind.setText("Nhắc tôi lúc " + hour24 +":"+min+"\n "+weekDayFullName+", "+day +", th"+monthNumber+", "+year);
+                currentTask.setmRemind(""+year+"-"+monthNumber+"-"+day + " " +hour24+":"+min+":"+sec);
             }
 
             @Override

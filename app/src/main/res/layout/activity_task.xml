@@ -100,6 +100,7 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/remind3x"/>
         <TextView
+            android:id="@+id/txtRemind"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Nhắc tôi"
@@ -122,6 +123,7 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/calendar3x"/>
         <TextView
+            android:id="@+id/txtDeadline"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Thêm ngày đến hạn"
@@ -144,6 +146,7 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/repeat3x"/>
         <TextView
+            android:id="@+id/txtRepeat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Lặp lại"
@@ -166,6 +169,7 @@
             android:layout_marginRight="15dp"
             android:src="@drawable/attach3x"/>
         <TextView
+            android:id="@+id/txtFile"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Đính kèm tệp"
