@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Database_User extends SQLiteOpenHelper {
     public static final String DATABASE ="signup.db";
     public static final String TABLE ="signup_user";
-    public static final String COL_1 ="ID";
-    public static final String COL_2 ="username";
-    public static final String COL_3 ="password";
+    public static final String COL_ID ="ID";
+    public static final String COL_NAME ="username";
+    public static final String COL_PASS ="password";
 
     public Database_User(Context context) {
         super(context, DATABASE, null, 1);
@@ -39,9 +39,9 @@ public class Database_User extends SQLiteOpenHelper {
     }
 
     public boolean checkUser(String username, String password){
-        String[] columns = { COL_1 };
+        String[] columns = { COL_ID };
         SQLiteDatabase db = getReadableDatabase();
-        String selection = COL_2 + "=?" + " and " + COL_3 + "=?";
+        String selection = COL_NAME + "=?" + " and " + COL_PASS + "=?";
         String[] selectionArgs = { username, password };
         Cursor cursor = db.query(TABLE,columns,selection,selectionArgs,null,null,null);
         int count = cursor.getCount();

@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="30dp"
-    android:background="@color/colorBlack">
+    android:background="@drawable/image_backgroud_signin">
 
     <TextView
         android:id="@+id/text_welcome1"
         android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:textStyle="bold"
-        android:text="Chào mừng bạn\n đến với\n Microsoft To Do"
-        android:textSize="25dp" />
-
-    <ImageView
-        android:id="@+id/image_logo1"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/text_welcome1"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/logo"
-        android:scaleType="centerCrop"/>
+        android:text="Chào mừng bạn\n đến với\nMy Tasks App"
+        android:textSize="28dp" />
 
     <EditText
         android:id="@+id/edit_username"
@@ -33,9 +23,9 @@
         android:background="@drawable/selector_edittext"
         android:layout_width="260dp"
         android:layout_height="36dp"
-        android:layout_below="@+id/image_logo1"
+        android:layout_below="@+id/text_welcome1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="160dp"
         android:paddingHorizontal="10dp"
         android:hint="Tên đăng nhập"
         android:inputType="textEmailAddress"
@@ -48,21 +38,34 @@
         android:layout_below="@+id/edit_username"
         android:background="@drawable/selector_edittext"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_action_pass"
         android:hint="Mật khẩu"
         android:paddingHorizontal="10dp"
         android:inputType="textPassword"
         android:textColor="@color/colorBlack" />
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/edit_password"
+        android:padding="5dp"
+        android:text="Remember me"
+        android:textSize="20dp"
+        android:textColor="@color/colorWhite" />
+
     <Button
         android:id="@+id/btn_signin"
         android:layout_width="250dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
-        android:layout_below="@+id/edit_password"
+        android:layout_below="@+id/checkBox"
         android:background="@drawable/button_rectangle"
         android:text="Đăng nhập"
         android:textColor="#ffffff"
@@ -74,15 +77,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_signin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:textColor="#ffffff"
-        android:textSize="13dp"
+        android:textSize="15dp"
         android:gravity="center"
-        android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan hoặc trường học." />
+        android:textStyle="bold"
+        android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan." />
 
     <View
         android:layout_width="280dp"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:layout_marginTop="10dp"
         android:layout_below="@id/text_welcome2"
         android:layout_centerHorizontal="true"
@@ -97,13 +101,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:text="Bạn không có tài khoản Microsoft?"
+        android:text="Bạn chưa có tài khoản ?"
+        android:textStyle="bold"
         android:textColor="@color/colorWhite"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/text_register"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_welcome3"
         android:layout_centerHorizontal="true"
@@ -114,6 +119,8 @@
         android:gravity="center"
         android:padding="5dp"
         android:background="@drawable/text_rectangle"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="15sp"/>
+
 
 </RelativeLayout>

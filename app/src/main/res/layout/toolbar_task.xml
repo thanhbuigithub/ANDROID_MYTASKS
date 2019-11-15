@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     android:background="@color/colorWhite"
-    local:title="anck"
+    local:title="Toolbar title"
     local:theme="@style/ThemeOverlay.AppCompat.Light"
     local:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />

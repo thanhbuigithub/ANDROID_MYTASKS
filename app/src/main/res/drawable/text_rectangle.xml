@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<inset android:insetBottom="-2px" xmlns:android="http://schemas.android.com/apk/res/android">
-    <selector>
+    <inset android:insetBottom="-2px" xmlns:android="http://schemas.android.com/apk/res/android">
+        <selector>
 
-        <item android:state_pressed="true">
-            <shape android:shape="rectangle">
-                <gradient
-                    android:centerColor="#7ac19b"
-                    android:endColor="#588d71"
-                    android:startColor="#95ceae" />
-                <corners
-                    android:radius="4dip" />
-            </shape>
-        </item>
+            <item android:state_pressed="true">
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:centerColor="#7ac19b"
+                        android:endColor="#588d71"
+                        android:startColor="#95ceae" />
+                    <corners
+                        android:radius="4dip" />
+                </shape>
+            </item>
 
-        <item >
-            <shape android:shape="rectangle">
-                <gradient
-                    android:centerColor="#5290c3"
-                    android:endColor="#6f9fc7"
-                    android:startColor="#78a4c9" />
-                <corners
-                    android:radius="4dip" />
+            <item >
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:centerColor="#5290c3"
+                        android:endColor="#6f9fc7"
+                        android:startColor="#78a4c9" />
+                    <corners
+                        android:radius="4dip" />
 
-            </shape>
-        </item>
-</selector>
+                </shape>
+            </item>
+    </selector>
 </inset>

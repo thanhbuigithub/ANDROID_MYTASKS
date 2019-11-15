@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:background="@color/colorBlack">
+    android:background="@drawable/image_backgroud_signup">
 
     <TextView
         android:id="@+id/text_title"
@@ -13,19 +12,9 @@
         android:gravity="center_horizontal"
         android:text="Tạo tài khoản"
         android:textColor="@color/colorWhite"
-        android:textSize="25dp"
+        android:textSize="45dp"
+        android:layout_marginTop="80sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/image_logo"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/text_title"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/logo"
-        android:scaleType="centerCrop"/>
 
     <EditText
         android:id="@+id/input_username"
@@ -33,10 +22,9 @@
         android:background="@drawable/selector_edittext"
         android:layout_width="260dp"
         android:layout_height="36dp"
-        android:layout_below="@+id/image_logo"
+        android:layout_below="@+id/text_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:ems="10"
         android:inputType="textPersonName"
         android:hint="ai_do@example.com"
         android:paddingLeft="10dp"/>
@@ -46,13 +34,13 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_logo"
+        android:layout_below="@+id/text_title"
         android:layout_alignStart="@+id/input_username"
         android:layout_alignLeft="@+id/input_username"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:text="Tên đăng nhập"
-        android:textColor="#FFB3B3B3"
-        android:textSize="16sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/input_password"
@@ -76,8 +64,8 @@
         android:layout_alignLeft="@+id/input_password"
         android:layout_marginTop="10dp"
         android:text="Mật khẩu"
-        android:textColor="#FFB3B3B3"
-        android:textSize="16sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/input_password_again"
@@ -86,7 +74,7 @@
         android:layout_below="@+id/input_password"
         android:background="@drawable/selector_edittext"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="36dp"
         android:hint="Nhập lại mật khẩu"
         android:paddingHorizontal="10dp"
         android:inputType="textPassword"
@@ -101,8 +89,8 @@
         android:layout_alignLeft="@+id/input_password_again"
         android:layout_marginTop="10dp"
         android:text="Nhập lại mật khẩu"
-        android:textColor="#FFB3B3B3"
-        android:textSize="16sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="260dp"
@@ -162,6 +150,8 @@
         android:text="@string/sign_in"
         android:textColor="@color/colorBlue"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:background="@drawable/text_rectangle"/>
 
 </RelativeLayout>
