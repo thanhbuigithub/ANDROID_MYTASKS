@@ -4,6 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
@@ -120,9 +127,6 @@ public class ListTaskActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_list_task_Rename:
                 DialogRenameList();
-                break;
-            case R.id.menu_list_task_Add:
-                DialogAddTask();
                 break;
             case R.id.menu_list_task_Delete:
                 DialogDeleteList();

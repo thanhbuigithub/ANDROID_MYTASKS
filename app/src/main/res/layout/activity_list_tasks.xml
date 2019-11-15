@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@color/colorBlack">
 
     <include layout = "@layout/toolbar_list_tasks" />
 
@@ -19,7 +20,6 @@
         android:divider="@null"
         android:childDivider="@null"
         android:dividerHeight="5dp"
-        android:drawSelectorOnTop="true"
         >
     </ListView>
 

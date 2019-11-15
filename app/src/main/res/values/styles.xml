@@ -6,13 +6,38 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name ="android:itemBackground">@color/colorLightGray</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
 
     <style name="DialogTheme">
         <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorPrimaryDark">@color/colorBlack</item>
         <item name="colorAccent">@color/colorBlue</item>
+    </style>
+
+        <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="colorButtonNormal">#ffffff</item>
+        </style>
+
+    <style name="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/ripple_color</item>
+    </style>
+
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SelectableItemThemeForTask">
+        <item name="colorControlHighlight">@color/ripple_color_task</item>
+    </style>
+
+    <style name="SelectableItemBackgroundForTask">
+        <item name="android:theme">@style/SelectableItemThemeForTask</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
 </resources>
