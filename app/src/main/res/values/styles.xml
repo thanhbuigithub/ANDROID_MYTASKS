@@ -49,4 +49,18 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
+    <style name="Collapsing.TitleText" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textSize">30sp</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:scrollHorizontally">false</item>
+    </style>
+
+    <style name="Collapsing.NoTitleText" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textSize">25sp</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:scrollHorizontally">false</item>
+    </style>
+
 </resources>

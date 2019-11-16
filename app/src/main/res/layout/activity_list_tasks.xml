@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
-    android:background="@color/colorBlack"
+    android:background="#080808"
+    android:id="@+id/coordinator"
     android:fitsSystemWindows="true">
 
 <!--    <include-->
@@ -16,28 +17,24 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="140dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/black_trans">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorWhite"
+            app:contentScrim="@color/black_trans"
             app:title="TITLE"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
+            app:collapsedTitleGravity="left|center_horizontal|center_vertical"
+            app:expandedTitleGravity="left|bottom"
+            app:expandedTitleMarginStart="20dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/Collapsing.TitleText">
             <!--  Your View that you want to hide on animation -->
-            <ImageView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="165dp"
-                android:background="#ffffff"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
 
             <!-- Your toolbar should always below your View otherwise it won't be visible  -->
             <androidx.appcompat.widget.Toolbar
@@ -45,21 +42,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:title="TITLE"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-        <ListView
-            android:id="@+id/lvListTask"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:childDivider="@null"
-            android:divider="@null"
-            android:dividerHeight="5dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+<!--        <ListView-->
+<!--            android:id="@+id/lvListTask"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:childDivider="@null"-->
+<!--            android:divider="@null"-->
+<!--            android:dividerHeight="5dp"-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--            />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/recyclerView_Task"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
 
 
 
@@ -72,8 +80,7 @@
         android:src = "@drawable/icon_plus"
         android:layout_margin="16dp"
         android:backgroundTint="#455a64"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|right|end"
+        android:layout_gravity="bottom|end"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
