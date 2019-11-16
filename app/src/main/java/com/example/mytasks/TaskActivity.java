@@ -21,8 +21,6 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -109,7 +107,7 @@ public class TaskActivity extends AppCompatActivity {
         //Task name
         edTaskName.setText(currentTask.getmName());
 
-        //Checkbox Done
+        //Done
         if (currentTask.getmIsDone() == 1) {
             cbDone.setChecked(true);
             edTaskName.setPaintFlags(edTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -118,18 +116,18 @@ public class TaskActivity extends AppCompatActivity {
             edTaskName.setPaintFlags(edTaskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
-        //checkbox Important
+        //Important
         cbImportant.setChecked(currentTask.getmIsImportant() == 1);
 
         //Remind
         if (currentTask.getmRemind() != null && !currentTask.getmRemind().equals("")) {
-            txtRemind.setText("Nhắc tôi lúc " + Datetime_FromDbToDisplay(currentTask.getmRemind()));
+            txtRemind.setText("Nhắc tôi lúc " + DateTimeHelper.FromDbToDisplay(currentTask.getmRemind()));
             onDateSetted(txtRemind, btnCancelRemind);
         }
 
         //Deadline
         if (currentTask.getmDeadline() != null && !currentTask.getmDeadline().equals("")) {
-            txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(currentTask.getmDeadline()));
+            txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(currentTask.getmDeadline()));
             onDateSetted(txtDeadline, btnCancelDeadline);
         }
 
@@ -138,10 +136,10 @@ public class TaskActivity extends AppCompatActivity {
             edNote.setText(currentTask.getmNote());
         }
 
-
+        //Repeat
         if (currentTask.getmRepeat() != NO_REPEAT && !currentTask.getmDeadline().equals("")) {
             String currentDeadline_String = currentTask.getmDeadline();
-            Date currentDeadline_Date = Datetime_FromDbToNewDate(currentDeadline_String);
+            Date currentDeadline_Date = DateTimeHelper.FromDbToDate(currentDeadline_String);
             String newDeadline_String;
             Date newDeadline_Date;
             switch (currentTask.getmRepeat()) {
@@ -149,11 +147,11 @@ public class TaskActivity extends AppCompatActivity {
                     txtRepeat.setText("Lặp lại hàng ngày");
                     onDateSetted(txtRepeat, btnCancelRepeat);
 
-                    if (Datetime_DatePassed(currentDeadline_Date)) {
-                        newDeadline_Date = Datetime_Add(currentDeadline_Date, Calendar.DATE, 1);
-                        newDeadline_String = Datetime_FromNewDateToDb(newDeadline_Date);
+                    if (DateTimeHelper.DatePassed(currentDeadline_Date)) {
+                        newDeadline_Date = DateTimeHelper.AddDate(currentDeadline_Date, Calendar.DATE, 1);
+                        newDeadline_String = DateTimeHelper.FromDateToDb(newDeadline_Date);
                         currentTask.setmDeadline(newDeadline_String);
-                        txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(newDeadline_String));
+                        txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(newDeadline_String));
                     }
 
                     break;
@@ -161,17 +159,17 @@ public class TaskActivity extends AppCompatActivity {
                     txtRepeat.setText("Lặp lại trong tuần");
                     onDateSetted(txtRepeat, btnCancelRepeat);
 
-                    if (Datetime_DatePassed(currentDeadline_Date)) {
+                    if (DateTimeHelper.DatePassed(currentDeadline_Date)) {
                     Calendar c = Calendar.getInstance();
                     c.setTime(currentDeadline_Date);
-                    while (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && Datetime_DatePassed(c.getTime())) {
+                    while (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && DateTimeHelper.DatePassed(c.getTime())) {
                         c.add(Calendar.DATE, 1);
                     }
-                    if (!Datetime_DatePassed(c.getTime())) {
+                    if (!DateTimeHelper.DatePassed(c.getTime())) {
                         newDeadline_Date = c.getTime();
-                        newDeadline_String = Datetime_FromNewDateToDb(newDeadline_Date);
+                        newDeadline_String = DateTimeHelper.FromDateToDb(newDeadline_Date);
                         currentTask.setmDeadline(newDeadline_String);
-                        txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(newDeadline_String));
+                        txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(newDeadline_String));
                     }
                 }
 
@@ -180,11 +178,11 @@ public class TaskActivity extends AppCompatActivity {
                     txtRepeat.setText("Lặp lại hàng tuần");
                     onDateSetted(txtRepeat, btnCancelRepeat);
 
-                    if (Datetime_DatePassed(currentDeadline_Date)) {
-                        newDeadline_Date = Datetime_Add(currentDeadline_Date, Calendar.DATE, 7);
-                        newDeadline_String = Datetime_FromNewDateToDb(newDeadline_Date);
+                    if (DateTimeHelper.DatePassed(currentDeadline_Date)) {
+                        newDeadline_Date = DateTimeHelper.AddDate(currentDeadline_Date, Calendar.DATE, 7);
+                        newDeadline_String = DateTimeHelper.FromDateToDb(newDeadline_Date);
                         currentTask.setmDeadline(newDeadline_String);
-                        txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(newDeadline_String));
+                        txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(newDeadline_String));
                     }
 
                     break;
@@ -192,11 +190,11 @@ public class TaskActivity extends AppCompatActivity {
                     txtRepeat.setText("Lặp lại hàng tháng");
                     onDateSetted(txtRepeat, btnCancelRepeat);
 
-                    if (Datetime_DatePassed(currentDeadline_Date)) {
-                        newDeadline_Date = Datetime_Add(currentDeadline_Date, Calendar.MONTH, 1);
-                        newDeadline_String = Datetime_FromNewDateToDb(newDeadline_Date);
+                    if (DateTimeHelper.DatePassed(currentDeadline_Date)) {
+                        newDeadline_Date = DateTimeHelper.AddDate(currentDeadline_Date, Calendar.MONTH, 1);
+                        newDeadline_String = DateTimeHelper.FromDateToDb(newDeadline_Date);
                         currentTask.setmDeadline(newDeadline_String);
-                        txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(newDeadline_String));
+                        txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(newDeadline_String));
                     }
 
                     break;
@@ -204,16 +202,20 @@ public class TaskActivity extends AppCompatActivity {
                     txtRepeat.setText("Lặp lại hàng năm");
                     onDateSetted(txtRepeat, btnCancelRepeat);
 
-                    if (Datetime_DatePassed(currentDeadline_Date)) {
-                        newDeadline_Date = Datetime_Add(currentDeadline_Date, Calendar.YEAR, 1);
-                        newDeadline_String = Datetime_FromNewDateToDb(newDeadline_Date);
+                    if (DateTimeHelper.DatePassed(currentDeadline_Date)) {
+                        newDeadline_Date = DateTimeHelper.AddDate(currentDeadline_Date, Calendar.YEAR, 1);
+                        newDeadline_String = DateTimeHelper.FromDateToDb(newDeadline_Date);
                         currentTask.setmDeadline(newDeadline_String);
-                        txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(newDeadline_String));
+                        txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(newDeadline_String));
                     }
 
                     break;
             }
         }
+
+        //Created Time
+        if (!currentTask.getmCreatedTime().equals(""))
+            txtCreatedTime.setText("Đã tạo lúc " + DateTimeHelper.FromDbToDisplay(currentTask.getmCreatedTime()));
     }
 
     public void addEventListener() {
@@ -331,11 +333,11 @@ public class TaskActivity extends AppCompatActivity {
                 String datetime = "" + year + "-" + month + "-" + day + " " + hour24 + ":" + min + ":" + sec;
                 if (textView.getId() == txtRemind.getId()) {
                     currentTask.setmRemind(datetime);
-                    txtRemind.setText("Nhắc tôi lúc " + Datetime_FromDbToDisplay(datetime));
+                    txtRemind.setText("Nhắc tôi lúc " + DateTimeHelper.FromDbToDisplay(datetime));
                     onDateSetted(txtRemind, btnCancelRemind);
                 } else {
                     currentTask.setmDeadline(datetime);
-                    txtDeadline.setText("Đến hạn lúc " + Datetime_FromDbToDisplay(datetime));
+                    txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(datetime));
                     onDateSetted(txtDeadline, btnCancelDeadline);
                 }
             }
@@ -392,54 +394,7 @@ public class TaskActivity extends AppCompatActivity {
         db.updateTask(currentTask);
     }
 
-    public String Datetime_FromDbToDisplay(String datetime) {
-        if (!datetime.equals("")) {
-            String[] temp = datetime.split(" ");
-            String[] date = temp[0].split("-");
-            String year = date[0];
-            String month = date[1];
-            if (month.length() == 1) month = "0" + month;
-            String day = date[2];
-            if (day.length() == 1) day = "0" + day;
-            String[] time = temp[1].split(":");
-            String hour = time[0];
-            if (hour.length() == 1) hour = "0" + hour;
-            String minute = time[1];
-            if (minute.length() == 1) minute = "0" + minute;
-            return String.format("%s:%s ngày %s/%s/%s", hour, minute, day, month, year);
-        }
-        return "";
-    }
 
-
-    public String Datetime_FromNewDateToDb(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(date);
-    }
-
-    public Date Datetime_FromDbToNewDate(String dateFromDb) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = null;
-        try {
-            date = sdf.parse(dateFromDb);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
-    public Date Datetime_Add(Date date, int type, int offset) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        while ((new Date().getTime() - c.getTime().getTime()) > 0) {
-            c.add(type, offset);
-        }
-        return c.getTime();
-    }
-
-    public Boolean Datetime_DatePassed(Date date) {
-        return (new Date().getTime() - date.getTime()) > 0;
-    }
 
 
     public void onDateSetted(TextView textView, Button btnCancel) {

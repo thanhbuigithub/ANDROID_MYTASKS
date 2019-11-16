@@ -37,6 +37,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -224,6 +226,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                             Task task = new Task();
                             task.setmName(txtName.getText().toString().trim());
                             task.setmIDList(listID);
+                            task.setmCreatedTime(DateTimeHelper.FromDateToDb(new Date()));
                             //Set On Database
                             db.insertNewTask(task);
                             list = db.getList(listID);
