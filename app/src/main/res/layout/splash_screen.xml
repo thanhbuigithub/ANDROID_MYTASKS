@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/logo_splash"
         />
+
     <TextView
         android:id="@+id/text_splash"
         android:layout_width="wrap_content"

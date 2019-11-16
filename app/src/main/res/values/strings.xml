@@ -3,4 +3,9 @@
     <string name="sign_up"><u>Đăng kí</u></string>
     <string name="sign_in"><u>Đăng nhập</u></string>
     <string name="back"><u>Quay lại</u></string>
+    <string-array name="choice_array">
+        <item>Thêm tài khoản</item>
+        <item>Quản lí tài khoản</item>
+        <item>"[Select one]"</item>
+    </string-array>
 </resources>

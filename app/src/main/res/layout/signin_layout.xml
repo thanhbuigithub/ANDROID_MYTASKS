@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@drawable/image_backgroud_signin">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/image_backgroud_signin"
+    tools:context=".SignIn_Activity">
 
     <TextView
         android:id="@+id/text_welcome1"
@@ -78,28 +79,35 @@
         android:layout_below="@+id/btn_signin"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan."
         android:textColor="#ffffff"
         android:textSize="15dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan." />
+        android:textStyle="bold" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_below="@+id/text_welcome2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 
     <View
+        android:id="@+id/line"
         android:layout_width="280dp"
         android:layout_height="3dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/text_welcome2"
+        android:layout_below="@id/sign_in_button"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorWhite"
-        />
+        android:background="@color/colorWhite" />
 
     <TextView
         android:id="@+id/text_welcome3"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_welcome2"
+        android:layout_below="@+id/line"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:text="Bạn chưa có tài khoản ?"
         android:textStyle="bold"
