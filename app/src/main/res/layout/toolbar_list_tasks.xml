@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:id="@+id/actionbar_list_tasks"
-    android:background="#455a64">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +24,9 @@
             android:id="@+id/toolbar_lt_txt"
             android:text="Custom Title"
             android:textSize="20sp"
-            android:layout_gravity="center"/>
+            android:fontFamily="@font/roboto_bold"
+            android:layout_gravity="center"
+            android:textColor="@color/colorWhite"/>
     </LinearLayout>
 
 </androidx.appcompat.widget.Toolbar>

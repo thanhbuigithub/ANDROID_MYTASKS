@@ -35,8 +35,7 @@ public class CustomDateTimePicker implements View.OnClickListener {
 
     private int selectedHour, selectedMinute;
 
-    public CustomDateTimePicker(Context context,
-                                ICustomDateTimeListener customDateTimeListener) {
+    public CustomDateTimePicker(Context context, ICustomDateTimeListener customDateTimeListener) {
         iCustomDateTimeListener = customDateTimeListener;
 
         dialog = new Dialog(context);

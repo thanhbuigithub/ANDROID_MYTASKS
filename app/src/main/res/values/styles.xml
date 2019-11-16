@@ -1,18 +1,66 @@
 <resources>
 
+    <style name="AppBaseTheme" parent="AppTheme" />
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name ="android:itemBackground">@color/colorLightGray</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
 
+        <item name="android:windowDisablePreview">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="DialogTheme">
         <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorPrimaryDark">@color/colorBlack</item>
         <item name="colorAccent">@color/colorBlue</item>
+    </style>
+
+        <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="colorButtonNormal">#ffffff</item>
+        </style>
+
+    <style name="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/ripple_color</item>
+    </style>
+
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SelectableItemThemeForTask">
+        <item name="colorControlHighlight">@color/ripple_color_task</item>
+    </style>
+
+    <style name="SelectableItemBackgroundForTask">
+        <item name="android:theme">@style/SelectableItemThemeForTask</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Collapsing.TitleText" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textSize">30sp</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:scrollHorizontally">false</item>
+    </style>
+
+    <style name="Collapsing.NoTitleText" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textSize">25sp</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:scrollHorizontally">false</item>
     </style>
 
 </resources>

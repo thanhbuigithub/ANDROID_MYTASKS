@@ -87,7 +87,7 @@ public class ListTaskAdapter extends BaseAdapter {
             viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
         else {
-            viewholder.txtTasks.setTextColor(Color.BLACK);
+            viewholder.txtTasks.setTextColor(Color.WHITE);
             viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
@@ -108,7 +108,7 @@ public class ListTaskAdapter extends BaseAdapter {
                     viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
                     task.setmIsDone(0);
-                    viewholder.txtTasks.setTextColor(Color.BLACK);
+                    viewholder.txtTasks.setTextColor(Color.WHITE);
                     viewholder.txtTasks.setPaintFlags(viewholder.txtTasks.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 }
                 db.updateTask(task);
@@ -131,7 +131,7 @@ public class ListTaskAdapter extends BaseAdapter {
             }
         });
 
-        viewholder.txtTasks.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, TaskActivity.class);

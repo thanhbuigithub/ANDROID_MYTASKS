@@ -11,6 +11,7 @@ public class Task {
     private Integer mRepeat;
     private Integer mFile;
     private String mNote;
+    private String mCreatedTime;
 
     public Task() {
         this.mName = "";
@@ -22,6 +23,7 @@ public class Task {
         this.mRepeat = 0;
         this.mFile = -1;
         this.mNote = "";
+        this.mCreatedTime = "";
     }
 
     public Task(String mName) {
@@ -114,5 +116,13 @@ public class Task {
 
     public void setmNote(String mNote) {
         this.mNote = mNote;
+    }
+
+    public String getmCreatedTime() {
+        return mCreatedTime;
+    }
+
+    public void setmCreatedTime(String mCreatedTime) {
+        this.mCreatedTime = mCreatedTime;
     }
 }

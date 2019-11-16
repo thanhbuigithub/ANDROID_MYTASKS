@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#e1e1e1"
     tools:context=".TaskActivity">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_task" />
+        layout="@layout/toolbar_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:id="@+id/temp"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:padding="20dp"
-        android:orientation="vertical"> <!--        android:background="@drawable/border_left"-->
+        android:id="@+id/temp2"
+        android:orientation="vertical"
+        android:layout_below="@id/temp"> <!--        android:background="@drawable/border_left"-->
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -59,157 +67,228 @@
                 android:focusable="auto"/>
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnAddStep"
-            android:padding="10dp"
-            android:orientation="horizontal">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/icon_plus_blue"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Thêm bước thực hiện"
-                android:textStyle="italic"
-                android:textColor="@color/colorBlue"
-                android:gravity="center_vertical"
-                android:textSize="20sp"/>
-        </LinearLayout>
-
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/btnAddStep"-->
+<!--            android:padding="10dp"-->
+<!--            android:orientation="horizontal">-->
+<!--            <ImageButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/colorWhite"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:src="@drawable/icon_plus_blue"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:text="Thêm bước thực hiện"-->
+<!--                android:textStyle="italic"-->
+<!--                android:textColor="@color/colorBlue"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:textSize="20sp"/>-->
+<!--        </LinearLayout>-->
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/btnRemind"
-        android:paddingLeft="20dp"
-        android:orientation="horizontal"
-        android:background="@color/colorWhite">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/remind3x"/>
-        <TextView
-            android:id="@+id/txtRemind"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Nhắc tôi"
-            android:textSize="18sp"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/btnAddDeadline"
-        android:paddingLeft="20dp"
-        android:orientation="horizontal"
-        android:background="@color/colorWhite">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/calendar3x"/>
-        <TextView
-            android:id="@+id/txtDeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Thêm ngày đến hạn"
-            android:textSize="18sp"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/btnRepeat"
-        android:paddingLeft="20dp"
-        android:orientation="horizontal"
-        android:background="@color/colorWhite">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/repeat3x"/>
-        <TextView
-            android:id="@+id/txtRepeat"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Lặp lại"
-            android:textSize="18sp"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/btnAttach"
-        android:paddingLeft="20dp"
-        android:orientation="horizontal"
-        android:background="@color/colorWhite">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/attach3x"/>
-        <TextView
-            android:id="@+id/txtFile"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Đính kèm tệp"
-            android:textSize="18sp"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/edNote"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/colorWhite"
-        android:gravity="start"
-        android:padding="20dp"
-        android:layout_marginBottom="60dp"
-        android:textSize="18sp"
-        android:hint="Ghi chú" />
+        android:layout_below="@+id/temp2"
+        android:layout_above="@id/bottomBar"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/btnRemind"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:background="@color/colorWhite">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/imgRemind"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/remind3x"/>
+                <TextView
+                    android:id="@+id/txtRemind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/imgRemind"
+                    android:textColor="@color/colorBlack"
+                    android:text="Nhắc tôi"
+                    android:layout_centerInParent="true"
+                    android:textSize="16sp" />
 
-    <LinearLayout
+                <Button
+                    android:id="@+id/btnCancelRemind"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:rotation="45"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"
+                    android:background="@drawable/icon_plus_grey" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/btnAddDeadline"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:background="@color/colorWhite">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/imgAddDeadline"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/calendar3x"/>
+                <TextView
+                    android:id="@+id/txtDeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/imgAddDeadline"
+                    android:text="Thêm ngày đến hạn"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnCancelDeadline"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:rotation="45"
+                    android:visibility="invisible"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/icon_plus_grey" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/btnRepeat"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:background="@color/colorWhite">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/imgRepeat"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/repeat3x"/>
+                <TextView
+                    android:id="@+id/txtRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/imgRepeat"
+                    android:text="Lặp lại"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnCancelRepeat"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:rotation="45"
+                    android:visibility="invisible"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/icon_plus_grey" />
+            </RelativeLayout>
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:minHeight="50dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:id="@+id/btnAttach"-->
+<!--                android:paddingLeft="20dp"-->
+<!--                android:paddingRight="10dp"-->
+<!--                android:background="@color/colorWhite">-->
+<!--                <ImageView-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:id="@+id/imgAttach"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_alignParentLeft="true"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:src="@drawable/attach3x"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_toRightOf="@+id/imgAttach"-->
+<!--                    android:text="Đính kèm tệp"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtFile"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:text=""-->
+<!--                    android:textColor="@color/colorBlue"-->
+<!--                    android:textSize="14sp" />-->
+<!--            </RelativeLayout>-->
+
+            <EditText
+                android:id="@+id/edNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="200dp"
+                android:background="@color/colorWhite"
+                android:gravity="start"
+                android:hint="Thêm ghi chú"
+                android:padding="20dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="-50dp"
-        android:id="@+id/btnDeleteTask"
         android:paddingRight="20dp"
-        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:id="@+id/bottomBar"
         android:background="@color/colorWhite"
-        android:layoutDirection="rtl">
-        <ImageView
+        android:layout_alignParentBottom="true">
+        <ImageButton
+            android:id="@+id/btnDeleteTask"
             android:layout_width="30dp"
+            android:background="@color/colorWhite"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentRight="true"
             android:src="@drawable/bin3x"/>
         <TextView
+            android:id="@+id/txtCreatedTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text=""
-            android:textSize="18sp"
+            android:text="Đã tạo lúc 14:00 ngày 20/11/2019"
+            android:textSize="14sp"
+            android:paddingRight="5dp"
+            android:textStyle="italic"
+            android:textColor="@color/colorLightGray"
             android:gravity="center_vertical"/>
-    </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

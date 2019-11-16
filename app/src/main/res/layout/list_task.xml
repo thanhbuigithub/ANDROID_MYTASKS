@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:background="@drawable/shape_task"
-    android:layout_marginStart="16dp"
-    android:id="@+id/layoutTask">
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:layout_marginBottom="5dp"
+    android:id="@+id/layoutTask"
+    style="@style/SelectableItemBackgroundForTask"
+    android:foreground="?attr/selectableItemBackground">
 
     <CheckBox
         android:id="@+id/chbDone"
@@ -21,8 +25,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical">
         <TextView
@@ -30,11 +32,12 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="task"
-            android:fontFamily="@font/roboto_light"
+            android:fontFamily="@font/roboto_medium"
             android:textSize="20sp"
             android:maxLines="100"
             android:ellipsize="none"
-            android:scrollHorizontally="false"/>
+            android:scrollHorizontally="false"
+            android:textColor="@color/colorWhite"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

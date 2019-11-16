@@ -1,37 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="#080808"
+    android:id="@+id/coordinator"
+    android:fitsSystemWindows="true">
 
-    <include layout = "@layout/toolbar_list_tasks" />
+<!--    <include-->
+<!--        layout="@layout/toolbar_list_tasks"-->
+<!--        android:fitsSystemWindows="true" />-->
 
-    <ListView
-        android:id="@+id/lvListTask"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:divider="@null"
-        android:childDivider="@null"
-        android:dividerHeight="5dp"
-        android:drawSelectorOnTop="true"
-        >
-    </ListView>
+        android:layout_height="140dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/black_trans">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/black_trans"
+            app:title="TITLE"
+            app:collapsedTitleGravity="left|center_horizontal|center_vertical"
+            app:expandedTitleGravity="left|bottom"
+            app:expandedTitleMarginStart="20dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/Collapsing.TitleText">
+            <!--  Your View that you want to hide on animation -->
+
+            <!-- Your toolbar should always below your View otherwise it won't be visible  -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:title="TITLE"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--        <ListView-->
+<!--            android:id="@+id/lvListTask"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:childDivider="@null"-->
+<!--            android:divider="@null"-->
+<!--            android:dividerHeight="5dp"-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--            />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/recyclerView_Task"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabListTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:src = "@drawable/icon_plus"
         android:layout_margin="16dp"
         android:backgroundTint="#455a64"
+        android:layout_gravity="bottom|end"
         />
-</RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

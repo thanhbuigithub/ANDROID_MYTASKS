@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBlack">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:srcCompat="@mipmap/ic_launcher_round"
+                android:src="@mipmap/ic_launcher"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
@@ -44,16 +45,29 @@
                     android:id="@+id/Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:fontFamily="@font/robotocondensed_regular"
+=======
+                    android:text="TÊN"
+                    android:fontFamily="@font/roboto_bold"
+>>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
                     android:textSize="18sp"
+                    android:textColor="#FFFFFF"
                     />
 
                 <TextView
                     android:id="@+id/Email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:fontFamily="@font/roboto_lightitalic"
                     android:textSize="12sp"/>
+=======
+                    android:text="EMAIL"
+                    android:fontFamily="@font/roboto_mediumitalic"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"/>
+>>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
 
             </LinearLayout>
 
@@ -107,7 +121,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
             android:divider="@null"
             android:layout_below="@id/divider_img">
         </ListView>
