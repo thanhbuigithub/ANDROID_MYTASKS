@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class ListTaskActivity extends AppCompatActivity {
     DbHelper db;
     FloatingActionButton fabListTask;
     int listID;
+    Toolbar toolbar;
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,12 +111,13 @@ public class ListTaskActivity extends AppCompatActivity {
     }
 
     private void initActionBar(String listName){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.actionbar_list_tasks);
+        toolbar = (Toolbar) findViewById(R.id.actionbar_list_tasks);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
-        customTitle.setText(listName);
+        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(listName);
+      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+      //  TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
+       // customTitle.setText(listName);
     }
 
     @Override

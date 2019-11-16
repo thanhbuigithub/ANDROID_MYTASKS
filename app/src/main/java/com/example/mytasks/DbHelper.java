@@ -28,7 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_REPEAT = "Repeat";
     public static final String DB_COLUMN_FILE = "File";
     public static final String DB_COLUMN_NOTE = "Note";
-
+    public static final String DB_COLUMN_CREATEDTIME = "CreatedTime";
 
 
     public DbHelper(@Nullable Context context) {
@@ -47,7 +47,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 + DB_COLUMN_DEADLINE + " text, "
                 + DB_COLUMN_REPEAT + " integer, "
                 + DB_COLUMN_FILE + " integer, "
-                + DB_COLUMN_NOTE + " text)";
+                + DB_COLUMN_NOTE + " text, "
+                + DB_COLUMN_CREATEDTIME + " text)";
         db.execSQL(script);
 
         script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_LIST + " ( "
@@ -89,6 +90,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_REPEAT, task.getmRepeat());
         values.put(DB_COLUMN_FILE, task.getmFile());
         values.put(DB_COLUMN_NOTE, task.getmNote());
+        values.put(DB_COLUMN_CREATEDTIME, task.getmCreatedTime());
         Log.d("INSERT NEW TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
         db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
@@ -104,6 +106,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DB_TABLE_LIST, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
         db.delete(DB_TABLE_TASK, DB_COLUMN_IDLIST + " = ?", new String[]{String.valueOf(list.getmID())});
+        db.close();
     }
 
     public ArrayList<TaskList> getAllList() {
@@ -137,6 +140,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
                     task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
                     task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+                    task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
 
                     list.getmListTasks().add(task);
                 }
@@ -145,7 +149,7 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         cursorList.close();
         cursorTask.close();
-
+        db.close();
         return allList;
     }
 
@@ -169,6 +173,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_REPEAT, task.getmRepeat());
         values.put(DB_COLUMN_FILE, task.getmFile());
         values.put(DB_COLUMN_NOTE, task.getmNote());
+        values.put(DB_COLUMN_CREATEDTIME, task.getmCreatedTime());
         db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
         db.close();
     }
@@ -191,9 +196,10 @@ public class DbHelper extends SQLiteOpenHelper {
             task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
             task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
             task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+            task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
             list.getmListTasks().add(task);
         }
-
+        db.close();
         return list;
     }
 
@@ -213,7 +219,9 @@ public class DbHelper extends SQLiteOpenHelper {
         task.setmRepeat(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_REPEAT)));
         task.setmFile(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_FILE)));
         task.setmNote(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NOTE)));
+        task.setmCreatedTime(cursor.getString(cursor.getColumnIndex(DB_COLUMN_CREATEDTIME)));
         cursor.close();
+        db.close();
         return task;
     }
 
@@ -243,11 +251,13 @@ public class DbHelper extends SQLiteOpenHelper {
             task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
             task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
             task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+            task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
 
             list.getmListTasks().add(task);
         }
         cursorList.close();
         cursorTask.close();
+        db.close();
         return list;
     }
 }
