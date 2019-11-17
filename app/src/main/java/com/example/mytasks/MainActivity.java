@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView imView;
     TextView tvName,tvEmail;
     ListView lvMainSpec, lvMainList;
+
+
+    // kiem tra luong login
     boolean sCheckLogin;
 
     ArrayList<TaskList> mainList, mainSpec;

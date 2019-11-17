@@ -57,6 +57,27 @@ public class SignIn_Activity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         pDialog = new ProgressDialog(SignIn_Activity.this);
 
+        spLogin = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        spEditorLogin = spLogin.edit();
+        bSaveLogin = spLogin.getBoolean("saveLogin", false);
+
+        if (bSaveLogin) {
+
+            edName.setText(spLogin.getString("username", ""));
+            edPass.setText(spLogin.getString("password", ""));
+            cbSaveLogin.setChecked(true);
+            Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("LoginWithGG", false);
+            bundle.putString("username",edName.getText().toString());
+            bundle.putString("password",edPass.getText().toString());
+            SignInIntent.putExtras(bundle);
+            startActivity(SignInIntent);
+        }
+        else {
+
+        }
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -67,18 +88,6 @@ public class SignIn_Activity extends AppCompatActivity {
                 signIn();
             }
         });
-
-        spLogin = getSharedPreferences("loginPrefs", MODE_PRIVATE);
-        spEditorLogin = spLogin.edit();
-        bSaveLogin = spLogin.getBoolean("saveLogin", false);
-
-        if (bSaveLogin && spLogin!=null ) {
-            edName.setText(spLogin.getString("username", ""));
-            edPass.setText(spLogin.getString("password", ""));
-            cbSaveLogin.setChecked(true);
-            Intent GoHomePage = new Intent(SignIn_Activity.this, MainActivity.class);
-            startActivity(GoHomePage);
-        }
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,15 +101,16 @@ public class SignIn_Activity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mName = edName.getText().toString();
-                String mPass = edPass.getText().toString();
-                boolean mres = db.checkUser(mName, mPass);
 
                 InputMethodManager mInput = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mInput.hideSoftInputFromWindow(edName.getWindowToken(), 0);
 
+                String mName = edName.getText().toString();
+                String mPass = edPass.getText().toString();
+                boolean mres = db.checkUser(mName, mPass);
+
                 if (cbSaveLogin.isChecked()) {
-                    spEditorLogin.putBoolean("saveLogin", false);
+                    spEditorLogin.putBoolean("saveLogin", true);
                     spEditorLogin.putString("username", mName);
                     spEditorLogin.putString("password", mPass);
                     spEditorLogin.commit();
@@ -108,7 +118,7 @@ public class SignIn_Activity extends AppCompatActivity {
                     spEditorLogin.clear();
                     spEditorLogin.commit();
                 }
-                if (mres == true) {
+                if (mres) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
                     Bundle bundle = new Bundle();
