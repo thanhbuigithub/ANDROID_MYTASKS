@@ -87,7 +87,7 @@ public class TaskActivity extends AppCompatActivity {
         if (bundle != null) {
             taskID = bundle.getInt("taskID");
         }
-        db = new DbHelper(this);
+        db = new DbHelper(this, MainActivity.mDatabaseUser);
         currentTask = db.getTask(taskID);
         currentTaskList = db.getList(currentTask.getmIDList());
 

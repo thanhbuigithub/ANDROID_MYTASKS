@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/image_backgroud_signin"
+    android:background="@color/colorDarkGray"
     tools:context=".SignIn_Activity">
 
-    <TextView
-        android:id="@+id/text_welcome1"
-        android:textColor="@color/colorWhite"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:textStyle="bold"
-        android:text="Chào mừng bạn\n đến với\nMy Tasks App"
-        android:textSize="28dp" />
+        android:scaleType="fitCenter"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:src="@drawable/logo_splash"/>
 
-    <EditText
-        android:id="@+id/edit_username"
-        android:textColor="@color/colorBlack"
-        android:background="@drawable/selector_edittext"
-        android:layout_width="260dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/text_welcome1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:paddingHorizontal="10dp"
-        android:hint="Tên đăng nhập"
-        android:inputType="textEmailAddress"
-        android:drawableLeft="@drawable/ic_action_name"/>
+<!--    <EditText-->
+<!--        android:id="@+id/edit_username"-->
+<!--        android:layout_width="260dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:background="@drawable/selector_edittext"-->
+<!--        android:drawableLeft="@drawable/ic_action_name"-->
+<!--        android:hint="Tên đăng nhập"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_below="@+id/image"-->
+<!--        android:textColor="@color/colorBlack" />-->
 
-    <EditText
-        android:id="@+id/edit_password"
-        android:layout_width="260dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/edit_username"
-        android:background="@drawable/selector_edittext"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_action_pass"
-        android:hint="Mật khẩu"
-        android:paddingHorizontal="10dp"
-        android:inputType="textPassword"
-        android:textColor="@color/colorBlack" />
+<!--    <EditText-->
+<!--        android:id="@+id/edit_password"-->
+<!--        android:layout_width="260dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_below="@+id/edit_username"-->
+<!--        android:background="@drawable/selector_edittext"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:drawableLeft="@drawable/ic_action_pass"-->
+<!--        android:hint="Mật khẩu"-->
+<!--        android:paddingHorizontal="10dp"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:textColor="@color/colorBlack" />-->
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -53,7 +51,7 @@
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_password"
+        android:layout_below="@+id/layout_password"
         android:padding="5dp"
         android:text="Remember me"
         android:textSize="20dp"
@@ -70,7 +68,7 @@
         android:background="@drawable/button_rectangle"
         android:text="Đăng nhập"
         android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/text_welcome2"
@@ -80,7 +78,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
         android:gravity="center"
-        android:text="Đăng nhập bằng tài khoản Microsoft hoặc tài khoản cơ quan."
+        android:text="hoặc"
         android:textColor="#ffffff"
         android:textSize="15dp"
         android:textStyle="bold" />
@@ -90,13 +88,14 @@
         android:layout_below="@+id/text_welcome2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        />
 
     <View
         android:id="@+id/line"
         android:layout_width="280dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:background="@color/colorWhite" />
@@ -130,5 +129,79 @@
         android:textStyle="bold"
         android:textSize="15sp"/>
 
+    <LinearLayout
+        android:id="@+id/layout_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/image"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Tên đăng nhập"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:padding="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:hint="Username"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/layout_username"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Mật khẩu"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:padding="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -59,7 +59,10 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tasks);
-        db = new DbHelper(this);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        db = new DbHelper(this, MainActivity.mDatabaseUser);
 //        lvListTask = (ListView) findViewById(R.id.lvListTask);
         recyclerViewTask = findViewById(R.id.recyclerView_Task);
         recyclerViewTask.setHasFixedSize(true);
@@ -67,8 +70,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         fabListTask = (FloatingActionButton) findViewById(R.id.fabListTask);
         list = new TaskList();
         list.setmName("Danh sách chưa có tiêu đề");
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
 
         initActionBar(list.getmName());
 

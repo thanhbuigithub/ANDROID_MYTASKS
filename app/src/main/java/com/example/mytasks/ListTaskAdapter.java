@@ -32,7 +32,7 @@ public class ListTaskAdapter extends BaseAdapter {
         this.context = context;
         this.layout = layout;
         this.tasksList = tasksList;
-        this.db = new DbHelper(context);
+        this.db = new DbHelper(context, MainActivity.mDatabaseUser);
     }
 
     @Override

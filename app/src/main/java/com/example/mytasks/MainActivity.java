@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     DbHelper db;
     Toolbar tbAccount;
     Spinner spAccount;
+
+    public static String mDatabaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +87,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
 
-            boolean mCheck = bundle.getBoolean("LoginWithGG",false);
-            if(!mCheck){
-                tvName.setText(bundle.getString("username", ""));
-                tvEmail.setText(bundle.getString("password", ""));
+            if (bundle!=null) {
+                boolean mCheck = bundle.getBoolean("LoginWithGG", false);
+                mDatabaseUser = bundle.getString("username", "");
+                if (!mCheck) {
+                    tvName.setText(bundle.getString("username", ""));
+                    tvEmail.setText(bundle.getString("password", ""));
+                }
             }
         }
 
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent(MainActivity.this,ListTaskActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("DATABASE_NAME", mDatabaseUser);
                 bundle.putInt("LIST_ID", mainList.get(position).getmID());
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -131,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
                 intent = new Intent(MainActivity.this,ListTaskActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("DATABASE_NAME", mDatabaseUser);
                 bundle.putString("ACTION", "ADD");
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        db = new DbHelper(this);
+        db = new DbHelper(this, mDatabaseUser);
         lvMainList = (ListView) findViewById(R.id.lvMainList);
         lvMainSpec = (ListView) findViewById(R.id.lvMainSpec);
         btnAdd = (FloatingActionButton) findViewById(R.id.fabMainList);

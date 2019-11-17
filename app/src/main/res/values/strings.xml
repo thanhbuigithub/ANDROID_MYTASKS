@@ -8,4 +8,6 @@
         <item>Thêm tài khoản</item>
         <item>Đăng xuất</item>
     </string-array>
+    <string name="image_login_description">login action image</string>
+
 </resources>

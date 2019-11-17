@@ -25,7 +25,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 public class SignIn_Activity extends AppCompatActivity {
-    TextView tvIntro_01, tvIntro_02, tvIntro_03, tvRegister;
+    TextView tvIntro_02, tvIntro_03, tvRegister;
     CheckBox cbSaveLogin;
     boolean bSaveLogin;
     SharedPreferences spLogin;
@@ -47,7 +47,6 @@ public class SignIn_Activity extends AppCompatActivity {
 
         db = new Database_User(this);
 
-        tvIntro_01 = (TextView) findViewById(R.id.text_welcome1);
         tvIntro_02 = (TextView) findViewById(R.id.text_welcome2);
         tvIntro_03 = (TextView) findViewById(R.id.text_welcome3);
         tvRegister = (TextView) findViewById(R.id.text_register);

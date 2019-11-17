@@ -27,7 +27,7 @@ public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHold
         this.layout = layout;
         this.tasksList = tasksList;
         this.onTaskListener = onTaskListener;
-        db = new DbHelper(context);
+        db = new DbHelper(context, MainActivity.mDatabaseUser);
     }
 
     @NonNull

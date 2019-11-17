@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "MyTasksDB";
     private static final int DB_VER = 1;
     public static final String DB_TABLE_TASK = "Task";
     public static final String DB_TABLE_LIST = "List";
@@ -31,7 +30,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_CREATEDTIME = "CreatedTime";
 
 
-    public DbHelper(@Nullable Context context) {
+    public DbHelper(@Nullable Context context, String DB_NAME) {
         super(context, DB_NAME, null, DB_VER);
     }
 
