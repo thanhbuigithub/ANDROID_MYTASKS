@@ -4,7 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -335,6 +339,7 @@ public class TaskActivity extends AppCompatActivity {
                     currentTask.setmRemind(datetime);
                     txtRemind.setText("Nhắc tôi lúc " + DateTimeHelper.FromDbToDisplay(datetime));
                     onDateSetted(txtRemind, btnCancelRemind);
+                    startAlarm(dateSelected);
                 } else {
                     currentTask.setmDeadline(datetime);
                     txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(datetime));
@@ -395,8 +400,6 @@ public class TaskActivity extends AppCompatActivity {
     }
 
 
-
-
     public void onDateSetted(TextView textView, Button btnCancel) {
         textView.setTextColor(Color.BLUE);
         textView.setTextSize(14);
@@ -407,5 +410,24 @@ public class TaskActivity extends AppCompatActivity {
         textView.setTextColor(Color.BLACK);
         textView.setTextSize(16);
         btnCancel.setVisibility(View.INVISIBLE);
+    }
+
+    private void startAlarm(Date target) {
+        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent;
+        PendingIntent pendingIntent;
+
+        // SET TIME HERE
+        Calendar calendar= Calendar.getInstance();
+        calendar.setTime(target);
+        calendar.set(Calendar.SECOND,0);
+
+        Toast.makeText(this, String.valueOf(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+
+        myIntent = new Intent(TaskActivity.this,AlarmNotificationReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this,0,myIntent,0);
+
+        manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
 }
