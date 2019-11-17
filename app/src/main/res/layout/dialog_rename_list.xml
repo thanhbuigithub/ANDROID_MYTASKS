@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#cfd8dc"
-    android:padding="30dp">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="180dp"
+    android:padding="20dp"
+    android:background="@color/colorWhite">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:text="Change list name"
+        />
     <EditText
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="List Name"
         android:id="@+id/txtName_dialog_rename"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        style="@style/MyEditTextStyle"
         />
+
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="bottom|right"
+        >
 
         <Button
             android:id="@+id/btnCancel_dialog_rename"
-            android:text="CANCEL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:text="CANCEL"
+            android:textSize="15sp"
+            android:background="@null"
+            android:textColor="@color/colorBlack"/>
         <Button
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/btnSave_dialog_rename"
             android:text="SAVE"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             />
 
     </LinearLayout>

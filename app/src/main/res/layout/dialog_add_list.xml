@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#cfd8dc"
-    android:padding="30dp">
+    android:orientation="vertical"
+    android:layout_width="320dp"
+    android:layout_height="180dp"
+    android:padding="30dp"
+    >
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="List Name"
         android:id="@+id/txtName_dialog_addList"
+        style="@style/MyEditTextStyle"
         />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="bottom|right">
 
         <Button
             android:id="@+id/btnCancel_dialog_addList"
             android:text="CANCEL"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlack"
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
         <Button
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/btnSave_dialog_addList"
             android:text="SAVE"
+            android:textColor="@color/colorBlue"
+            android:textSize="15sp"
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

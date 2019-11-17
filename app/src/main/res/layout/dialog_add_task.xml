@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#cfd8dc"
+    android:orientation="vertical"
+    android:layout_width="320dp"
+    android:layout_height="180dp"
     android:padding="30dp">
 
     <EditText
@@ -10,21 +10,29 @@
         android:layout_height="wrap_content"
         android:hint="Task Name"
         android:id="@+id/txtName_dialog_addTask"
+        style="@style/MyEditTextStyle"
         />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="bottom|right">
 
         <Button
             android:id="@+id/btnCancel_dialog_addTask"
             android:text="CANCEL"
+            android:textSize="15sp"
+            android:background="@null"
+            android:textColor="@color/colorBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
         <Button
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:id="@+id/btnSave_dialog_addTask"
             android:text="SAVE"
+            android:textSize="15sp"
+            android:background="@null"
+            android:textColor="@color/colorBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

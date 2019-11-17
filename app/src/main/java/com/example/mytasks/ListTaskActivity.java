@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -17,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -46,10 +49,10 @@ import java.util.List;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
-//    ListView lvListTask;
+    //    ListView lvListTask;
     RecyclerView recyclerViewTask;
     TaskList list;
-//    ListTaskAdapter listTaskAdapter;
+    //    ListTaskAdapter listTaskAdapter;
     Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
     FloatingActionButton fabListTask;
@@ -131,9 +134,9 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.Collapsing_TitleText);
         }
         collapsingToolbarLayout.setTitle(listName);
-      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
-      //  TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
-       // customTitle.setText(listName);
+        //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //  TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
+        // customTitle.setText(listName);
     }
 
     @Override
@@ -166,7 +169,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         final Dialog dialog = new Dialog(ListTaskActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_change_theme);
-        dialog.setCancelable(false);
 
         RadioButton rbtnTheme = dialog.findViewById(R.id.rbtn_theme);
         RadioButton rbtnBackground = dialog.findViewById(R.id.rbtn_background);
@@ -220,12 +222,22 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         final Dialog dialog = new Dialog(ListTaskActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_rename_list);
+        dialog.setCancelable(false);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_rename);
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_rename);
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_rename);
 
         txtName.setText(list.getmName());
+
+        txtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +260,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                 dialog.dismiss();
             }
         });
-
+        txtName.requestFocus();
         dialog.show();
     }
 
@@ -256,11 +268,20 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         final Dialog dialog = new Dialog(ListTaskActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_task);
+        dialog.setCancelable(false);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addTask);
         final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addTask);
         final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addTask);
 
+        txtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +291,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         });
 
         btnSave.setEnabled(false);
+        btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
 
         txtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -280,8 +302,10 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txtName.getText().toString().trim().length() == 0){
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
                     btnSave.setEnabled(false);
                 } else {
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
                     btnSave.setEnabled(true);
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -307,8 +331,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             public void afterTextChanged(Editable s) {
             }
         });
+        txtName.requestFocus();
         dialog.show();
-
     }
 
     private void DialogDeleteList(){
@@ -348,9 +372,17 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.setCancelable(false);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addList);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
-        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);
+        final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
+        final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);
 
+        txtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,23 +393,47 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setEnabled(false);
+        btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
+
+        txtName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                String listNameAdd = txtName.getText().toString().trim();
-                TaskList taskList = new TaskList();
-                taskList.setmName(listNameAdd);
-                taskList.setmIcon(R.drawable.list);
-                db.insertNewList(taskList);
-                initActionBar(listNameAdd);
-                List<TaskList> mainList = new ArrayList<>();
-                mainList = db.getAllList();
-                listID = mainList.get(mainList.size()-1).getmID();
-                list = db.getList(listID);
-                dialog.dismiss();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                btnSave.setEnabled(false);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtName.getText().toString().trim().length() == 0){
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
+                    btnSave.setEnabled(false);
+                } else {
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setEnabled(true);
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String listNameAdd = txtName.getText().toString().trim();
+                            TaskList taskList = new TaskList();
+                            taskList.setmName(listNameAdd);
+                            taskList.setmIcon(R.drawable.list);
+                            db.insertNewList(taskList);
+                            initActionBar(listNameAdd);
+                            List<TaskList> mainList = new ArrayList<>();
+                            mainList = db.getAllList();
+                            listID = mainList.get(mainList.size()-1).getmID();
+                            list = db.getList(listID);
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
-
+        txtName.requestFocus();
         dialog.show();
     }
 
