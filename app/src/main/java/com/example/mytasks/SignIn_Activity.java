@@ -1,33 +1,44 @@
 package com.example.mytasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mytasks.Database_User;
-import com.example.mytasks.R;
-import com.example.mytasks.SignUp_Activity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 public class SignIn_Activity extends AppCompatActivity {
-    private TextView tvIntro_01, tvIntro_02, tvIntro_03, tvRegister;
-    private CheckBox cbSaveLogin;
-    private Boolean bSaveLogin;
-    private SharedPreferences spLogin;
-    private SharedPreferences.Editor spEditorLogin;
-    private EditText edName, edPass;
-    private Button btnLogin;
-    private Database_User db;
+    TextView tvIntro_01, tvIntro_02, tvIntro_03, tvRegister;
+    CheckBox cbSaveLogin;
+    boolean bSaveLogin;
+    SharedPreferences spLogin;
+    SharedPreferences.Editor spEditorLogin;
+    EditText edName, edPass;
+    Button btnLogin;
+    Database_User db;
+
+    private static final String TAG = "SignIn_Activity";
+    int RC_SIGN_IN = 0;
+    SignInButton signInButton;
+    GoogleSignInClient mGoogleSignInClient;
+    ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,18 +55,30 @@ public class SignIn_Activity extends AppCompatActivity {
         edPass = (EditText) findViewById(R.id.edit_password);
         btnLogin = (Button) findViewById(R.id.btn_signin);
         cbSaveLogin = (CheckBox) findViewById(R.id.checkBox);
+        signInButton = findViewById(R.id.sign_in_button);
+        pDialog = new ProgressDialog(SignIn_Activity.this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
 
         spLogin = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         spEditorLogin = spLogin.edit();
         bSaveLogin = spLogin.getBoolean("saveLogin", false);
 
-        if (bSaveLogin == true) {
+        if (bSaveLogin && spLogin!=null ) {
             edName.setText(spLogin.getString("username", ""));
             edPass.setText(spLogin.getString("password", ""));
             cbSaveLogin.setChecked(true);
             Intent GoHomePage = new Intent(SignIn_Activity.this, MainActivity.class);
             startActivity(GoHomePage);
-
         }
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
@@ -72,13 +95,13 @@ public class SignIn_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 String mName = edName.getText().toString();
                 String mPass = edPass.getText().toString();
-                Boolean mres = db.checkUser(mName, mPass);
+                boolean mres = db.checkUser(mName, mPass);
 
                 InputMethodManager mInput = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mInput.hideSoftInputFromWindow(edName.getWindowToken(), 0);
 
                 if (cbSaveLogin.isChecked()) {
-                    spEditorLogin.putBoolean("saveLogin", true);
+                    spEditorLogin.putBoolean("saveLogin", false);
                     spEditorLogin.putString("username", mName);
                     spEditorLogin.putString("password", mPass);
                     spEditorLogin.commit();
@@ -88,8 +111,13 @@ public class SignIn_Activity extends AppCompatActivity {
                 }
                 if (mres == true) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    Intent GoHomePage = new Intent(SignIn_Activity.this, MainActivity.class);
-                    startActivity(GoHomePage);
+                    Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("LoginWithGG", false);
+                    bundle.putString("username",mName);
+                    bundle.putString("password",mPass);
+                    SignInIntent.putExtras(bundle);
+                    startActivity(SignInIntent);
                 } else if (mName.isEmpty() || mPass.isEmpty()) {
                     if (mName.isEmpty()) {
                         edName.setError("Tên đăng nhập không được bỏ trống");
@@ -101,5 +129,51 @@ public class SignIn_Activity extends AppCompatActivity {
         });
     }
 
+    private void signIn() {
+        displayProgressDialog();
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
+        } catch (ApiException e) {
+
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(SignIn_Activity.this, "Failed", Toast.LENGTH_LONG).show();
+        }
+        hideProgressDialog();
+    }
+    @Override
+    protected void onStart() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null) {
+            Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
+        }
+        else {
+            Log.d(TAG, "Đăng nhập không thành công ! Thử lại");}
+
+            super.onStart();
+    }
+    private void displayProgressDialog() {
+        pDialog.setMessage("Logging In.. Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+    private void hideProgressDialog() {
+        pDialog.dismiss();
+    }
 }
 

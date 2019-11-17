@@ -13,11 +13,11 @@
         android:text="Tạo tài khoản"
         android:textColor="@color/colorWhite"
         android:textSize="45dp"
-        android:layout_marginTop="80sp"
+        android:layout_marginTop="50sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/input_username"
+        android:id="@+id/input_name"
         android:textColor="@color/colorBlack"
         android:background="@drawable/selector_edittext"
         android:layout_width="260dp"
@@ -26,19 +26,44 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:inputType="textPersonName"
-        android:hint="ai_do@example.com"
+        android:hint="Nguyễn Văn A"
         android:paddingLeft="10dp"/>
 
 
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_title"
         android:layout_alignStart="@+id/input_username"
         android:layout_alignLeft="@+id/input_username"
         android:layout_marginTop="14dp"
-        android:text="Tên đăng nhập"
+        android:text="Tên người dùng"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/input_username"
+        android:layout_width="260dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/input_name"
+        android:background="@drawable/selector_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:hint="Tên đăng nhập"
+        android:paddingHorizontal="10dp"
+        android:inputType="textPassword"
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_username"
+        android:layout_alignStart="@+id/input_password"
+        android:layout_alignLeft="@+id/input_password"
+        android:layout_marginTop="10dp"
+        android:text="Mật khẩu"
         android:textColor="@color/colorWhite"
         android:textSize="18sp" />
 
@@ -59,11 +84,11 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/input_username"
+        android:layout_below="@+id/input_name"
         android:layout_alignStart="@+id/input_password"
         android:layout_alignLeft="@+id/input_password"
         android:layout_marginTop="10dp"
-        android:text="Mật khẩu"
+        android:text="Tên đăng nhập"
         android:textColor="@color/colorWhite"
         android:textSize="18sp" />
 

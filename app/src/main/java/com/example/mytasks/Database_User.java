@@ -10,7 +10,7 @@ public class Database_User extends SQLiteOpenHelper {
     public static final String DATABASE ="signup.db";
     public static final String TABLE ="signup_user";
     public static final String COL_ID ="ID";
-    public static final String COL_NAME ="username";
+    public static final String COL_USERNAME ="username";
     public static final String COL_PASS ="password";
 
     public Database_User(Context context) {
@@ -19,7 +19,7 @@ public class Database_User extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE signup_user (ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
+        sqLiteDatabase.execSQL("CREATE TABLE signup_user (ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,username TEXT, password TEXT)");
     }
 
     @Override
@@ -28,9 +28,10 @@ public class Database_User extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public long addUser(String user, String password){
+    public long addUser(String name,String user, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("name",name);
         contentValues.put("username",user);
         contentValues.put("password",password);
         long res = db.insert("signup_user",null,contentValues);
@@ -41,7 +42,7 @@ public class Database_User extends SQLiteOpenHelper {
     public boolean checkUser(String username, String password){
         String[] columns = { COL_ID };
         SQLiteDatabase db = getReadableDatabase();
-        String selection = COL_NAME + "=?" + " and " + COL_PASS + "=?";
+        String selection = COL_USERNAME + "=?" + " and " + COL_PASS + "=?";
         String[] selectionArgs = { username, password };
         Cursor cursor = db.query(TABLE,columns,selection,selectionArgs,null,null,null);
         int count = cursor.getCount();
