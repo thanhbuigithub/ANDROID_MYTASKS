@@ -78,15 +78,18 @@ public class SignUp_Activity extends AppCompatActivity {
                         mTextPassAgain.setError("Xác nhận lại mật khẩu");
                     }
                 }
-                else
-                if(mpass.equals(mpassagain)){
-                    long val = db.addUser(mname,muser,mpass);
-                    if(val > 0){
+                else if(db.checkAccount(mname))
+                {
+                    Toast.makeText(SignUp_Activity.this,"Tài khoản đã tồn tại ! Thử lại",Toast.LENGTH_SHORT).show();
+                }
+                else if(mpass.equals(mpassagain)){
+                    long val = db.addUser(mname, muser, mpass);
+                    if (val > 0) {
                         mView.setVisibility(View.VISIBLE);
                         mTextView_Foot.setVisibility(View.VISIBLE);
                         mTextViewLogin.setVisibility(View.VISIBLE);
                         mGoBack.setVisibility(View.GONE);
-                        Toast.makeText(SignUp_Activity.this,"Đăng kí thành công !",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp_Activity.this, "Đăng kí thành công !", Toast.LENGTH_SHORT).show();
 
                     }
                 }

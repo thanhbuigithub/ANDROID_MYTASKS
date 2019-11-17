@@ -39,11 +39,26 @@ public class Database_User extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean checkUser(String username, String password){
+//    public boolean checkUser(String username, String password){
+//        String[] columns = { COL_ID };
+//        SQLiteDatabase db = getReadableDatabase();
+//        String selection = COL_USERNAME + "=?" + " and " + COL_PASS + "=?";
+//        String[] selectionArgs = { username, password };
+//        Cursor cursor = db.query(TABLE,columns,selection,selectionArgs,null,null,null);
+//        int count = cursor.getCount();
+//        cursor.close();
+//        db.close();
+//
+//        if(count>0)
+//            return  true;
+//        return false;
+//    }
+
+    public boolean checkAccount (String username){
         String[] columns = { COL_ID };
         SQLiteDatabase db = getReadableDatabase();
-        String selection = COL_USERNAME + "=?" + " and " + COL_PASS + "=?";
-        String[] selectionArgs = { username, password };
+        String selection = COL_USERNAME + "=?";
+        String[] selectionArgs = {username};
         Cursor cursor = db.query(TABLE,columns,selection,selectionArgs,null,null,null);
         int count = cursor.getCount();
         cursor.close();

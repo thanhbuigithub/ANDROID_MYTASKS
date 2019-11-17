@@ -74,9 +74,6 @@ public class SignIn_Activity extends AppCompatActivity {
             SignInIntent.putExtras(bundle);
             startActivity(SignInIntent);
         }
-        else {
-
-        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -107,7 +104,6 @@ public class SignIn_Activity extends AppCompatActivity {
 
                 String mName = edName.getText().toString();
                 String mPass = edPass.getText().toString();
-                boolean mres = db.checkUser(mName, mPass);
 
                 if (cbSaveLogin.isChecked()) {
                     spEditorLogin.putBoolean("saveLogin", true);
@@ -118,7 +114,7 @@ public class SignIn_Activity extends AppCompatActivity {
                     spEditorLogin.clear();
                     spEditorLogin.commit();
                 }
-                if (mres) {
+                if (!mName.isEmpty() && !mPass.isEmpty()) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
                     Bundle bundle = new Bundle();
@@ -127,12 +123,14 @@ public class SignIn_Activity extends AppCompatActivity {
                     bundle.putString("password",mPass);
                     SignInIntent.putExtras(bundle);
                     startActivity(SignInIntent);
-                } else if (mName.isEmpty() || mPass.isEmpty()) {
+                } else
+                    {
                     if (mName.isEmpty()) {
                         edName.setError("Tên đăng nhập không được bỏ trống");
-                    } else edPass.setError("Mật khẩu không được bỏ trống");
-                } else {
-                    Toast.makeText(SignIn_Activity.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                    } else if (mPass.isEmpty()) edPass.setError("Mật khẩu không được bỏ trống");
+                    else {
+                        Toast.makeText(SignIn_Activity.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                }
                 }
             }
         });
