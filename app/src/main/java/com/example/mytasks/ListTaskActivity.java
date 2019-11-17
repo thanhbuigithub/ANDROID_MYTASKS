@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,9 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     int listID;
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
+
+    ArrayList<String> Colors;
+    ArrayList<Integer> btnColors;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,12 +150,69 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             case R.id.menu_list_task_Delete:
                 DialogDeleteList();
                 break;
+            case R.id.menu_list_task_ChangeTheme:
+                DialogChangeTheme();
+                break;
             case android.R.id.home:
                 onBackPressed();
                 return true;
             default: break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void DialogChangeTheme() {
+        final Dialog dialog = new Dialog(ListTaskActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_change_theme);
+        dialog.setCancelable(false);
+
+        RadioButton rbtnTheme = dialog.findViewById(R.id.rbtn_theme);
+        RadioButton rbtnBackground = dialog.findViewById(R.id.rbtn_background);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_changeTheme);
+        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
+
+        Colors = new ArrayList<>();
+        btnColors = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(Colors, btnColors,this);
+        RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        rbtnTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                addTheme();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        rbtnBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addBackground();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        rbtnTheme.setChecked(true);
+
+        dialog.show();
     }
 
     private void DialogRenameList(){
@@ -325,5 +387,68 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         bundle.putInt("taskID", list.getmListTasks().get(position).getmID());
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+    public void addTheme(){
+        Colors.clear();
+        btnColors.clear();
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Red");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Pink");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Purple");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Blue");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Cyan");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Green");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Yellow");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Orange");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Brown");
+    }
+
+    public void addBackground(){
+        Colors.clear();
+        btnColors.clear();
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Tokyo");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Paris");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("London");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Madrid");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Barcelona");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("Singapore");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("HoChiMinh");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("DaNang");
+
+        btnColors.add(R.drawable.custom_checkbox_isimportant);
+        Colors.add("LasVegas");
     }
 }

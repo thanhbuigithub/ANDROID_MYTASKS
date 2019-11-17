@@ -19,6 +19,11 @@
 
             <item
                 android:icon="@drawable/ic_delete"
+                android:id="@+id/menu_list_task_ChangeTheme"
+                android:title="Change theme"/>
+
+            <item
+                android:icon="@drawable/ic_delete"
                 android:id="@+id/menu_list_task_Delete"
                 android:title="Delete list"/>
         </menu>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    android:padding="20dp"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick a theme"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:padding="5dp">
+    </TextView>
+
+    <RadioGroup
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/rbtn_theme"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:button="@drawable/custom_checkbox_isimportant">
+        </RadioButton>
+
+        <RadioButton
+            android:layout_marginLeft="10dp"
+            android:id="@+id/rbtn_background"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:button="@drawable/custom_checkbox_isimportant">
+        </RadioButton>
+
+    </RadioGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_dialog_changeTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        android:scrollbarThumbHorizontal="@drawable/scrollbar"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|right"
+        >
+
+        <Button
+            android:id="@+id/btnCancel_dialog_changeTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:background="@null"
+            android:textColor="@color/colorBlack"/>
+        <Button
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btnSave_dialog_changeTheme"
+            android:text="SAVE"
+            android:textColor="@color/colorBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
