@@ -7,6 +7,7 @@
     <color name="colorBlueLight">#05c3f9</color>
     <color name="colorBlueDark">#0691b8</color>
     <color name="colorLightGray">#303030</color>
+    <color name="colorDarkGray">#212121</color>
     <color name="ripple_color">#ADF3A178</color>
     <color name="ripple_color_task">#A8A8A8</color>
     <color name="colorPrimary">#080808</color>

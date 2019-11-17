@@ -21,10 +21,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="DialogTheme">
-        <item name="colorPrimary">@color/colorWhite</item>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorBlack</item>
         <item name="colorPrimaryDark">@color/colorBlack</item>
         <item name="colorAccent">@color/colorBlue</item>
+        <item name="colorButtonNormal">@color/colorBlack</item>
+        <item name="colorBackgroundFloating">@color/colorBlack</item>
+        <item name="colorControlNormal">@color/colorBlack</item>
+        <item name="colorSwitchThumbNormal">@color/colorBlack</item>
+        <item name="actionMenuTextColor">@color/colorWhite</item>
+        <item name="textColorAlertDialogListItem">@color/colorWhite</item>
     </style>
 
         <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">

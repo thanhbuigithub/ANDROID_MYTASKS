@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorDarkGray">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorDarkGray">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_date"
@@ -16,14 +18,14 @@
             android:textColor="@color/colorBlue"
             android:background="@drawable/border_bottom"
             android:layout_height="wrap_content"
-            android:text="Ngày" />
+            android:text="Ngày"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_time"
             android:layout_width="0dp"
             android:layout_weight=".5"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
+            android:background="@color/colorDarkGray"
             android:text="Giờ" />
     </LinearLayout>
 
@@ -60,7 +62,7 @@
             android:layout_weight=".5"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlue"
-            android:background="@color/colorWhite"
+            android:background="@color/colorDarkGray"
             android:text="Lưu" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -68,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_weight=".5"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
+            android:background="@color/colorDarkGray"
             android:text="Hủy bỏ" />
     </LinearLayout>
 </LinearLayout>

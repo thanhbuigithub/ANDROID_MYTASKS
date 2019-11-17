@@ -120,6 +120,11 @@ public class TaskActivity extends AppCompatActivity {
 
         //checkbox Important
         cbImportant.setChecked(currentTask.getmIsImportant() == 1);
+        if (currentTask.getmIsImportant() == 1){
+            cbDone.setButtonDrawable(R.drawable.custom_checkbox_isimportant);
+        } else {
+            cbDone.setButtonDrawable(R.drawable.custom_checkbox);
+        }
 
         //Remind
         if (currentTask.getmRemind() != null && !currentTask.getmRemind().equals("")) {
@@ -232,6 +237,11 @@ public class TaskActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isImportant) {
                 currentTask.setmIsImportant((isImportant) ? 1 : 0);
+                if (isImportant) {
+                    cbDone.setButtonDrawable(R.drawable.custom_checkbox_isimportant);
+                } else {
+                    cbDone.setButtonDrawable(R.drawable.custom_checkbox);
+                }
             }
         });
         btnRemind.setOnClickListener(new View.OnClickListener() {

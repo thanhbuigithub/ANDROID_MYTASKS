@@ -24,7 +24,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
+        android:background="#212121"
         android:padding="20dp"
         android:id="@+id/temp2"
         android:orientation="vertical"
@@ -95,7 +95,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/temp2"
         android:layout_above="@id/bottomBar"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="#252525">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
                 android:id="@+id/btnRemind"
                 android:paddingLeft="20dp"
                 android:paddingRight="10dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorDarkGray">
                 <ImageView
                     android:layout_width="30dp"
                     android:id="@+id/imgRemind"
@@ -116,13 +117,13 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/remind3x"/>
+                    android:src="@drawable/ic_remind"/>
                 <TextView
                     android:id="@+id/txtRemind"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/imgRemind"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:text="Nhắc tôi"
                     android:layout_centerInParent="true"
                     android:textSize="16sp" />
@@ -146,7 +147,7 @@
                 android:id="@+id/btnAddDeadline"
                 android:paddingLeft="20dp"
                 android:paddingRight="10dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorDarkGray">
                 <ImageView
                     android:layout_width="30dp"
                     android:id="@+id/imgAddDeadline"
@@ -154,14 +155,14 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/calendar3x"/>
+                    android:src="@drawable/ic_deadline"/>
                 <TextView
                     android:id="@+id/txtDeadline"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/imgAddDeadline"
                     android:text="Thêm ngày đến hạn"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:layout_centerInParent="true"
                     android:textSize="16sp" />
 
@@ -183,7 +184,7 @@
                 android:id="@+id/btnRepeat"
                 android:paddingLeft="20dp"
                 android:paddingRight="10dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorDarkGray">
                 <ImageView
                     android:layout_width="30dp"
                     android:id="@+id/imgRepeat"
@@ -191,14 +192,14 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/repeat3x"/>
+                    android:src="@drawable/ic_repeat"/>
                 <TextView
                     android:id="@+id/txtRepeat"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/imgRepeat"
                     android:text="Lặp lại"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
                     android:layout_centerInParent="true"
                     android:textSize="16sp" />
 
@@ -254,9 +255,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="200dp"
-                android:background="@color/colorWhite"
+                android:background="@color/colorDarkGray"
                 android:gravity="start"
                 android:hint="Thêm ghi chú"
+                android:textColorHint="@color/colorWhite"
                 android:padding="20dp"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -270,15 +272,15 @@
         android:paddingRight="20dp"
         android:paddingLeft="10dp"
         android:id="@+id/bottomBar"
-        android:background="@color/colorWhite"
+        android:background="@color/colorDarkGray"
         android:layout_alignParentBottom="true">
         <ImageButton
             android:id="@+id/btnDeleteTask"
-            android:layout_width="30dp"
-            android:background="@color/colorWhite"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/bin3x"/>
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_delete"/>
         <TextView
             android:id="@+id/txtCreatedTime"
             android:layout_width="wrap_content"
@@ -287,7 +289,7 @@
             android:textSize="14sp"
             android:paddingRight="5dp"
             android:textStyle="italic"
-            android:textColor="@color/colorLightGray"
+            android:textColor="@color/colorWhite"
             android:gravity="center_vertical"/>
     </RelativeLayout>
 
