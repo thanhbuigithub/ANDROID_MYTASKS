@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
+            mDatabaseUser = personEmail;
             //String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 

@@ -40,3 +40,8 @@ dependencies {
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
 }
 
+allprojects {
+    repositories {
+        google()
+    }
+}
