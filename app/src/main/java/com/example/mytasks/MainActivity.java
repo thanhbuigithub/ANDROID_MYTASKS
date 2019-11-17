@@ -8,12 +8,9 @@ import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.net.Uri;
-=======
 import android.graphics.PorterDuff;
 import android.os.Build;
->>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;

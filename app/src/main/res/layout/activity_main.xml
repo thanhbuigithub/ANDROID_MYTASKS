@@ -45,29 +45,21 @@
                     android:id="@+id/Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-<<<<<<< HEAD
                     android:fontFamily="@font/robotocondensed_regular"
-=======
                     android:text="TÊN"
-                    android:fontFamily="@font/roboto_bold"
->>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
                     android:textSize="18sp"
-                    android:textColor="#FFFFFF"
-                    />
+                    android:textColor="#FFFFFF"/>
+                    //android:fontFamily="@font/roboto_bold"
+
 
                 <TextView
                     android:id="@+id/Email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-<<<<<<< HEAD
                     android:fontFamily="@font/roboto_lightitalic"
-                    android:textSize="12sp"/>
-=======
                     android:text="EMAIL"
-                    android:fontFamily="@font/roboto_mediumitalic"
                     android:textSize="12sp"
                     android:textColor="#FFFFFF"/>
->>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
 
             </LinearLayout>
 

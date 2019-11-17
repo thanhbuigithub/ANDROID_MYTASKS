@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
->>>>>>> a1ab01e1f669359e90363b4903ee9a23d36cd5a1
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
