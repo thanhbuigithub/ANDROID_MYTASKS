@@ -101,7 +101,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 mInput.hideSoftInputFromWindow(edName.getWindowToken(), 0);
 
                 if (cbSaveLogin.isChecked()) {
-                    spEditorLogin.putBoolean("saveLogin", true);
+                    spEditorLogin.putBoolean("saveLogin", false);
                     spEditorLogin.putString("username", mName);
                     spEditorLogin.putString("password", mPass);
                     spEditorLogin.commit();
@@ -111,8 +111,13 @@ public class SignIn_Activity extends AppCompatActivity {
                 }
                 if (mres == true) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    Intent GoHomePage = new Intent(SignIn_Activity.this, MainActivity.class);
-                    startActivity(GoHomePage);
+                    Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("LoginWithGG", false);
+                    bundle.putString("username",mName);
+                    bundle.putString("password",mPass);
+                    SignInIntent.putExtras(bundle);
+                    startActivity(SignInIntent);
                 } else if (mName.isEmpty() || mPass.isEmpty()) {
                     if (mName.isEmpty()) {
                         edName.setError("Tên đăng nhập không được bỏ trống");

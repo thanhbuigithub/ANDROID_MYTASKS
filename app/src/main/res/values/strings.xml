@@ -4,8 +4,8 @@
     <string name="sign_in"><u>Đăng nhập</u></string>
     <string name="back"><u>Quay lại</u></string>
     <string-array name="choice_array">
+        <item>"[Select one]"</item>
         <item>Thêm tài khoản</item>
         <item>Đăng xuất</item>
-        <item>"[Select one]"</item>
     </string-array>
 </resources>

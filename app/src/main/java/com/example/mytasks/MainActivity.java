@@ -12,9 +12,12 @@ import android.net.Uri;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -40,28 +43,33 @@ public class MainActivity extends AppCompatActivity {
     ImageView imView;
     TextView tvName,tvEmail;
     ListView lvMainSpec, lvMainList;
+    boolean sCheckLogin;
 
     ArrayList<TaskList> mainList, mainSpec;
     FloatingActionButton btnAdd;
     MainListView mainListAdapter;
     MainListView specListAdapter;
     DbHelper db;
-
+    Toolbar tbAccount;
+    Spinner spAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        tbAccount = findViewById(R.id.toolbar_account);
+        spAccount = findViewById(R.id.Spinner);
         imView = findViewById(R.id.imageView);
         tvName = findViewById(R.id.Name);
         tvEmail = findViewById(R.id.Email);
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
+
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
@@ -73,6 +81,18 @@ public class MainActivity extends AppCompatActivity {
             tvEmail.setText(personEmail);
 
         }
+        else {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+
+            boolean mCheck = bundle.getBoolean("LoginWithGG",false);
+            if(!mCheck){
+                tvName.setText(bundle.getString("username", ""));
+                tvEmail.setText(bundle.getString("password", ""));
+            }
+        }
+
+
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
         specListAdapter = new MainListView(this, R.layout.list_view, mainSpec);

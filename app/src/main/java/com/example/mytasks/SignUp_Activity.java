@@ -77,9 +77,6 @@ public class SignUp_Activity extends AppCompatActivity {
                     else if (mpassagain.isEmpty()) {
                         mTextPassAgain.setError("Xác nhận lại mật khẩu");
                     }
-                    else {
-                        Toast.makeText(SignUp_Activity.this,"Mật khẩu không trùng khớp ! Thử lại",Toast.LENGTH_SHORT).show();
-                    }
                 }
                 else
                 if(mpass.equals(mpassagain)){
@@ -92,9 +89,9 @@ public class SignUp_Activity extends AppCompatActivity {
                         Toast.makeText(SignUp_Activity.this,"Đăng kí thành công !",Toast.LENGTH_SHORT).show();
 
                     }
-                    else{
-                        Toast.makeText(SignUp_Activity.this,"Đăng kí thất bại ! Thử lại",Toast.LENGTH_SHORT).show();
-                    }
+                }
+                else {
+                    Toast.makeText(SignUp_Activity.this,"Mật khẩu không trùng khớp ! Thử lại",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,6 +100,11 @@ public class SignUp_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent SignInIntent = new Intent(SignUp_Activity.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("LoginWithGG", false);
+                bundle.putString("username",mTextUsername.getText().toString());
+                bundle.putString("password", mTextPassword.getText().toString());
+                SignInIntent.putExtras(bundle);
                 startActivity(SignInIntent);
             }
         });
