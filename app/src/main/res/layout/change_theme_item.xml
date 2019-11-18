@@ -26,7 +26,7 @@
             android:layout_below="@id/btnImage"
             android:layout_centerHorizontal="true"
             android:text="Color"
-            android:textColor="#000"
+            android:textColor="@color/colorWhite"
             android:textSize="10dp" />
     </RelativeLayout>
 
