@@ -28,6 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_FILE = "File";
     public static final String DB_COLUMN_NOTE = "Note";
     public static final String DB_COLUMN_CREATEDTIME = "CreatedTime";
+    public static final String DB_COLUMN_THEME = "Theme";
 
 
     public DbHelper(@Nullable Context context, String DB_NAME) {
@@ -53,7 +54,8 @@ public class DbHelper extends SQLiteOpenHelper {
         script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_LIST + " ( "
                 + DB_COLUMN_ID + " integer primary key, "
                 + DB_COLUMN_NAME + " text, "
-                + DB_COLUMN_ICON + " integer)";
+                + DB_COLUMN_ICON + " integer, "
+                + DB_COLUMN_THEME + " integer)";
         db.execSQL(script);
     }
 
@@ -73,6 +75,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN_NAME, list.getmName());
         values.put(DB_COLUMN_ICON, list.getmIcon());
+        values.put(DB_COLUMN_THEME, list.getmTheme());
         db.insertWithOnConflict(DB_TABLE_LIST, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
@@ -125,6 +128,7 @@ public class DbHelper extends SQLiteOpenHelper {
             list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
             list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
             list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
+            list.setmTheme(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_THEME)));
             cursorTask.moveToPosition(-1);
             while (cursorTask.moveToNext()) {
                 if (cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)) == list.getmID()) {
@@ -157,6 +161,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN_NAME, list.getmName());
         values.put(DB_COLUMN_ICON, list.getmIcon());
+        values.put(DB_COLUMN_THEME, list.getmTheme());
         db.update(DB_TABLE_LIST, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
         db.close();
     }
@@ -237,6 +242,7 @@ public class DbHelper extends SQLiteOpenHelper {
         list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
         list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
         list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
+        list.setmTheme(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_THEME)));
         cursorTask.moveToPosition(-1);
         while (cursorTask.moveToNext()) {
             task = new Task();

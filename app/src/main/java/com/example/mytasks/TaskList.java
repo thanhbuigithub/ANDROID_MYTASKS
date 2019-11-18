@@ -7,6 +7,7 @@ public class TaskList {
     private Integer mID;
     private String mName;
     private Integer mIcon;
+    private Integer mTheme;
     private List<Task> mListTasks = new ArrayList<>();
 
     public TaskList() {
@@ -55,5 +56,13 @@ public class TaskList {
 
     public void setmListTasks(List<Task> mListTasks) {
         this.mListTasks.addAll(mListTasks);
+    }
+
+    public Integer getmTheme() {
+        return mTheme;
+    }
+
+    public void setmTheme(Integer mTheme) {
+        this.mTheme = mTheme;
     }
 }
