@@ -67,6 +67,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
 
+
     ArrayList<String> nameThemes;
     ArrayList<Integer> srcThemes;
     public static Integer themePosition = -1;
@@ -80,7 +81,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        mainLayout = findViewById(R.id.coordinator);
+        layout = findViewById(R.id.coordinator);
 
         db = new DbHelper(this, MainActivity.mDatabaseUser);
         layout = (CoordinatorLayout) findViewById(R.id.coordinator);

@@ -144,7 +144,7 @@ public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHold
     }
 
     private void showUndoSnackbar() {
-        View view = ListTaskActivity.mainLayout;
+        View view = ListTaskActivity.layout;
         Snackbar snackbar = Snackbar.make(view, R.string.snack_bar_text,
                 Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.snack_bar_undo, new View.OnClickListener() {
