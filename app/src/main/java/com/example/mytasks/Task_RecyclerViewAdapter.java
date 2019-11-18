@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHolder> {
@@ -21,6 +23,8 @@ public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHold
     private List<Task> tasksList;
     private DbHelper db;
     private OnTaskListener onTaskListener;
+    private Task mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
 
     public Task_RecyclerViewAdapter(Context context, int layout, List<Task> tasksList, OnTaskListener onTaskListener) {
         this.context = context;
@@ -121,7 +125,42 @@ public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHold
         return (null != tasksList ? tasksList.size() : 0);
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public interface OnTaskListener{
         void OnTaskClick(int position);
+    }
+
+    public void deleteItem(int position) {
+        mRecentlyDeletedItem = tasksList.get(position);
+        mRecentlyDeletedItemPosition = position;
+        tasksList.remove(position);
+        db.deleteTask(mRecentlyDeletedItem);
+        ListTaskActivity.list = db.getList(ListTaskActivity.list.getmID());
+        notifyItemRemoved(position);
+        showUndoSnackbar();
+    }
+
+    private void showUndoSnackbar() {
+        View view = ListTaskActivity.layout;
+        Snackbar snackbar = Snackbar.make(view, R.string.snack_bar_text,
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.snack_bar_undo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undoDelete();
+            }
+        });
+        snackbar.show();
+    }
+
+    private void undoDelete() {
+        tasksList.add(mRecentlyDeletedItemPosition,
+                mRecentlyDeletedItem);
+        db.insertNewTask(mRecentlyDeletedItem);
+        ListTaskActivity.list = db.getList(ListTaskActivity.list.getmID());
+        notifyItemInserted(mRecentlyDeletedItemPosition);
     }
 }

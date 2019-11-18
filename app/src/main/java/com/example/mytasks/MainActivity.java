@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     MainListView mainListAdapter;
     MainListView specListAdapter;
     DbHelper db;
-    Toolbar tbAccount;
-    Spinner spAccount;
 
     public static String mDatabaseUser;
     @Override
@@ -63,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addIcon();
-        tbAccount = findViewById(R.id.toolbar_account);
-        spAccount = findViewById(R.id.Spinner);
         imView = findViewById(R.id.imageView);
         tvName = findViewById(R.id.Name);
         tvEmail = findViewById(R.id.Email);

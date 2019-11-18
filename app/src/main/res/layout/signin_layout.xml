@@ -33,7 +33,7 @@
     <Button
         android:id="@+id/btn_signin"
         android:layout_width="250dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_signin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="hoặc"
         android:textColor="#ffffff"
@@ -68,7 +68,7 @@
         android:id="@+id/line"
         android:layout_width="280dp"
         android:layout_height="1dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:background="@color/colorWhite" />
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="Bạn chưa có tài khoản ?"
         android:textStyle="bold"
@@ -97,7 +97,7 @@
         android:text="@string/sign_up"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="3dp"
         android:background="@drawable/text_rectangle"
         android:textStyle="bold"
         android:textSize="15sp"/>
@@ -132,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:drawableLeft="@drawable/ic_action_name"
                 android:background="@android:color/transparent"
                 android:hint="Username"
                 android:inputType="text" />
@@ -147,7 +148,7 @@
         android:layout_below="@+id/layout_username"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -170,6 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:drawableLeft="@drawable/ic_action_pass"
                 android:background="@android:color/transparent"
                 android:hint="Password"
                 android:inputType="textPassword" />
