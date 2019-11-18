@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.thefuntasty.hauler.HaulerView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +47,7 @@ public class TaskActivity extends AppCompatActivity {
     EditText edNote;
     Button btnCancelRemind, btnCancelRepeat, btnCancelDeadline;
 
+    HaulerView haulerView;
 
     TextView txtRemind, txtDeadline, txtRepeat, txtCreatedTime;
 
@@ -61,6 +65,7 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+//        haulerView = (HaulerView) findViewById(R.id.haulerView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         edTaskName = (EditText) findViewById(R.id.edTaskName);
         cbDone = (CheckBox) findViewById(R.id.cbDone);
@@ -81,6 +86,13 @@ public class TaskActivity extends AppCompatActivity {
         btnCancelDeadline = (Button) findViewById(R.id.btnCancelDeadline);
         btnCancelRepeat = (Button) findViewById(R.id.btnCancelRepeat);
 
+//        haulerView.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                finish();
+//                return true;
+//            }
+//        });
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();

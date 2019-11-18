@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.mytasks"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -23,6 +23,7 @@ android {
 allprojects {
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
     }
 }
 dependencies {
@@ -42,5 +43,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
+    implementation("com.github.thefuntasty.hauler:library:2.0.0")
 }
 

@@ -78,4 +78,13 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="AppTheme.Draggable" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorDarkGray</item>
+    </style>
+
 </resources>

@@ -19,7 +19,7 @@ public class Database_User extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE signup_user (ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,username TEXT, password TEXT)");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS signup_user (ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,username TEXT, password TEXT)");
     }
 
     @Override
