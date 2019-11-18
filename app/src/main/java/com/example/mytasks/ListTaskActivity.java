@@ -50,6 +50,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
@@ -67,6 +69,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     ArrayList<String> nameThemes;
     ArrayList<Integer> srcThemes;
     public static Integer themePosition = -1;
+    public static CoordinatorLayout layout;
+    public static CircleImageView circleImageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +80,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Bundle bundle = intent.getExtras();
 
         db = new DbHelper(this, MainActivity.mDatabaseUser);
-//        lvListTask = (ListView) findViewById(R.id.lvListTask);
+        layout = (CoordinatorLayout) findViewById(R.id.coordinator);
         recyclerViewTask = findViewById(R.id.recyclerView_Task);
         recyclerViewTask.setHasFixedSize(true);
         recyclerViewTask.setLayoutManager(new LinearLayoutManager(ListTaskActivity.this));
@@ -148,7 +152,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 
     private void initLayoutTheme(){
         themePosition = (list.getmTheme() == null) ? (-1) : list.getmTheme();
-        CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.coordinator);
         if(themePosition != -1)
         {
             layout.setBackgroundResource(srcThemes.get(themePosition));
@@ -192,12 +195,27 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_changeTheme);
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
+        circleImageView = dialog.findViewById(R.id.profile_image);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(nameThemes, srcThemes,this);
         RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        if(themePosition != -1){
+            circleImageView.setImageResource(srcThemes.get(themePosition));
+            if(themePosition >= 2){
+                recyclerView.scrollToPosition(themePosition -2);
+            }
+            else{
+                recyclerView.scrollToPosition(themePosition);
+            }
+
+        }
+        else {
+            circleImageView.setImageResource(R.drawable.bg_default);
+        }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

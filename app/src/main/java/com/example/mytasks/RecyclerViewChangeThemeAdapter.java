@@ -37,6 +37,7 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        selectedPosition = ListTaskActivity.themePosition;
 
         if(selectedPosition == position){
             holder.btnImage.setChecked(true);
@@ -55,6 +56,8 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
                 if(holder.btnImage.isChecked()) {
                     selectedPosition = holder.getAdapterPosition();
                     ListTaskActivity.themePosition= selectedPosition;
+                    ListTaskActivity.layout.setBackgroundResource(mSrcs.get(selectedPosition));
+                    ListTaskActivity.circleImageView.setImageResource(mSrcs.get(selectedPosition));
                     Toast.makeText(mContext, "Pick theme " + mNames.get(selectedPosition), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -89,8 +92,8 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
 
         public ViewHolder(View itemView) {
             super(itemView);
-            btnImage = itemView.findViewById(R.id.btnImage);
-            color = itemView.findViewById(R.id.color);
+            btnImage = itemView.findViewById(R.id.cb_changeTheme);
+            color = itemView.findViewById(R.id.txt_changeTheme);
         }
     }
 }

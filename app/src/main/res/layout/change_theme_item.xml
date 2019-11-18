@@ -13,17 +13,17 @@
 
 
         <CheckBox
-            android:id="@+id/btnImage"
+            android:id="@+id/cb_changeTheme"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/color"
+            android:id="@+id/txt_changeTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnImage"
+            android:layout_below="@id/cb_changeTheme"
             android:layout_centerHorizontal="true"
             android:text="Color"
             android:textColor="@color/colorWhite"
