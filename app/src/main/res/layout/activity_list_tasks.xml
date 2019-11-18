@@ -8,11 +8,17 @@
     android:weightSum="10"
     android:background="#080808"
     android:id="@+id/coordinator"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".ListTaskActivity">
 
 <!--    <include-->
 <!--        layout="@layout/toolbar_list_tasks"-->
 <!--        android:fitsSystemWindows="true" />-->
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/nezuko"/>-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

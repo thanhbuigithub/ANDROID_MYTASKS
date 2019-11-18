@@ -126,9 +126,11 @@ public class TaskActivity extends AppCompatActivity {
         //Done
         if (currentTask.getmIsDone() == 1) {
             cbDone.setChecked(true);
+            edTaskName.setTextColor(Color.GRAY);
             edTaskName.setPaintFlags(edTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             cbDone.setChecked(false);
+            edTaskName.setTextColor(Color.WHITE);
             edTaskName.setPaintFlags(edTaskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
@@ -245,10 +247,13 @@ public class TaskActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isDone) {
                 currentTask.setmIsDone((isDone) ? 1 : 0);
                 if (isDone) {
+                    edTaskName.setTextColor(Color.GRAY);
                     edTaskName.setPaintFlags(edTaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
+                    edTaskName.setTextColor(Color.WHITE);
                     edTaskName.setPaintFlags(edTaskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 }
+                db.updateTask(currentTask);
             }
         });
         cbImportant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -260,6 +265,7 @@ public class TaskActivity extends AppCompatActivity {
                 } else {
                     cbDone.setButtonDrawable(R.drawable.custom_checkbox);
                 }
+                db.updateTask(currentTask);
             }
         });
         btnRemind.setOnClickListener(new View.OnClickListener() {
