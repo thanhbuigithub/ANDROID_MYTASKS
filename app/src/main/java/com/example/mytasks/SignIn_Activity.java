@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +12,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -57,6 +60,7 @@ public class SignIn_Activity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         pDialog = new ProgressDialog(SignIn_Activity.this);
 
+        //Remember me
         spLogin = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         spEditorLogin = spLogin.edit();
         bSaveLogin = spLogin.getBoolean("saveLogin", false);
@@ -73,6 +77,18 @@ public class SignIn_Activity extends AppCompatActivity {
             bundle.putString("password",edPass.getText().toString());
             SignInIntent.putExtras(bundle);
             startActivity(SignInIntent);
+        }
+
+        //Nhận intent từ login
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (bundle!=null) {
+            if (bSaveLogin) {
+                cbSaveLogin.setChecked(false);
+            }
+            edName.setText(bundle.getString("username", ""));
+            edPass.setText(bundle.getString("password", ""));
         }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -104,6 +120,7 @@ public class SignIn_Activity extends AppCompatActivity {
 
                 String mName = edName.getText().toString();
                 String mPass = edPass.getText().toString();
+                boolean mres = db.checkUser(mName,mPass);
 
                 if (cbSaveLogin.isChecked()) {
                     spEditorLogin.putBoolean("saveLogin", true);
@@ -114,7 +131,7 @@ public class SignIn_Activity extends AppCompatActivity {
                     spEditorLogin.clear();
                     spEditorLogin.commit();
                 }
-                if (!mName.isEmpty() && !mPass.isEmpty()) {
+                if (mres) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
                     Bundle bundle = new Bundle();
@@ -123,14 +140,14 @@ public class SignIn_Activity extends AppCompatActivity {
                     bundle.putString("password",mPass);
                     SignInIntent.putExtras(bundle);
                     startActivity(SignInIntent);
-                } else
+                } else if(mName.isEmpty() || mPass.isEmpty())
                     {
                     if (mName.isEmpty()) {
                         edName.setError("Tên đăng nhập không được bỏ trống");
                     } else if (mPass.isEmpty()) edPass.setError("Mật khẩu không được bỏ trống");
-                    else {
-                        Toast.makeText(SignIn_Activity.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    Toast.makeText(SignIn_Activity.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -102,7 +102,7 @@ public class SignUp_Activity extends AppCompatActivity {
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SignInIntent = new Intent(SignUp_Activity.this,MainActivity.class);
+                Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("LoginWithGG", false);
                 bundle.putString("username",mTextUsername.getText().toString());
