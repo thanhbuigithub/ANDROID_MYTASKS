@@ -17,33 +17,6 @@
         android:scaleY="0.5"
         android:src="@drawable/logo_splash"/>
 
-<!--    <EditText-->
-<!--        android:id="@+id/edit_username"-->
-<!--        android:layout_width="260dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:background="@drawable/selector_edittext"-->
-<!--        android:drawableLeft="@drawable/ic_action_name"-->
-<!--        android:hint="Tên đăng nhập"-->
-<!--        android:inputType="textEmailAddress"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_below="@+id/image"-->
-<!--        android:textColor="@color/colorBlack" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/edit_password"-->
-<!--        android:layout_width="260dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:layout_below="@+id/edit_username"-->
-<!--        android:background="@drawable/selector_edittext"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:drawableLeft="@drawable/ic_action_pass"-->
-<!--        android:hint="Mật khẩu"-->
-<!--        android:paddingHorizontal="10dp"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:textColor="@color/colorBlack" />-->
-
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"

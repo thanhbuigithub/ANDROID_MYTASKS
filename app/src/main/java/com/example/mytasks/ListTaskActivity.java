@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,8 +62,9 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
 
-    ArrayList<String> Colors;
-    ArrayList<Integer> btnColors;
+    ArrayList<String> imageThemes;
+    ArrayList<Integer> btnimageThemes;
+    Integer Theme;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,15 +173,14 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_change_theme);
 
-        RadioButton rbtnTheme = dialog.findViewById(R.id.rbtn_theme);
-        RadioButton rbtnBackground = dialog.findViewById(R.id.rbtn_background);
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_changeTheme);
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
 
-        Colors = new ArrayList<>();
-        btnColors = new ArrayList<>();
+        imageThemes = new ArrayList<>();
+        btnimageThemes = new ArrayList<>();
+        addBackground();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(Colors, btnColors,this);
+        final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(imageThemes, btnimageThemes,this,Theme);
         RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -193,27 +195,12 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.coordinator);
+                layout.setBackgroundResource(R.drawable.tokyo);
+                Toast.makeText(ListTaskActivity.this, "Lay background", LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
-
-        rbtnTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                addTheme();
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        rbtnBackground.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addBackground();
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        rbtnTheme.setChecked(true);
 
         dialog.show();
     }
@@ -445,67 +432,36 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         intent.putExtras(bundle);
         startActivity(intent);
     }
-    public void addTheme(){
-        Colors.clear();
-        btnColors.clear();
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Red");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Pink");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Purple");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Blue");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Cyan");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Green");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Yellow");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Orange");
-
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Brown");
-    }
 
     public void addBackground(){
-        Colors.clear();
-        btnColors.clear();
+        imageThemes.clear();
+        btnimageThemes.clear();
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Tokyo");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("Tokyo");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Paris");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("Paris");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("London");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("London");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Madrid");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("Madrid");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Barcelona");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("Barcelona");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("Singapore");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("Singapore");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("HoChiMinh");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("HoChiMinh");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("DaNang");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("DaNang");
 
-        btnColors.add(R.drawable.custom_checkbox_isimportant);
-        Colors.add("LasVegas");
+        btnimageThemes.add(R.drawable.custom_checkbox_isimportant);
+        imageThemes.add("LasVegas");
     }
 }
