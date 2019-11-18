@@ -65,7 +65,8 @@
                 android:textSize="32sp"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"/>
 
             <CheckBox
                 android:id="@+id/cbImportant"
