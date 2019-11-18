@@ -2,10 +2,12 @@ package com.example.mytasks;
 
 import android.app.IntentService;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,7 +29,7 @@ public class AlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+
         Intent targetIntent = new Intent(this, TaskActivity.class);
         Bundle bundle = intent.getExtras();
         taskID = bundle.getInt("taskID",1);
@@ -43,6 +45,15 @@ public class AlarmService extends IntentService {
                 targetIntent,
                 FLAG_ONE_SHOT);
 
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel("channel1", "Alarm", importance);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel1");
         builder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
@@ -52,8 +63,6 @@ public class AlarmService extends IntentService {
                 .setContentText(currentTask.getmName())
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                 .setContentInfo("Info");
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(code, builder.build());
     }
 
