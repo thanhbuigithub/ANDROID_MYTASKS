@@ -49,5 +49,3 @@ dependencies {
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
     implementation "com.github.thefuntasty.hauler:library:2.0.0"
 }
-
-}
