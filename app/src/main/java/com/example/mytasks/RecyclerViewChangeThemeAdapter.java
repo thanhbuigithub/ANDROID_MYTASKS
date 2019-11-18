@@ -58,7 +58,6 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
                     ListTaskActivity.themePosition= selectedPosition;
                     ListTaskActivity.layout.setBackgroundResource(mSrcs.get(selectedPosition));
                     ListTaskActivity.circleImageView.setImageResource(mSrcs.get(selectedPosition));
-                    Toast.makeText(mContext, "Pick theme " + mNames.get(selectedPosition), Toast.LENGTH_SHORT).show();
                 }
             }
         });

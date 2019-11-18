@@ -67,7 +67,15 @@ public class MainListView extends BaseAdapter {
 
         final TaskList taskList = mainList.get(position);
         viewholder.tvMainList.setText(taskList.getmName());
-        viewholder.imgMainList.setImageResource(taskList.getmIcon());
+        int iconPosition = -1;
+        if(taskList.getmIcon() != null)
+        {
+            iconPosition = taskList.getmIcon();
+            viewholder.imgMainList.setImageResource(MainActivity.srcIcons.get(iconPosition));
+        }
+        else {
+            viewholder.imgMainList.setImageResource(R.drawable.icon_default);
+        }
 
         return convertView;
     }

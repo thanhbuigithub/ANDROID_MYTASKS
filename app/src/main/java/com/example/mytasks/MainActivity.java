@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imView;
     TextView tvName,tvEmail;
     ListView lvMainSpec, lvMainList;
+    public static ArrayList<Integer> srcIcons;
 
 
     // kiem tra luong login
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        addIcon();
         tbAccount = findViewById(R.id.toolbar_account);
         spAccount = findViewById(R.id.Spinner);
         imView = findViewById(R.id.imageView);
@@ -163,6 +164,36 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getDataFromDbToMainList();
         mainListAdapter.notifyDataSetChanged();
+    }
+
+    private void addIcon() {
+        srcIcons = new ArrayList<>();
+        srcIcons.add(R.drawable.icon_default);
+        srcIcons.add(R.drawable.icon_1);
+        srcIcons.add(R.drawable.icon_2);
+        srcIcons.add(R.drawable.icon_3);
+        srcIcons.add(R.drawable.icon_4);
+        srcIcons.add(R.drawable.icon_5);
+        srcIcons.add(R.drawable.icon_6);
+        srcIcons.add(R.drawable.icon_7);
+        srcIcons.add(R.drawable.icon_8);
+        srcIcons.add(R.drawable.icon_9);
+        srcIcons.add(R.drawable.icon_10);
+        srcIcons.add(R.drawable.icon_11);
+        srcIcons.add(R.drawable.icon_12);
+        srcIcons.add(R.drawable.icon_13);
+        srcIcons.add(R.drawable.icon_14);
+        srcIcons.add(R.drawable.icon_15);
+        srcIcons.add(R.drawable.icon_16);
+        srcIcons.add(R.drawable.icon_17);
+        srcIcons.add(R.drawable.icon_18);
+        srcIcons.add(R.drawable.icon_19);
+        srcIcons.add(R.drawable.icon_20);
+        srcIcons.add(R.drawable.icon_21);
+        srcIcons.add(R.drawable.icon_22);
+        srcIcons.add(R.drawable.icon_23);
+        srcIcons.add(R.drawable.icon_24);
+        srcIcons.add(R.drawable.icon_25);
     }
 
 }
