@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -71,8 +72,11 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     ArrayList<String> nameThemes;
     ArrayList<Integer> srcThemes;
     public static Integer themePosition = -1;
+    public static Integer iconPosition = -1;
+    public static Integer iconPosition_addList = -1;
     public static CoordinatorLayout layout;
     public static CircleImageView circleImageView;
+    public static ImageView iconImageview;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,13 +88,17 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         layout = findViewById(R.id.coordinator);
 
         db = new DbHelper(this, MainActivity.mDatabaseUser);
+
         layout = (CoordinatorLayout) findViewById(R.id.coordinator);
+
         recyclerViewTask = findViewById(R.id.recyclerView_Task);
         recyclerViewTask.setHasFixedSize(true);
         recyclerViewTask.setLayoutManager(new LinearLayoutManager(ListTaskActivity.this));
         fabListTask = (FloatingActionButton) findViewById(R.id.fabListTask);
+
         nameThemes = new ArrayList<>();
         srcThemes = new ArrayList<>();
+
         addBackground();
         list = new TaskList();
         list.setmName("Danh sách chưa có tiêu đề");
@@ -121,6 +129,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         super.onStart();
         if (listID != 0){
             list = db.getList(listID);
+            iconPosition = (list.getmIcon()==null)? (-1): list.getmIcon();
         }
 
 //        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
@@ -255,10 +264,22 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_rename);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_rename);
-        Button btnSave = dialog.findViewById(R.id.btnSave_dialog_rename);
+        final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_rename);
+        final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_rename);
+        iconImageview = dialog.findViewById(R.id.icon_rename);
 
-        txtName.setText(list.getmName());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        final RecyclerViewRenameListAdapter adapter = new RecyclerViewRenameListAdapter(MainActivity.srcIcons,this);
+        RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_renameList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        if(iconPosition != -1)
+        {
+            iconImageview.setImageResource(MainActivity.srcIcons.get(iconPosition));
+        }else{
+            iconImageview.setImageResource(R.drawable.icon_default);
+        }
 
         txtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -276,20 +297,43 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
+
+        txtName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                String newName = txtName.getText().toString().trim();
-                TaskList taskList = new TaskList();
-                taskList.setmName(newName);
-                taskList.setmID(listID);
-                taskList.setmIcon(R.drawable.list);
-                db.updateList(taskList);
-                list.setmName(newName);
-                initActionBar(list.getmName());
-                dialog.dismiss();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txtName.getText().toString().trim().length() == 0){
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
+                    btnSave.setEnabled(false);
+                } else {
+                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setEnabled(true);
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String newName = txtName.getText().toString().trim();
+                            TaskList taskList = new TaskList();
+                            taskList.setmName(newName);
+                            taskList.setmID(listID);
+                            taskList.setmIcon(iconPosition);
+                            db.updateList(taskList);
+                            list.setmName(newName);
+                            initActionBar(list.getmName());
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
+        txtName.setText(list.getmName());
         txtName.requestFocus();
         dialog.show();
     }
@@ -403,10 +447,24 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.setContentView(R.layout.dialog_add_list);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
-
+        iconPosition_addList = -1;
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addList);
         final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
         final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);
+        iconImageview = dialog.findViewById(R.id.icon_add_list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        final RecyclerViewAddListAdapter adapter = new RecyclerViewAddListAdapter(MainActivity.srcIcons,this);
+        RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_addList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        if(iconPosition_addList != -1)
+        {
+            iconImageview.setImageResource(MainActivity.srcIcons.get(iconPosition_addList));
+        }else{
+            iconImageview.setImageResource(R.drawable.icon_default);
+        }
 
         txtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -449,7 +507,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                             String listNameAdd = txtName.getText().toString().trim();
                             TaskList taskList = new TaskList();
                             taskList.setmName(listNameAdd);
-                            taskList.setmIcon(R.drawable.list);
+                            taskList.setmIcon(iconPosition_addList);
                             db.insertNewList(taskList);
                             initActionBar(listNameAdd);
                             List<TaskList> mainList = new ArrayList<>();
