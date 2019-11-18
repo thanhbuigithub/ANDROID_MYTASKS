@@ -3,15 +3,14 @@
     android:orientation="vertical"
     android:layout_width="320dp"
     android:layout_height="180dp"
-    android:padding="20dp"
-    android:background="@color/colorWhite">
+    android:padding="20dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Are you sure?"
         android:textSize="20sp"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         />
 
     <TextView
@@ -20,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/txtName_dialog_delete"
         android:textSize="15sp"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         />
     <LinearLayout
         android:layout_marginTop="20dp"
@@ -32,8 +31,8 @@
             android:id="@+id/btnCancel_dialog_delete"
             android:text="CANCEL"
             android:textSize="15sp"
-            android:textColor="@color/colorBlack"
-            android:background="@null"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -43,7 +42,7 @@
             android:text="DELETE"
             android:textSize="15sp"
             android:textColor="#E70808"
-            android:background="@null"
+            android:background="@drawable/button_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

@@ -18,4 +18,6 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="black_trans">#14000000</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="task_color">#3366ff</color>
 </resources>

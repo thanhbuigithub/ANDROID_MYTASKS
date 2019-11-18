@@ -44,5 +44,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "com.github.thefuntasty.hauler:library:2.0.0"
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }

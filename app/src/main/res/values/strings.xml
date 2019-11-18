@@ -9,5 +9,7 @@
         <item>Đăng xuất</item>
     </string-array>
     <string name="image_login_description">login action image</string>
+    <string name="snack_bar_text">Xoá thành công</string>
+    <string name="snack_bar_undo">Hoàn tác</string>
 
 </resources>
