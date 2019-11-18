@@ -16,18 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<RecyclerViewChangeThemeAdapter.ViewHolder>{
-    private ArrayList<String> mColors = new ArrayList<>();
-    private ArrayList<Integer> ThemesUrls = new ArrayList<>();
-    private Integer mThemePicked;
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<Integer> mSrcs = new ArrayList<>();
     private Context mContext;
 
     private int selectedPosition = -1;
 
-    public RecyclerViewChangeThemeAdapter(ArrayList<String> mColors, ArrayList<Integer> ThemesUrls, Context mContext, Integer mThemePicked) {
-        this.mColors = mColors;
-        this.ThemesUrls = ThemesUrls;
+    public RecyclerViewChangeThemeAdapter(ArrayList<String> mNames, ArrayList<Integer> mSrcs, Context mContext) {
+        this.mNames = mNames;
+        this.mSrcs = mSrcs;
         this.mContext = mContext;
-        this.mThemePicked = mThemePicked;
     }
 
     @NonNull
@@ -49,15 +47,15 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
 
         holder.btnImage.setButtonDrawable(R.drawable.custom_checkbox_isimportant);
 
-        holder.color.setText(mColors.get(position));
+        holder.color.setText(mNames.get(position));
 
         holder.btnImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(holder.btnImage.isChecked()) {
                     selectedPosition = holder.getAdapterPosition();
-                    mThemePicked = ThemesUrls.get(selectedPosition);
-                    Toast.makeText(mContext, "Pick theme " + mColors.get(selectedPosition), Toast.LENGTH_SHORT).show();
+                    ListTaskActivity.themePosition= selectedPosition;
+                    Toast.makeText(mContext, "Pick theme " + mNames.get(selectedPosition), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -67,7 +65,7 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return mColors.size();
+        return mNames.size();
     }
 
     private AdapterView.OnClickListener onStateChangedListener(final CheckBox checkBox, final int position) {

@@ -145,4 +145,6 @@ public class ListTaskAdapter extends BaseAdapter {
 
         return view;
     }
+
+
 }
