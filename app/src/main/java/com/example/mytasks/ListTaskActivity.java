@@ -80,7 +80,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        mainLayout = findViewById(R.id.coordinator);
+        //mainLayout = findViewById(R.id.coordinator);
 
         db = new DbHelper(this, MainActivity.mDatabaseUser);
         layout = (CoordinatorLayout) findViewById(R.id.coordinator);
