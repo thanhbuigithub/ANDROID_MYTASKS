@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:src = "@drawable/icon_plus"
         android:layout_margin="16dp"
-        android:backgroundTint="#455a64"
+        android:backgroundTint="#1b1b1b"
         android:layout_gravity="bottom|end"
         />
 

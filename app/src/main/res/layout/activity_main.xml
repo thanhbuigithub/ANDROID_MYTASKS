@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:background="@color/colorBlack">
+    android:background="@drawable/bg_default">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +17,75 @@
         android:layout_marginTop="16dp"
         android:id="@+id/toolbar_mainList">
 
-        <include
-            android:id="@+id/toolbar_account"
-            layout="@layout/toolbar_account"
-            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:orientation="horizontal"
+            android:background="@drawable/background_info">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/circle"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="4">
+
+
+                <TextView
+                    android:id="@+id/Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotocondensed_regular"
+                    android:text="TÊN"
+                    android:textSize="18sp"
+                    android:textColor="#FFFFFF"/>
+
+
+                <TextView
+                    android:id="@+id/Email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_lightitalic"
+                    android:text="EMAIL"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:padding="15dp"
+                android:background="@drawable/ic_expand_more_black_24dp" />
+
+        </LinearLayout>
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:src="@drawable/search"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:paddingBottom="15dp"-->
+<!--            android:paddingTop="15dp"-->
+<!--            android:background="#00ffffff" />-->
 
     </LinearLayout>
 
@@ -57,8 +123,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src = "@drawable/icon_plus"
+        android:src= "@drawable/icon_plus"
         android:layout_margin="16dp"
-        android:backgroundTint="#455a64"
+        app:backgroundTint="#1b1b1b"
         />
 </RelativeLayout>

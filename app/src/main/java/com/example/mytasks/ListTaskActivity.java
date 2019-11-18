@@ -38,6 +38,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,12 +51,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
     //    ListView lvListTask;
     RecyclerView recyclerViewTask;
-    TaskList list;
+    public static TaskList list;
     //    ListTaskAdapter listTaskAdapter;
     Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
@@ -67,6 +70,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     ArrayList<String> nameThemes;
     ArrayList<Integer> srcThemes;
     public static Integer themePosition = -1;
+    public static CoordinatorLayout layout;
+    public static CircleImageView circleImageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,12 +80,17 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
+        mainLayout = findViewById(R.id.coordinator);
+
         db = new DbHelper(this, MainActivity.mDatabaseUser);
-//        lvListTask = (ListView) findViewById(R.id.lvListTask);
+        layout = (CoordinatorLayout) findViewById(R.id.coordinator);
         recyclerViewTask = findViewById(R.id.recyclerView_Task);
         recyclerViewTask.setHasFixedSize(true);
         recyclerViewTask.setLayoutManager(new LinearLayoutManager(ListTaskActivity.this));
         fabListTask = (FloatingActionButton) findViewById(R.id.fabListTask);
+        nameThemes = new ArrayList<>();
+        srcThemes = new ArrayList<>();
+        addBackground();
         list = new TaskList();
         list.setmName("Danh sách chưa có tiêu đề");
 
@@ -101,6 +111,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                 DialogAddList();
             }
         }
+
+
     }
 
     @Override
@@ -113,14 +125,17 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 //        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
         task_recyclerViewAdapter = new Task_RecyclerViewAdapter(this,R.layout.list_task, list.getmListTasks(), this);
 
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(task_recyclerViewAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerViewTask);
+
 //        lvListTask.setAdapter(listTaskAdapter);
         recyclerViewTask.setAdapter(task_recyclerViewAdapter);
 
         Toast toast = Toast.makeText(ListTaskActivity.this, String.valueOf(list.getmListTasks().size()),Toast.LENGTH_SHORT );
         toast.show();
-
         initActionBar(list.getmName());
-
+        initLayoutTheme();
         addEvent();
     }
 
@@ -142,6 +157,17 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         //  getSupportActionBar().setDisplayShowTitleEnabled(false);
         //  TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
         // customTitle.setText(listName);
+    }
+
+    private void initLayoutTheme(){
+        themePosition = (list.getmTheme() == null) ? (-1) : list.getmTheme();
+        if(themePosition != -1)
+        {
+            layout.setBackgroundResource(srcThemes.get(themePosition));
+        }
+        else {
+            layout.setBackgroundResource(R.drawable.bg_default);
+        }
     }
 
     @Override
@@ -174,18 +200,31 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         final Dialog dialog = new Dialog(ListTaskActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_change_theme);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_changeTheme);
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
+        circleImageView = dialog.findViewById(R.id.profile_image);
 
-        nameThemes = new ArrayList<>();
-        srcThemes = new ArrayList<>();
-        addBackground();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(nameThemes, srcThemes,this);
         RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        if(themePosition != -1){
+            circleImageView.setImageResource(srcThemes.get(themePosition));
+            if(themePosition >= 2){
+                recyclerView.scrollToPosition(themePosition -2);
+            }
+            else{
+                recyclerView.scrollToPosition(themePosition);
+            }
+
+        }
+        else {
+            circleImageView.setImageResource(R.drawable.bg_default);
+        }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,15 +236,9 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.coordinator);
-                if(themePosition != -1)
-                {
-                    layout.setBackgroundResource(srcThemes.get(themePosition));
-                }
-                else {
-                    layout.setBackgroundResource(R.drawable.bg_default);
-                }
-
+                list.setmTheme(themePosition);
+                db.updateList(list);
+                initLayoutTheme();
                 dialog.dismiss();
             }
         });
@@ -218,6 +251,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_rename_list);
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_rename);
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_rename);
@@ -335,6 +369,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         final Dialog dialog = new Dialog(ListTaskActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_delete_list);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         final TextView txtName = dialog.findViewById(R.id.txtName_dialog_delete);
         Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_delete);
@@ -367,6 +402,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         dialog.setContentView(R.layout.dialog_add_list);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+
         final EditText txtName = dialog.findViewById(R.id.txtName_dialog_addList);
         final Button btnCancel = dialog.findViewById(R.id.btnCancel_dialog_addList);
         final Button btnSave = dialog.findViewById(R.id.btnSave_dialog_addList);

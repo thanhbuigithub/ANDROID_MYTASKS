@@ -24,15 +24,20 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.thefuntasty.hauler.DragDirection;
 import com.thefuntasty.hauler.HaulerView;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class TaskActivity extends AppCompatActivity {
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
+public class TaskActivity extends AppCompatActivity{
     DbHelper db;
     Task currentTask;
     TaskList currentTaskList;
+
 
     Toolbar toolbar;
     EditText edTaskName;
@@ -63,7 +68,7 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-//        haulerView = (HaulerView) findViewById(R.id.haulerView);
+        haulerView = (HaulerView) findViewById(R.id.haulerView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         edTaskName = (EditText) findViewById(R.id.edTaskName);
         cbDone = (CheckBox) findViewById(R.id.cbDone);
@@ -84,13 +89,13 @@ public class TaskActivity extends AppCompatActivity {
         btnCancelDeadline = (Button) findViewById(R.id.btnCancelDeadline);
         btnCancelRepeat = (Button) findViewById(R.id.btnCancelRepeat);
 
-//        haulerView.setOnDragListener(new View.OnDragListener() {
-//            @Override
-//            public boolean onDrag(View v, DragEvent event) {
-//                finish();
-//                return true;
-//            }
-//        });
+        haulerView.setOnDragDismissedListener(new Function1<DragDirection, Unit>() {
+            @Override
+            public Unit invoke(DragDirection dragDirection) {
+                finish();
+                return null;
+            }
+        });
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -459,5 +464,10 @@ public class TaskActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(this, code, myIntent,PendingIntent.FLAG_ONE_SHOT);
 
         manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
