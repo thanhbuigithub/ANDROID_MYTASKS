@@ -48,6 +48,8 @@ public class SignUp_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent GoBackIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+                Bundle bundle = new Bundle();
+                GoBackIntent.putExtras(bundle);
                 startActivity(GoBackIntent);
             }
         });
