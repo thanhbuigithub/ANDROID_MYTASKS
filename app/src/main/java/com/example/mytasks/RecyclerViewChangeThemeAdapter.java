@@ -17,16 +17,17 @@ import java.util.ArrayList;
 
 public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<RecyclerViewChangeThemeAdapter.ViewHolder>{
     private ArrayList<String> mColors = new ArrayList<>();
-    private ArrayList<Integer> mImageUrls = new ArrayList<>();
+    private ArrayList<Integer> ThemesUrls = new ArrayList<>();
+    private Integer mThemePicked;
     private Context mContext;
-    private DbHelper db;
 
     private int selectedPosition = -1;
 
-    public RecyclerViewChangeThemeAdapter(ArrayList<String> mColors, ArrayList<Integer> mImageUrls, Context mContext) {
+    public RecyclerViewChangeThemeAdapter(ArrayList<String> mColors, ArrayList<Integer> ThemesUrls, Context mContext, Integer mThemePicked) {
         this.mColors = mColors;
-        this.mImageUrls = mImageUrls;
+        this.ThemesUrls = ThemesUrls;
         this.mContext = mContext;
+        this.mThemePicked = mThemePicked;
     }
 
     @NonNull
@@ -46,7 +47,7 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
             holder.btnImage.setChecked(false);
         }
 
-        holder.btnImage.setButtonDrawable(mImageUrls.get(position));
+        holder.btnImage.setButtonDrawable(R.drawable.custom_checkbox_isimportant);
 
         holder.color.setText(mColors.get(position));
 
@@ -55,6 +56,7 @@ public class RecyclerViewChangeThemeAdapter extends RecyclerView.Adapter<Recycle
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(holder.btnImage.isChecked()) {
                     selectedPosition = holder.getAdapterPosition();
+                    mThemePicked = ThemesUrls.get(selectedPosition);
                     Toast.makeText(mContext, "Pick theme " + mColors.get(selectedPosition), Toast.LENGTH_SHORT).show();
                 }
             }

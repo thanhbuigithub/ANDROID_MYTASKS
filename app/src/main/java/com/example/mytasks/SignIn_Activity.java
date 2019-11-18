@@ -188,7 +188,7 @@ public class SignIn_Activity extends AppCompatActivity {
         else {
             Log.d(TAG, "Đăng nhập không thành công ! Thử lại");}
 
-            super.onStart();
+        super.onStart();
     }
     private void displayProgressDialog() {
         pDialog.setMessage("Logging In.. Please wait...");
@@ -199,6 +199,4 @@ public class SignIn_Activity extends AppCompatActivity {
     private void hideProgressDialog() {
         pDialog.dismiss();
     }
-
 }
-
