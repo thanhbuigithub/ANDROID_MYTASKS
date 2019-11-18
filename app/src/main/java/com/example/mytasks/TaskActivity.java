@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.thefuntasty.hauler.DragDirection;
 import com.thefuntasty.hauler.HaulerView;
@@ -39,7 +37,7 @@ public class TaskActivity extends AppCompatActivity{
     DbHelper db;
     Task currentTask;
     TaskList currentTaskList;
-
+    String mDbUser;
 
     Toolbar toolbar;
     EditText edTaskName;
@@ -103,8 +101,10 @@ public class TaskActivity extends AppCompatActivity{
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             taskID = bundle.getInt("taskID");
+            mDbUser = bundle.getString("mUser", MainActivity.mDatabaseUser);
         }
-        db = new DbHelper(this, MainActivity.mDatabaseUser);
+
+        db = new DbHelper(this, mDbUser);
         currentTask = db.getTask(taskID);
         currentTaskList = db.getList(currentTask.getmIDList());
 
@@ -455,11 +455,16 @@ public class TaskActivity extends AppCompatActivity{
         calendar.setTime(target);
         calendar.set(Calendar.SECOND,0);
 
-        Toast.makeText(this, String.valueOf(calendar.getTime()), Toast.LENGTH_SHORT).show();
+        int code = Integer.parseInt(currentTask.getmIDList().toString() + currentTask.getmID().toString());
 
 
-        myIntent = new Intent(TaskActivity.this,AlarmNotificationReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this,0,myIntent,0);
+        myIntent = new Intent(TaskActivity.this, AlarmReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("code", code);
+        bundle.putInt("taskID",currentTask.getmID());
+        bundle.putString("mUser", MainActivity.mDatabaseUser);
+        myIntent.putExtras(bundle);
+        pendingIntent = PendingIntent.getBroadcast(this, code, myIntent,PendingIntent.FLAG_ONE_SHOT);
 
         manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
