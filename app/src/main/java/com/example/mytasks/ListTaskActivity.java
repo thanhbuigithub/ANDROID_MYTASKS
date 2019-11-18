@@ -37,6 +37,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +54,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class ListTaskActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
     //    ListView lvListTask;
     RecyclerView recyclerViewTask;
-    TaskList list;
+    public static TaskList list;
     //    ListTaskAdapter listTaskAdapter;
     Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
@@ -65,6 +66,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     ArrayList<String> imageThemes;
     ArrayList<Integer> btnimageThemes;
     Integer Theme;
+    public static CoordinatorLayout mainLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +74,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         setContentView(R.layout.activity_list_tasks);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
+        mainLayout = findViewById(R.id.coordinator);
 
         db = new DbHelper(this, MainActivity.mDatabaseUser);
 //        lvListTask = (ListView) findViewById(R.id.lvListTask);
@@ -99,6 +103,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                 DialogAddList();
             }
         }
+
+
     }
 
     @Override
@@ -110,6 +116,10 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 
 //        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
         task_recyclerViewAdapter = new Task_RecyclerViewAdapter(this,R.layout.list_task, list.getmListTasks(), this);
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(task_recyclerViewAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerViewTask);
 
 //        lvListTask.setAdapter(listTaskAdapter);
         recyclerViewTask.setAdapter(task_recyclerViewAdapter);

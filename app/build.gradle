@@ -44,5 +44,6 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
     implementation("com.github.thefuntasty.hauler:library:2.0.0")
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
