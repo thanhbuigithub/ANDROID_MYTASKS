@@ -49,23 +49,32 @@ public class DbHelper extends SQLiteOpenHelper {
                 + DB_COLUMN_FILE + " integer, "
                 + DB_COLUMN_NOTE + " text, "
                 + DB_COLUMN_CREATEDTIME + " text)";
-        db.execSQL(script);
+        try {
+            db.execSQL(script);
+        } catch (Exception e) {Log.v("DB_CREATETABLE ", e.toString());}
+
 
         script = "CREATE TABLE IF NOT EXISTS " + DB_TABLE_LIST + " ( "
                 + DB_COLUMN_ID + " integer primary key, "
                 + DB_COLUMN_NAME + " text, "
                 + DB_COLUMN_ICON + " integer, "
                 + DB_COLUMN_THEME + " integer)";
-        db.execSQL(script);
+        try {
+            db.execSQL(script);
+        } catch (Exception e) {Log.v("DB_CREATETABLE ", e.toString());}
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String script = "DROP TABLE IF EXISTS " + DB_TABLE_TASK;
-        db.execSQL(script);
+        try {
+            db.execSQL(script);
+        } catch (Exception e) {Log.v("DB_DROPTABLE ", e.toString());}
 
         script = "DROP TABLE IF EXISTS " + DB_TABLE_LIST;
-        db.execSQL(script);
+        try {
+            db.execSQL(script);
+        } catch (Exception e) {Log.v("DB_DROPTABLE ", e.toString());}
 
         onCreate(db);
     }
@@ -76,8 +85,10 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_NAME, list.getmName());
         values.put(DB_COLUMN_ICON, list.getmIcon());
         values.put(DB_COLUMN_THEME, list.getmTheme());
-        db.insertWithOnConflict(DB_TABLE_LIST, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-        db.close();
+        try {
+            db.insertWithOnConflict(DB_TABLE_LIST, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            db.close();
+        } catch (Exception e) {Log.v("INSERT_NEW_LIST ", e.toString());}
     }
 
     public void insertNewTask(Task task) {
@@ -94,21 +105,27 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_NOTE, task.getmNote());
         values.put(DB_COLUMN_CREATEDTIME, task.getmCreatedTime());
         Log.d("INSERT NEW TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
-        db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-        db.close();
+        try {
+            db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            db.close();
+        } catch (Exception e) {Log.v("INSERT_NEW_TASK ", e.toString());}
     }
 
     public void deleteTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DB_TABLE_TASK, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
-        db.close();
+        try {
+            db.delete(DB_TABLE_TASK, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
+            db.close();
+        } catch (Exception e) {Log.v("DELETE_TASK ", e.toString());}
     }
 
     public void deleteList(TaskList list) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DB_TABLE_LIST, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
-        db.delete(DB_TABLE_TASK, DB_COLUMN_IDLIST + " = ?", new String[]{String.valueOf(list.getmID())});
-        db.close();
+        try {
+            db.delete(DB_TABLE_LIST, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
+            db.delete(DB_TABLE_TASK, DB_COLUMN_IDLIST + " = ?", new String[]{String.valueOf(list.getmID())});
+            db.close();
+        } catch (Exception e) {Log.v("DELETE_LIST ", e.toString());}
     }
 
     public ArrayList<TaskList> getAllList() {
@@ -157,7 +174,7 @@ public class DbHelper extends SQLiteOpenHelper {
             db.close();
         } catch (Exception e)
         {
-            Log.v("DB GETALLLIST ", e.toString());
+            Log.v("DB_GETALLLIST ", e.toString());
         }
         return allList;
     }
@@ -168,8 +185,10 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_NAME, list.getmName());
         values.put(DB_COLUMN_ICON, list.getmIcon());
         values.put(DB_COLUMN_THEME, list.getmTheme());
-        db.update(DB_TABLE_LIST, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
-        db.close();
+        try {
+            db.update(DB_TABLE_LIST, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
+            db.close();
+        } catch (Exception e) {Log.v("UPDATE_LIST ", e.toString());}
     }
 
     public void updateTask(Task task) {
@@ -184,91 +203,99 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DB_COLUMN_FILE, task.getmFile());
         values.put(DB_COLUMN_NOTE, task.getmNote());
         values.put(DB_COLUMN_CREATEDTIME, task.getmCreatedTime());
-        db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
-        db.close();
+        try {
+            db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
+            db.close();
+        } catch (Exception e) {Log.v("UPDATE_TASK ", e.toString());}
     }
 
     public TaskList getImportantList() {
         TaskList list = new TaskList();
         list.setmName("Quan Trọng");
         Task task = new Task();
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
-        Cursor cursorTask = db.rawQuery(selectQueryTask, null);
-        cursorTask.moveToPosition(-1);
-        while (cursorTask.moveToNext()) {
-            task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
-            task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
-            task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
-            task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-            task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
-            task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
-            task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
-            task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
-            task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
-            task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
-            list.getmListTasks().add(task);
-        }
-        db.close();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
+            Cursor cursorTask = db.rawQuery(selectQueryTask, null);
+            cursorTask.moveToPosition(-1);
+            while (cursorTask.moveToNext()) {
+                task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+                task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+                task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+                task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+                task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+                task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+                task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+                task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+                task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+                task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
+                list.getmListTasks().add(task);
+            }
+            db.close();
+        } catch (Exception e) {Log.v("GET_LIST_IMPORTANT ", e.toString());}
         return list;
     }
 
     public Task getTask(int ID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_ID + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(ID)});
         Task task = new Task();
-        cursor.moveToFirst();
-        task.setmID(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ID)));
-        task.setmName(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NAME)));
-        task.setmIsDone(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISDONE)));
-        task.setmIsImportant(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-        task.setmIDList(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_IDLIST)));
-        task.setmRemind(cursor.getString(cursor.getColumnIndex(DB_COLUMN_REMIND)));
-        task.setmDeadline(cursor.getString(cursor.getColumnIndex(DB_COLUMN_DEADLINE)));
-        task.setmRepeat(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_REPEAT)));
-        task.setmFile(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_FILE)));
-        task.setmNote(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NOTE)));
-        task.setmCreatedTime(cursor.getString(cursor.getColumnIndex(DB_COLUMN_CREATEDTIME)));
-        cursor.close();
-        db.close();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_ID + " = ?";
+            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(ID)});
+            cursor.moveToFirst();
+            task.setmID(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ID)));
+            task.setmName(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NAME)));
+            task.setmIsDone(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISDONE)));
+            task.setmIsImportant(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+            task.setmIDList(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_IDLIST)));
+            task.setmRemind(cursor.getString(cursor.getColumnIndex(DB_COLUMN_REMIND)));
+            task.setmDeadline(cursor.getString(cursor.getColumnIndex(DB_COLUMN_DEADLINE)));
+            task.setmRepeat(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_REPEAT)));
+            task.setmFile(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_FILE)));
+            task.setmNote(cursor.getString(cursor.getColumnIndex(DB_COLUMN_NOTE)));
+            task.setmCreatedTime(cursor.getString(cursor.getColumnIndex(DB_COLUMN_CREATEDTIME)));
+            cursor.close();
+            db.close();
+        } catch (Exception e) {Log.v("GET_TASK ", e.toString());}
         return task;
     }
 
     public TaskList getList(int ID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String queryList = "SELECT * FROM " + DB_TABLE_LIST + " WHERE " + DB_COLUMN_ID + " = ?";
-        String queryTask = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_IDLIST + " = ?";
-        Cursor cursorList = db.rawQuery(queryList, new String[]{String.valueOf(ID)});
-        Cursor cursorTask = db.rawQuery(queryTask, new String[]{String.valueOf(ID)});
         TaskList list = new TaskList();
         Task task = new Task();
-        Log.d("Cursor List: ",ID + " " +  cursorList.getColumnIndex(DB_COLUMN_ID));
-        cursorList.moveToFirst();
-        list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
-        list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
-        list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
-        list.setmTheme(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_THEME)));
-        cursorTask.moveToPosition(-1);
-        while (cursorTask.moveToNext()) {
-            task = new Task();
-            task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
-            task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
-            task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
-            task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
-            task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
-            task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
-            task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
-            task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
-            task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
-            task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
-            task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String queryList = "SELECT * FROM " + DB_TABLE_LIST + " WHERE " + DB_COLUMN_ID + " = ?";
+            String queryTask = "SELECT * FROM " + DB_TABLE_TASK + " WHERE " + DB_COLUMN_IDLIST + " = ?";
+            Cursor cursorList = db.rawQuery(queryList, new String[]{String.valueOf(ID)});
+            Cursor cursorTask = db.rawQuery(queryTask, new String[]{String.valueOf(ID)});
+            Log.d("Cursor List: ",ID + " " +  cursorList.getColumnIndex(DB_COLUMN_ID));
+            cursorList.moveToFirst();
+            list.setmID(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ID)));
+            list.setmName(cursorList.getString(cursorList.getColumnIndex(DB_COLUMN_NAME)));
+            list.setmIcon(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_ICON)));
+            list.setmTheme(cursorList.getInt(cursorList.getColumnIndex(DB_COLUMN_THEME)));
+            cursorTask.moveToPosition(-1);
+            while (cursorTask.moveToNext()) {
+                task = new Task();
+                task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+                task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+                task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+                task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+                task.setmIDList(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_IDLIST)));
+                task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+                task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+                task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+                task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+                task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+                task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
 
-            list.getmListTasks().add(task);
-        }
-        cursorList.close();
-        cursorTask.close();
-        db.close();
+                list.getmListTasks().add(task);
+            }
+            cursorList.close();
+            cursorTask.close();
+            db.close();
+        } catch (Exception e) {Log.v("GET_LIST ", e.toString());}
         return list;
     }
 }
