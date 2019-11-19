@@ -113,11 +113,12 @@ public class MainActivity extends AppCompatActivity {
         planList.setmName("Đã lên kế hoạch");
         planList.setmID(3);
         planList.setmIcon(27);
-//        TaskList todayList = new TaskList();
-//        todayList.setmName("Công việc hôm nay");
-//        todayList.setmID(1);
-//        todayList.setmIcon(R.drawable.checked_important);
+        TaskList todayList = new TaskList();
+        todayList.setmName("Ngày hôm nay");
+        todayList.setmID(1);
+        todayList.setmIcon(9);
 
+        mainSpec.add(todayList);
         mainSpec.add(importantList);
         mainSpec.add(planList);
 

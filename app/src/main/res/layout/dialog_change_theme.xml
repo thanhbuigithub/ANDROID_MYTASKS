@@ -48,13 +48,13 @@
             android:layout_height="wrap_content"
             android:text="CANCEL"
             android:textSize="15sp"
-            android:background="@drawable/button_background"
-            android:textColor="@color/colorWhite"/>
+            android:background="@color/transparent"
+            android:textColor="#ffffff"/>
         <Button
             android:layout_marginLeft="15dp"
             android:id="@+id/btnSave_dialog_changeTheme"
             android:text="SAVE"
-            android:textColor="@color/colorBlue"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

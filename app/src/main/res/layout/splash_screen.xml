@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_splash_background">
+    android:background="#f3f4f6">
 
     <ImageView
         android:id="@+id/splash_logo"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo_splash"
+        android:src="@drawable/ic_splash"
         />
 
     <TextView
@@ -20,10 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="MY TASK"
+        android:text="MY TASKS"
         android:textAlignment="center"
         android:textStyle="bold"
         android:textSize="30dp"
         android:layout_below="@id/splash_logo"
-        android:textColor="@color/colorWhite"/>
+        android:textColor="@color/colorLightGray"/>
 </RelativeLayout>

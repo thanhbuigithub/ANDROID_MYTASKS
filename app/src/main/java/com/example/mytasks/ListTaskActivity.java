@@ -312,7 +312,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                     btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
                     btnSave.setEnabled(false);
                 } else {
-                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setTextColor(Color.parseColor("#ffffff"));
                     btnSave.setEnabled(true);
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -501,7 +501,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                     btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
                     btnSave.setEnabled(false);
                 } else {
-                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setTextColor(Color.parseColor("#ffffff"));
                     btnSave.setEnabled(true);
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override

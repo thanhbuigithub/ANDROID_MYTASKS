@@ -376,6 +376,9 @@ public class DbHelper extends SQLiteOpenHelper {
         TaskList list = new TaskList();
         try {
             switch (ID) {
+                case 1:
+                    list = getTodayList();
+                    break;
                 case 2:
                     list = getImportantList();
                     break;

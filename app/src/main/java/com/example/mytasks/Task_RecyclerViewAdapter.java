@@ -58,6 +58,13 @@ public class Task_RecyclerViewAdapter extends RecyclerView.Adapter<Task_ViewHold
         mainHolder.tvTask.setText(task.getmName());
         mainHolder.cbDone.setChecked(task.getmIsDone() == 1);
         mainHolder.cbImportant.setChecked(task.getmIsImportant() == 1);
+        if(task.getmDeadline() != null && !task.getmDeadline().equals(""))
+        {
+            mainHolder.tvDeadline.setVisibility(View.VISIBLE);
+            mainHolder.tvDeadline.setText(DateTimeHelper.FromDbToDisplay(task.getmDeadline()));
+        } else {
+            mainHolder.tvDeadline.setVisibility(View.GONE);
+        }
         Log.d("TASK: ", task.getmName() + " " + task.getmIsDone() + " " + task.getmIsImportant());
         if (task.getmIsDone() == 1) {
             mainHolder.tvTask.setTextColor(Color.GRAY);
