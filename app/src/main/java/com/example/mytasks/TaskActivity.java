@@ -241,6 +241,8 @@ public class TaskActivity extends AppCompatActivity{
             }
         }
 
+        onDeadlineReset();
+
         //Created Time
         if (!currentTask.getmCreatedTime().equals(""))
             txtCreatedTime.setText("Đã tạo lúc " + DateTimeHelper.FromDbToDisplay(currentTask.getmCreatedTime()));
@@ -283,6 +285,7 @@ public class TaskActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 showDateTimePicker(txtDeadline);
+
             }
         });
         btnRepeat.setOnClickListener(new View.OnClickListener() {
@@ -377,6 +380,7 @@ public class TaskActivity extends AppCompatActivity{
                     currentTask.setmDeadline(datetime);
                     txtDeadline.setText("Đến hạn lúc " + DateTimeHelper.FromDbToDisplay(datetime));
                     onDateSetted(txtDeadline, btnCancelDeadline);
+                    onDeadlineReset();
                 }
             }
 
@@ -434,15 +438,21 @@ public class TaskActivity extends AppCompatActivity{
 
 
     public void onDateSetted(TextView textView, Button btnCancel) {
-        textView.setTextColor(Color.BLUE);
+        textView.setTextColor(getResources().getColor(R.color.colorBlueLight));
         textView.setTextSize(14);
         btnCancel.setVisibility(View.VISIBLE);
     }
 
     public void onCancelDateSetted(TextView textView, Button btnCancel) {
-        textView.setTextColor(Color.BLACK);
+        textView.setTextColor(Color.WHITE);
         textView.setTextSize(16);
         btnCancel.setVisibility(View.INVISIBLE);
+    }
+
+    public void onDeadlineReset() {
+        if (!currentTask.getmDeadline().equals("") && DateTimeHelper.DatePassed(DateTimeHelper.FromDbToDate(currentTask.getmDeadline()))) {
+            txtDeadline.setTextColor(Color.RED);
+        }
     }
 
     private void startAlarm(Date target) {
