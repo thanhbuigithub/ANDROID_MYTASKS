@@ -12,12 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/colorBlack"
 
         android:id="@+id/cvExpand">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/colorBlack">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +59,7 @@
                             android:fontFamily="@font/robotocondensed_regular"
                             android:text="TÊN"
                             android:textSize="18sp"
-                            android:textColor="#000000"/>
+                            android:textColor="#ffffff"/>
 
 
                         <TextView
@@ -67,7 +69,7 @@
                             android:fontFamily="@font/roboto_lightitalic"
                             android:text="EMAIL"
                             android:textSize="12sp"
-                            android:textColor="#000000"/>
+                            android:textColor="#ffffff"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -96,7 +98,7 @@
                 android:orientation="vertical"
                 android:visibility="gone"
                 android:padding="5dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorBlack">
                 <Button
                     android:visibility="gone"
                     android:background="@color/colorGrey"
@@ -107,8 +109,8 @@
 
                 <Button
                     android:id="@+id/btLogout"
-                    android:background="@color/colorGrey"
-                    android:textColor="@color/colorBlack"
+                    android:background="@drawable/button_rectangle"
+                    android:textColor="#ffffff"
                     android:layout_width="match_parent"
                     android:layout_marginTop="4dp"
                     android:text="Đăng xuất"
