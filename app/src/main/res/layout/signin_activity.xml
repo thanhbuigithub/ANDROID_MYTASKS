@@ -9,9 +9,6 @@
     <include
         layout="@layout/signin_layout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -11,15 +11,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ListTaskActivity">
 
-    <!--    <include-->
-    <!--        layout="@layout/toolbar_list_tasks"-->
-    <!--        android:fitsSystemWindows="true" />-->
-    <!--    <ImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/nezuko"/>-->
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -40,9 +31,7 @@
             app:expandedTitleMarginStart="20dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@style/Collapsing.TitleText">
-            <!--  Your View that you want to hide on animation -->
 
-            <!-- Your toolbar should always below your View otherwise it won't be visible  -->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -53,18 +42,6 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <!--        <ListView-->
-    <!--            android:id="@+id/lvListTask"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_marginLeft="5dp"-->
-    <!--            android:layout_marginRight="5dp"-->
-    <!--            android:childDivider="@null"-->
-    <!--            android:divider="@null"-->
-    <!--            android:dividerHeight="5dp"-->
-    <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    <!--            />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

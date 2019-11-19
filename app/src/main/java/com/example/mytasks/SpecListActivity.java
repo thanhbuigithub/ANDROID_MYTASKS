@@ -1,5 +1,6 @@
 package com.example.mytasks;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -58,10 +59,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SpecListActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
-    //    ListView lvListTask;
     RecyclerView recyclerViewTask;
     public static TaskList list;
-    //    ListTaskAdapter listTaskAdapter;
     Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
     int listID;
@@ -70,6 +69,7 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
 
     public static CoordinatorLayout layout;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +86,8 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
         recyclerViewTask = findViewById(R.id.recyclerView_Task);
         recyclerViewTask.setHasFixedSize(true);
         recyclerViewTask.setLayoutManager(new LinearLayoutManager(SpecListActivity.this));
+        FloatingActionButton fabListTask = (FloatingActionButton) findViewById(R.id.fabListTask);
+        fabListTask.setVisibility(View.GONE);
 
         list = new TaskList();
 
@@ -101,19 +103,26 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
             list = db.getSpecList(listID);
         }
 
-//        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
         task_recyclerViewAdapter = new Task_RecyclerViewAdapter(this,R.layout.list_task, list.getmListTasks(), this);
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewTask);
         task_recyclerViewAdapter.notifyDataSetChanged();
-//        lvListTask.setAdapter(listTaskAdapter);
         recyclerViewTask.setAdapter(task_recyclerViewAdapter);
 
-//        Toast toast = Toast.makeText(ListTaskActivity.this, String.valueOf(list.getmListTasks().size()),Toast.LENGTH_SHORT );
-//        toast.show();
         initActionBar(list.getmName());
         layout.setBackgroundResource(list.getmTheme());
         addEvent();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default: break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void addEvent() {
@@ -126,9 +135,6 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(listName);
-        //  getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //  TextView customTitle = (TextView) findViewById(R.id.toolbar_lt_txt);
-        // customTitle.setText(listName);
     }
 
     @Override
