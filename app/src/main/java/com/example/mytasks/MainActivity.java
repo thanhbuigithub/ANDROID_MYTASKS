@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             String mName = dbName.getName(bundle.getString("username", ""));
             tvName.setText(mName);
             tvEmail.setText(bundle.getString("username", ""));
+            mDatabaseUser = bundle.getString("username", "");
             }
     }
 
