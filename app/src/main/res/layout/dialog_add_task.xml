@@ -11,6 +11,7 @@
         android:hint="Task Name"
         android:id="@+id/txtName_dialog_addTask"
         style="@style/MyEditTextStyle"
+        android:background="@drawable/edittext_dialog"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
             android:id="@+id/btnCancel_dialog_addTask"
             android:text="CANCEL"
             android:textSize="15sp"
-            android:background="@drawable/button_background"
-            android:textColor="@color/colorWhite"
+            android:background="@color/transparent"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -32,7 +33,7 @@
             android:text="SAVE"
             android:textSize="15sp"
             android:background="@drawable/button_background"
-            android:textColor="@color/colorBlue"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

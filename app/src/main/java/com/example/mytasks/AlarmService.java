@@ -32,13 +32,13 @@ public class AlarmService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, "created", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "created", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Toast.makeText(this, "handle", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "handle", Toast.LENGTH_SHORT).show();
 
         Intent targetIntent = new Intent(this, TaskActivity.class);
         Bundle bundle = intent.getExtras();
@@ -82,6 +82,6 @@ public class AlarmService extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "destroyed", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "destroyed", Toast.LENGTH_SHORT).show();
     }
 }

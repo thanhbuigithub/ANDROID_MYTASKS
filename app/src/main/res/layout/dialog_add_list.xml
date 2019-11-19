@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:hint="List Name"
+            android:background="@drawable/edittext_dialog"
             android:id="@+id/txtName_dialog_addList"
             style="@style/MyEditTextStyle"
             />
@@ -62,7 +63,7 @@
             android:text="CANCEL"
             android:textSize="15sp"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/button_background"
+            android:background="#1b1b1b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -70,7 +71,7 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/btnSave_dialog_addList"
             android:text="SAVE"
-            android:textColor="@color/colorBlue"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:background="@drawable/button_background"
             android:layout_width="wrap_content"

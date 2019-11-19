@@ -46,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -135,10 +136,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 //        listTaskAdapter = new ListTaskAdapter(ListTaskActivity.this,R.layout.list_task,list.getmListTasks());
         task_recyclerViewAdapter = new Task_RecyclerViewAdapter(this,R.layout.list_task, list.getmListTasks(), this);
 
-        ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteCallback(task_recyclerViewAdapter));
-        itemTouchHelper.attachToRecyclerView(recyclerViewTask);
-
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewTask);
+        task_recyclerViewAdapter.notifyDataSetChanged();
 //        lvListTask.setAdapter(listTaskAdapter);
         recyclerViewTask.setAdapter(task_recyclerViewAdapter);
 
@@ -216,6 +215,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
         circleImageView = dialog.findViewById(R.id.profile_image);
 
+        final Integer backupThemePosition = themePosition;
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(nameThemes, srcThemes,this);
         RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
@@ -230,7 +231,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             else{
                 recyclerView.scrollToPosition(themePosition);
             }
-
         }
         else {
             circleImageView.setImageResource(R.drawable.bg_default);
@@ -239,6 +239,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                themePosition = backupThemePosition;
+                layout.setBackgroundResource(srcThemes.get(themePosition));
                 dialog.dismiss();
             }
         });
@@ -310,7 +312,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                     btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
                     btnSave.setEnabled(false);
                 } else {
-                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setTextColor(Color.parseColor("#ffffff"));
                     btnSave.setEnabled(true);
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -499,7 +501,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
                     btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorGrey));
                     btnSave.setEnabled(false);
                 } else {
-                    btnSave.setTextColor(getApplication().getResources().getColor(R.color.colorBlue));
+                    btnSave.setTextColor(Color.parseColor("#ffffff"));
                     btnSave.setEnabled(true);
                     btnSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -553,6 +555,12 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         srcThemes.add(R.drawable.bg_london);
         nameThemes.add("London");
 
+        srcThemes.add(R.drawable.bg_nature);
+        nameThemes.add("Nature");
+
+        srcThemes.add(R.drawable.bg_sun);
+        nameThemes.add("Sun");
+
         srcThemes.add(R.drawable.bg_couple);
         nameThemes.add("Couple");
 
@@ -562,12 +570,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         srcThemes.add(R.drawable.bg_lol);
         nameThemes.add("LoL");
 
-        srcThemes.add(R.drawable.bg_nature);
-        nameThemes.add("Nature");
-
-        srcThemes.add(R.drawable.bg_sun);
-        nameThemes.add("Sun");
-
         srcThemes.add(R.drawable.bg_avengers);
         nameThemes.add("Avengers");
     }
@@ -575,9 +577,51 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     @Override
     protected void onResume() {
         super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT);
         if (listID != 0) {
             list = db.getList(listID);
             recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(ListTaskActivity.this, R.layout.list_task, list.getmListTasks(), ListTaskActivity.this));
         }
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            deleteItem(viewHolder);
+        }
+    };
+
+    private void deleteItem(RecyclerView.ViewHolder viewHolder) {
+        Task mRecentlyDeletedItem = new Task();
+        mRecentlyDeletedItem = list.getmListTasks().get(viewHolder.getAdapterPosition());
+        db.deleteTask(list.getmListTasks().get(viewHolder.getAdapterPosition()));
+        list.getmListTasks().remove(viewHolder.getAdapterPosition());
+        recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(ListTaskActivity.this,R.layout.list_task, list.getmListTasks(), ListTaskActivity.this));
+        showUndoSnackbar(viewHolder, mRecentlyDeletedItem);
+    }
+
+    private void showUndoSnackbar(final RecyclerView.ViewHolder viewHolder, final Task mRecentlyDeletedItem) {
+        View view = layout;
+        Snackbar snackbar = Snackbar.make(view, R.string.snack_bar_text,
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.snack_bar_undo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undoDelete(viewHolder,mRecentlyDeletedItem);
+            }
+        });
+        snackbar.show();
+    }
+
+    private void undoDelete(RecyclerView.ViewHolder viewHolder, Task mRecentlyDeletedItem) {
+        db.insertNewTask(mRecentlyDeletedItem);
+        ListTaskActivity.list = db.getList(ListTaskActivity.list.getmID());
+        recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(ListTaskActivity.this,R.layout.list_task, list.getmListTasks(), ListTaskActivity.this));
+    }
+
 }

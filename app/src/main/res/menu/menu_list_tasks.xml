@@ -18,7 +18,7 @@
                 />
 
             <item
-                android:icon="@drawable/ic_delete"
+                android:icon="@drawable/icon_changetheme"
                 android:id="@+id/menu_list_task_ChangeTheme"
                 android:title="Change theme"/>
 

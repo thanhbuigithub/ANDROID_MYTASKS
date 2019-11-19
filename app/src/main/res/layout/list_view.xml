@@ -3,14 +3,14 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
     style="@style/SelectableItemBackground"
-    android:paddingStart="16dp">
+    android:padding="10dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/list"
         android:id="@+id/imgMainList"/>
 

@@ -11,15 +11,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ListTaskActivity">
 
-<!--    <include-->
-<!--        layout="@layout/toolbar_list_tasks"-->
-<!--        android:fitsSystemWindows="true" />-->
-<!--    <ImageView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@drawable/nezuko"/>-->
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -54,30 +45,14 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--        <ListView-->
-<!--            android:id="@+id/lvListTask"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:childDivider="@null"-->
-<!--            android:divider="@null"-->
-<!--            android:dividerHeight="5dp"-->
-<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-<!--            />-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/recyclerView_Task"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
-
-
-
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabListTask"

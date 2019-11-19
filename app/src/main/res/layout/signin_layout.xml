@@ -27,7 +27,7 @@
         android:layout_below="@+id/layout_password"
         android:padding="5dp"
         android:text="Remember me"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textColor="@color/colorWhite" />
 
     <Button
@@ -61,7 +61,7 @@
         android:visibility="gone"
         android:id="@+id/sign_in_button"
         android:layout_below="@+id/text_welcome2"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         />
@@ -100,7 +100,7 @@
         android:textColor="@color/colorWhite"
         android:gravity="center"
         android:padding="3dp"
-        android:background="@drawable/text_rectangle"
+        android:background="@drawable/button_rectangle"
         android:textStyle="bold"
         android:textSize="15sp"/>
 
@@ -127,16 +127,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edittext"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:textColorHint="#A5A5A5">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:drawableLeft="@drawable/ic_action_name"
+                android:drawableEnd="@drawable/ic_action_name"
                 android:background="@android:color/transparent"
                 android:hint="Username"
+                android:textColorHint="@color/colorWhite"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -166,16 +168,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edittext"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:textColorHint="#A5A5A5">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:drawableLeft="@drawable/ic_action_pass"
+                android:drawableEnd="@drawable/ic_action_pass"
                 android:background="@android:color/transparent"
                 android:hint="Password"
+                android:textColorHint="@color/colorWhite"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>

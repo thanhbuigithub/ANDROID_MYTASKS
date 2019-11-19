@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@drawable/image_backgroud_signup">
+    android:background="@color/colorDarkGray"
+    >
 
     <TextView
         android:id="@+id/text_title"
@@ -13,7 +14,7 @@
         android:text="Tạo tài khoản"
         android:textColor="@color/colorWhite"
         android:textSize="45dp"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="80sp"
         android:textStyle="bold" />
 
     <EditText
@@ -52,7 +53,11 @@
         android:layout_marginTop="35dp"
         android:hint="Tên đăng nhập"
         android:paddingHorizontal="10dp"
+<<<<<<< HEAD
         android:inputType="textPersonName"
+=======
+        android:inputType="text"
+>>>>>>> 1adfc2182682091b0080e490d5eddb68db453a2f
         android:textColor="@color/colorBlack" />
 
     <TextView
@@ -119,7 +124,7 @@
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="260dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
@@ -129,8 +134,12 @@
         android:textColor="#ffffff"
         android:textSize="20sp" />
 <!--    <TextView-->
+<<<<<<< HEAD
 <!--        android:visibility="gone"-->
 <!--        android:id="@+id/text_backMain"-->
+=======
+<!--        android:id="@+id/text_back"-->
+>>>>>>> 1adfc2182682091b0080e490d5eddb68db453a2f
 <!--        android:layout_width="80dp"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_below="@+id/btn_signup"-->
@@ -143,6 +152,7 @@
 <!--        android:padding="5dp"-->
 <!--        android:background="@drawable/text_rectangle"-->
 <!--        android:textStyle="bold" />-->
+<<<<<<< HEAD
 
     <TextView
         android:id="@+id/text_back"
@@ -167,32 +177,43 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorWhite"
         />
+=======
+<!--    <View-->
+<!--        android:id="@+id/rule"-->
+<!--        android:layout_width="280dp"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_below="@id/btn_signup"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:background="@color/colorWhite"-->
+<!--        />-->
+>>>>>>> 1adfc2182682091b0080e490d5eddb68db453a2f
 
-    <TextView
-        android:id="@+id/text_foot"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rule"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Xin mời đăng nhập vào hệ thống"
-        android:textColor="@color/colorWhite"
-        android:textSize="15sp" />
+<!--    <TextView-->
+<!--        android:id="@+id/text_foot"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/rule"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Xin mời đăng nhập vào hệ thống"-->
+<!--        android:textColor="@color/colorWhite"-->
+<!--        android:textSize="15sp" />-->
 
-    <TextView
-        android:id="@+id/text_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_foot"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/sign_in"
-        android:textColor="@color/colorBlue"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:padding="5dp"
-        android:background="@drawable/text_rectangle"/>
+<!--    <TextView-->
+<!--        android:id="@+id/text_login"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/text_foot"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:text="@string/sign_in"-->
+<!--        android:textColor="@color/colorBlue"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:padding="5dp"-->
+<!--        android:background="@drawable/text_rectangle"/>-->
 
 </RelativeLayout>
