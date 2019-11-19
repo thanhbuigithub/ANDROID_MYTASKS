@@ -5,12 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final int DB_VER = 1;
@@ -207,6 +209,39 @@ public class DbHelper extends SQLiteOpenHelper {
             db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
             db.close();
         } catch (Exception e) {Log.v("UPDATE_TASK ", e.toString());}
+    }
+
+    public TaskList getTodayList() {
+        TaskList list = new TaskList();
+        list.setmName("Ngày hôm nay");
+        list.setmIcon(9);
+        list.setmID(1);
+        list.setmTheme(R.drawable.bg_avengers);
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
+            Cursor cursorTask = db.rawQuery(selectQueryTask, null);
+            cursorTask.moveToPosition(-1);
+            while (cursorTask.moveToNext()) {
+                Task task = new Task();
+                task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+                task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+                task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+                task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+                task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+                task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+                task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+                task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+                task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+                task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
+
+                if(!task.getmDeadline().equals("") && DateUtils.isToday(DateTimeHelper.FromDbToDate(task.getmDeadline()).getTime())) {
+                    list.getmListTasks().add(task);
+                }
+            }
+            db.close();
+        } catch (Exception e) {Log.v("GET_LIST_TODAY ", e.toString());}
+        return list;
     }
 
     public TaskList getImportantList() {
