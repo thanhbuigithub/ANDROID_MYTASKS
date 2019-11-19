@@ -76,11 +76,11 @@ public class SignUp_Activity extends AppCompatActivity {
                     else if(mpass.isEmpty()){
                         mTextPassword.setError("Mật khẩu không được bỏ trống");
                     }
-                    else if (mpassagain.isEmpty()) {
+                    else {
                         mTextPassAgain.setError("Xác nhận lại mật khẩu");
                     }
                 }
-                else if(db.checkAccount(mname))
+                else if(db.checkAccount(muser) || db.checkUser(mname,mpass))
                 {
                     Toast.makeText(SignUp_Activity.this,"Tài khoản đã tồn tại ! Thử lại",Toast.LENGTH_SHORT).show();
                 }
@@ -98,20 +98,21 @@ public class SignUp_Activity extends AppCompatActivity {
                 else {
                     Toast.makeText(SignUp_Activity.this,"Mật khẩu không trùng khớp ! Thử lại",Toast.LENGTH_SHORT).show();
                 }
+
+                mTextViewLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("password", mTextPassword.getText().toString());
+                        bundle.putString("username",mTextUsername.getText().toString());
+                        SignInIntent.putExtras(bundle);
+                        startActivity(SignInIntent);
+                    }
+                });
             }
         });
 
-        mTextViewLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("LoginWithGG", false);
-                bundle.putString("username",mTextUsername.getText().toString());
-                bundle.putString("password", mTextPassword.getText().toString());
-                SignInIntent.putExtras(bundle);
-                startActivity(SignInIntent);
-            }
-        });
+
     }
 }

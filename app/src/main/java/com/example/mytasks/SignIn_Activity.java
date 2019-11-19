@@ -34,16 +34,10 @@ public class SignIn_Activity extends AppCompatActivity {
     boolean bSaveLogin;
     SharedPreferences spLogin;
     SharedPreferences.Editor spEditorLogin;
-    EditText edName, edPass;
+    EditText edUserName, edPass;
     Button btnLogin;
     Database_User db;
 
-    private static final String TAG = "SignIn_Activity";
-    int RC_SIGN_IN = 9001;
-    SignInButton signInButton;
-    GoogleSignInClient mGoogleSignInClient;
-
-    ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,86 +49,86 @@ public class SignIn_Activity extends AppCompatActivity {
         tvIntro_02 = (TextView) findViewById(R.id.text_welcome2);
         tvIntro_03 = (TextView) findViewById(R.id.text_welcome3);
         tvRegister = (TextView) findViewById(R.id.text_register);
-        edName = (EditText) findViewById(R.id.edit_username);
+        edUserName = (EditText) findViewById(R.id.edit_username);
         edPass = (EditText) findViewById(R.id.edit_password);
         btnLogin = (Button) findViewById(R.id.btn_signin);
         cbSaveLogin = (CheckBox) findViewById(R.id.checkBox);
-        signInButton = findViewById(R.id.sign_in_button);
-        pDialog = new ProgressDialog(SignIn_Activity.this);
 
-        //Remember me
         spLogin = getSharedPreferences("loginPrefs", MODE_PRIVATE);
         spEditorLogin = spLogin.edit();
         bSaveLogin = spLogin.getBoolean("saveLogin", false);
 
-        //Nhận intent từ login
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        //Remember me
+        rememberMe();
 
-        if (bundle!=null) {
-            spEditorLogin.clear();
-            spEditorLogin.commit();
-            edName.setText(bundle.getString("username", ""));
-            edPass.setText(bundle.getString("password", ""));
-        }
-        else {
-            spEditorLogin.putBoolean("saveLogin", false);
-            spEditorLogin.commit();
-        }
+        //Nhận intent
+        getIntentSignIn();
 
-        bSaveLogin = spLogin.getBoolean("saveLogin", false);
+        //Sign in database
+        signIn();
+
+        // Click sign in database
+        addEventSignIn();
+
+    }
+
+    private void rememberMe(){
 
         if (bSaveLogin) {
 
-            edName.setText(spLogin.getString("username", ""));
+            edUserName.setText(spLogin.getString("username", ""));
             edPass.setText(spLogin.getString("password", ""));
             cbSaveLogin.setChecked(true);
             Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
-            Bundle mbundle = new Bundle();
-            mbundle.putBoolean("LoginWithGG", false);
-            mbundle.putString("username",edName.getText().toString());
-            mbundle.putString("password",edPass.getText().toString());
-            SignInIntent.putExtras(mbundle);
+            Bundle bundle1 = new Bundle();
+            bundle1.putBoolean("LoginWithGG", false);
+            bundle1.putString("username",edUserName.getText().toString());
+            SignInIntent.putExtras(bundle1);
             startActivity(SignInIntent);
         }
+    }
+    private void getIntentSignIn(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle!=null) {
+            spEditorLogin.clear();
+            spEditorLogin.apply();
+            edUserName.setText(bundle.getString("username", ""));
+            edPass.setText(bundle.getString("password", ""));
+        }
+    }
 
-
-        //Sign in Google
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
-
+    private void signIn(){
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent registerIntent = new Intent(SignIn_Activity.this, SignUp_Activity.class);
+                edUserName.setText(spLogin.getString("username", ""));
+                edPass.setText(spLogin.getString("password", ""));
+                cbSaveLogin.setChecked(false);
+                spEditorLogin.putBoolean("saveLogin", false);
+                spEditorLogin.putString("username", edUserName.getText().toString());
+                spEditorLogin.putString("password", edPass.getText().toString());
+                spEditorLogin.apply();
                 startActivity(registerIntent);
             }
         });
-
-
+    }
+    private void addEventSignIn(){
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 InputMethodManager mInput = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mInput.hideSoftInputFromWindow(edName.getWindowToken(), 0);
-
-                String mName = edName.getText().toString();
+                assert mInput != null;
+                mInput.hideSoftInputFromWindow(edUserName.getWindowToken(), 0);
+                String mUserName = edUserName.getText().toString();
                 String mPass = edPass.getText().toString();
-                boolean mres = db.checkUser(mName,mPass);
+                boolean mres = db.checkUser(mUserName,mPass);
 
                 if (cbSaveLogin.isChecked()) {
                     spEditorLogin.putBoolean("saveLogin", true);
-                    spEditorLogin.putString("username", mName);
+                    spEditorLogin.putString("username", mUserName);
                     spEditorLogin.putString("password", mPass);
                     spEditorLogin.commit();
                 } else {
@@ -144,78 +138,20 @@ public class SignIn_Activity extends AppCompatActivity {
                 if (mres) {
                     Toast.makeText(SignIn_Activity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     Intent SignInIntent = new Intent(SignIn_Activity.this, MainActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("LoginWithGG", false);
-                    bundle.putString("username",mName);
-                    bundle.putString("password",mPass);
+                    Bundle bundle =new Bundle();
+                    bundle.putString("username",mUserName);
                     SignInIntent.putExtras(bundle);
                     startActivity(SignInIntent);
-                } else if(mName.isEmpty() || mPass.isEmpty())
-                    {
-                    if (mName.isEmpty()) {
-                        edName.setError("Tên đăng nhập không được bỏ trống");
-                    } else if (mPass.isEmpty()) edPass.setError("Mật khẩu không được bỏ trống");
+                } else if(mUserName.isEmpty() || mPass.isEmpty())
+                {
+                    if (mUserName.isEmpty()) {
+                        edUserName.setError("Tên đăng nhập không được bỏ trống");
+                    } else edPass.setError("Mật khẩu không được bỏ trống");
                 }
                 else {
                     Toast.makeText(SignIn_Activity.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private void signIn() {
-        displayProgressDialog();
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-            } catch (ApiException e) {
-                // Google Sign In failed
-                Log.w(TAG, "Google sign in failed", e);
-                // ...
-            }
-            handleSignInResult(task);
-        }
-    }
-
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
-        } catch (ApiException e) {
-
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(SignIn_Activity.this, "Failed", Toast.LENGTH_LONG).show();
-        }
-        hideProgressDialog();
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null) {
-            Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
-        }
-        else {
-            Log.d(TAG, "Đăng nhập không thành công ! Thử lại");}
-    }
-    private void displayProgressDialog() {
-        pDialog.setMessage("Logging In.. Please wait...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
-    private void hideProgressDialog() {
-        pDialog.dismiss();
     }
 }

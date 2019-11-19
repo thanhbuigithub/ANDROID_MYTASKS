@@ -1,9 +1,11 @@
 package com.example.mytasks;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
+import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +14,8 @@ import android.net.Uri;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -39,66 +45,32 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    GoogleSignInClient mGoogleSignInClient;
     ImageView imView;
     TextView tvName,tvEmail;
     ListView lvMainSpec, lvMainList;
+    LinearLayout lExpandableView;
+    Button bExpandMore;
+    CardView cvCardView;
+    Button btLogout;
     public static ArrayList<Integer> srcIcons;
-
-
-    // kiem tra luong login
-    boolean sCheckLogin;
-
+    Database_User dbName;
+    DbHelper db;
     ArrayList<TaskList> mainList, mainSpec;
     FloatingActionButton btnAdd;
     MainListView mainListAdapter;
     MainListView specListAdapter;
-    DbHelper db;
 
     public static String mDatabaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbName = new Database_User(this);
+
         addIcon();
-        imView = findViewById(R.id.imageView);
-        tvName = findViewById(R.id.Name);
-        tvEmail = findViewById(R.id.Email);
-
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
-
-        if (acct != null) {
-            String personName = acct.getDisplayName();
-            String personEmail = acct.getEmail();
-            mDatabaseUser = personEmail;
-            //String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
-
-            Glide.with(this).load(personPhoto).into(imView);
-            tvName.setText(personName);
-            tvEmail.setText(personEmail);
-
-        }
-        else {
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-
-            if (bundle!=null) {
-                boolean mCheck = bundle.getBoolean("LoginWithGG", false);
-                mDatabaseUser = bundle.getString("username", "");
-                if (!mCheck) {
-                    tvName.setText(bundle.getString("username", ""));
-                    tvEmail.setText(bundle.getString("password", ""));
-                }
-            }
-        }
-
-
+        getInfor();
+        showDepart();
+        logOut();
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
         specListAdapter = new MainListView(this, R.layout.list_view, mainSpec);
@@ -191,5 +163,53 @@ public class MainActivity extends AppCompatActivity {
         srcIcons.add(R.drawable.icon_24);
         srcIcons.add(R.drawable.icon_25);
     }
+    private void getInfor() {
+        imView = findViewById(R.id.imageView);
+        tvName = findViewById(R.id.Name);
+        tvEmail = findViewById(R.id.Email);
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (bundle != null) {
+            String mName = dbName.getName(bundle.getString("username", ""));
+            tvName.setText(mName);
+            tvEmail.setText(bundle.getString("username", ""));
+            }
+    }
+
+
+    private void logOut(){
+        btLogout = findViewById(R.id.btLogout);
+        btLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(MainActivity.this,SignIn_Activity.class);
+                Bundle bundle = new Bundle();
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+    private void showDepart(){
+        lExpandableView = findViewById(R.id.expandableView);
+        bExpandMore = findViewById(R.id.buttonExpandMore);
+        cvCardView = findViewById(R.id.cvExpand);
+        bExpandMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lExpandableView.getVisibility()==View.GONE){
+                    TransitionManager.beginDelayedTransition(cvCardView, new AutoTransition());
+                    lExpandableView.setVisibility(View.VISIBLE);
+                    bExpandMore.setBackgroundResource(R.drawable.ic_expand_less_black_24dp);
+                }
+                else {
+                    TransitionManager.beginDelayedTransition(cvCardView, new AutoTransition());
+                    lExpandableView.setVisibility(View.GONE);
+                    bExpandMore.setBackgroundResource(R.drawable.ic_expand_more_black_24dp);
+                }
+            }
+        });
+    }
 }

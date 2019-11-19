@@ -8,112 +8,120 @@
     android:orientation="vertical"
     android:background="@drawable/bg_default">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:id="@+id/toolbar_mainList">
+        app:cardElevation="6dp"
 
+        android:id="@+id/cvExpand">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:orientation="horizontal"
-            android:background="@drawable/background_info">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/circle"/>
-
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_weight="4">
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:id="@+id/toolbar_mainList">
 
-
-                <TextView
-                    android:id="@+id/Name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotocondensed_regular"
-                    android:text="TÊN"
-                    android:textSize="18sp"
-                    android:textColor="#FFFFFF"/>
+                    android:layout_weight="20"
+                    android:orientation="horizontal"
+                    android:background="@drawable/background_info">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/circle"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="4">
+
+                        <TextView
+                            android:id="@+id/Name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotocondensed_regular"
+                            android:text="TÊN"
+                            android:textSize="18sp"
+                            android:textColor="#000000"/>
 
 
-                <TextView
-                    android:id="@+id/Email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_lightitalic"
-                    android:text="EMAIL"
-                    android:textSize="12sp"
-                    android:textColor="#FFFFFF"/>
+                        <TextView
+                            android:id="@+id/Email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_lightitalic"
+                            android:text="EMAIL"
+                            android:textSize="12sp"
+                            android:textColor="#000000"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp">
+
+                        <Button
+                            android:id="@+id/buttonExpandMore"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_expand_more_black_24dp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp">
-
-                <androidx.cardview.widget.CardView
+                android:id="@+id/expandableView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:background="@color/colorWhite">
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btLogoutGG"
+                    android:background="@color/colorGrey"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/cvExpand"
-                    app:cardBackgroundColor="@color/colorBlack"
-                    android:background="@drawable/ic_expand_more_black_24dp">
-                    <Button
+                    android:textColor="@color/colorBlack"
+                    android:text="Đăng xuất Google"
+                    android:layout_height="30dp"/>
 
-                        android:id="@+id/buttonExpand"
-                        android:layout_width="30dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/ic_expand_more_black_24dp" />
-                </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btLogout"
+                    android:background="@color/colorGrey"
+                    android:textColor="@color/colorBlack"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:text="Đăng xuất"
+                    android:padding="5dp"
+                    android:layout_height="30dp"/>
+
             </LinearLayout>
-
-
         </LinearLayout>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_below="@+id/toolbar_mainList"
-        android:padding="10dp"
-        android:background="@color/colorGrey"
-        android:layout_margin="16dp">
-    <Button
-        android:background="@color/colorWhite"
-        android:layout_width="match_parent"
-        android:textColor="@color/colorBlack"
-        android:text="Thêm tài khoản"
-        android:paddingLeft="10dp"
-        android:layout_height="30dp"/>
 
-        <Button
-            android:background="@color/colorWhite"
-            android:textColor="@color/colorBlack"
-            android:layout_width="match_parent"
-            android:layout_marginTop="4dp"
-            android:text="Đăng xuất"
-            android:padding="5dp"
-            android:layout_height="30dp"/>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
         <ListView
             android:id="@+id/lvMainSpec"
@@ -122,7 +130,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:divider="@null"
-            android:layout_below="@id/toolbar_mainList">
+            android:layout_below="@id/cvExpand">
         </ListView>
 
         <ImageView

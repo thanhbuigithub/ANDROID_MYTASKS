@@ -44,6 +44,7 @@
         android:textSize="15sp" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/text_welcome2"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -57,6 +58,7 @@
         android:textStyle="bold" />
 
     <com.google.android.gms.common.SignInButton
+        android:visibility="gone"
         android:id="@+id/sign_in_button"
         android:layout_below="@+id/text_welcome2"
         android:layout_width="wrap_content"
@@ -68,7 +70,7 @@
         android:id="@+id/line"
         android:layout_width="280dp"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/sign_in_button"
         android:layout_centerHorizontal="true"
         android:background="@color/colorWhite" />
