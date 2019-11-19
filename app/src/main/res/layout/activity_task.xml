@@ -270,6 +270,7 @@
                 android:gravity="start"
                 android:hint="Thêm ghi chú"
                 android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
                 android:padding="20dp"
                 android:textSize="18sp" />
         </LinearLayout>
