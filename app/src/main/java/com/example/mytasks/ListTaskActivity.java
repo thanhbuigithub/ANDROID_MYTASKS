@@ -216,6 +216,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         Button btnSave = dialog.findViewById(R.id.btnSave_dialog_changeTheme);
         circleImageView = dialog.findViewById(R.id.profile_image);
 
+        final Integer backupThemePosition = themePosition;
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerViewChangeThemeAdapter adapter = new RecyclerViewChangeThemeAdapter(nameThemes, srcThemes,this);
         RecyclerView recyclerView = dialog.findViewById(R.id.rcv_dialog_changeTheme);
@@ -230,7 +232,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
             else{
                 recyclerView.scrollToPosition(themePosition);
             }
-
         }
         else {
             circleImageView.setImageResource(R.drawable.bg_default);
@@ -239,6 +240,8 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                themePosition = backupThemePosition;
+                layout.setBackgroundResource(srcThemes.get(themePosition));
                 dialog.dismiss();
             }
         });
@@ -553,6 +556,12 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         srcThemes.add(R.drawable.bg_london);
         nameThemes.add("London");
 
+        srcThemes.add(R.drawable.bg_nature);
+        nameThemes.add("Nature");
+
+        srcThemes.add(R.drawable.bg_sun);
+        nameThemes.add("Sun");
+
         srcThemes.add(R.drawable.bg_couple);
         nameThemes.add("Couple");
 
@@ -561,12 +570,6 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 
         srcThemes.add(R.drawable.bg_lol);
         nameThemes.add("LoL");
-
-        srcThemes.add(R.drawable.bg_nature);
-        nameThemes.add("Nature");
-
-        srcThemes.add(R.drawable.bg_sun);
-        nameThemes.add("Sun");
 
         srcThemes.add(R.drawable.bg_avengers);
         nameThemes.add("Avengers");
