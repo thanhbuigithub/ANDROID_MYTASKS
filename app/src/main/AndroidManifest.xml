@@ -16,6 +16,7 @@
         <activity android:name=".TaskActivity"
             android:theme="@style/AppTheme.Draggable"></activity>
         <activity android:name=".ListTaskActivity" />
+        <activity android:name=".SpecListActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
