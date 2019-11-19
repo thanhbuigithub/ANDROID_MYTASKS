@@ -13,12 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class SignUp_Activity extends AppCompatActivity {
-    TextView mTextView_Head,mTextView_Name,mTextView_UserName,mTextView_Pass,mTextView_PassAgain,mTextView_Foot;
+    TextView mTextView_Head,mTextView_Name,mTextView_UserName,mTextView_Pass,mTextView_PassAgain;
     EditText mTextName,mTextUsername,mTextPassword;
     EditText mTextPassAgain;
     Button mButtonSignUp;
-    View mView;
-    TextView mTextViewLogin,mGoBack;
+//    View mView;
+//    TextView mTextViewLogin,mGoBack,mTextView_Foot;
     Database_User db;
 
     @Override
@@ -38,24 +38,24 @@ public class SignUp_Activity extends AppCompatActivity {
         mTextView_PassAgain=(TextView)findViewById(R.id.password_again);
         mTextPassAgain = (EditText)findViewById(R.id.input_password_again);
         mButtonSignUp = (Button)findViewById(R.id.btn_signup);
-        mView=(View)findViewById(R.id.rule);
-        mGoBack=(TextView)findViewById(R.id.text_back);
-        mTextView_Foot=(TextView)findViewById(R.id.text_foot);
-        mTextViewLogin = (TextView)findViewById(R.id.text_login);
+//        mView=(View)findViewById(R.id.rule);
+//        mGoBack=(TextView)findViewById(R.id.text_back);
+//        mTextView_Foot=(TextView)findViewById(R.id.text_foot);
+//        mTextViewLogin = (TextView)findViewById(R.id.text_login);
 
 
-        mGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent GoBackIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
-                Bundle bundle = new Bundle();
-                GoBackIntent.putExtras(bundle);
-                startActivity(GoBackIntent);
-            }
-        });
+//        mGoBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent GoBackIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+//                Bundle bundle = new Bundle();
+//                GoBackIntent.putExtras(bundle);
+//                startActivity(GoBackIntent);
+//            }
+//        });
 
-        mTextView_Foot.setVisibility(View.GONE);
-        mTextViewLogin.setVisibility(View.GONE);
+//        mTextView_Foot.setVisibility(View.GONE);
+//        mTextViewLogin.setVisibility(View.GONE);
 
         mButtonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,10 +87,17 @@ public class SignUp_Activity extends AppCompatActivity {
                 else if(mpass.equals(mpassagain)){
                     long val = db.addUser(mname, muser, mpass);
                     if (val > 0) {
-                        mView.setVisibility(View.VISIBLE);
-                        mTextView_Foot.setVisibility(View.VISIBLE);
-                        mTextViewLogin.setVisibility(View.VISIBLE);
-                        mGoBack.setVisibility(View.GONE);
+//                        mView.setVisibility(View.VISIBLE);
+//                        mTextView_Foot.setVisibility(View.VISIBLE);
+//                        mTextViewLogin.setVisibility(View.VISIBLE);
+//                        mGoBack.setVisibility(View.GONE);
+                        Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("LoginWithGG", false);
+                        bundle.putString("username",mTextUsername.getText().toString());
+                        bundle.putString("password", mTextPassword.getText().toString());
+                        SignInIntent.putExtras(bundle);
+                        startActivity(SignInIntent);
                         Toast.makeText(SignUp_Activity.this, "Đăng kí thành công !", Toast.LENGTH_SHORT).show();
 
                     }
@@ -101,17 +108,17 @@ public class SignUp_Activity extends AppCompatActivity {
             }
         });
 
-        mTextViewLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("LoginWithGG", false);
-                bundle.putString("username",mTextUsername.getText().toString());
-                bundle.putString("password", mTextPassword.getText().toString());
-                SignInIntent.putExtras(bundle);
-                startActivity(SignInIntent);
-            }
-        });
+//        mTextViewLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("LoginWithGG", false);
+//                bundle.putString("username",mTextUsername.getText().toString());
+//                bundle.putString("password", mTextPassword.getText().toString());
+//                SignInIntent.putExtras(bundle);
+//                startActivity(SignInIntent);
+//            }
+//        });
     }
 }

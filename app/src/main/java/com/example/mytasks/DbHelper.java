@@ -212,13 +212,16 @@ public class DbHelper extends SQLiteOpenHelper {
     public TaskList getImportantList() {
         TaskList list = new TaskList();
         list.setmName("Quan Trọng");
-        Task task = new Task();
+        list.setmIcon(25);
+        list.setmID(2);
+        list.setmTheme(R.drawable.bg_paris);
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
             Cursor cursorTask = db.rawQuery(selectQueryTask, null);
             cursorTask.moveToPosition(-1);
             while (cursorTask.moveToNext()) {
+                Task task = new Task();
                 task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
                 task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
                 task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
@@ -229,10 +232,44 @@ public class DbHelper extends SQLiteOpenHelper {
                 task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
                 task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
                 task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
-                list.getmListTasks().add(task);
+                if(task.getmIsImportant() == 1) {
+                    list.getmListTasks().add(task);
+                }
             }
             db.close();
         } catch (Exception e) {Log.v("GET_LIST_IMPORTANT ", e.toString());}
+        return list;
+    }
+
+    public TaskList getPlanList() {
+        TaskList list = new TaskList();
+        list.setmName("Đã lên kế hoạch");
+        list.setmIcon(26);
+        list.setmID(3);
+        list.setmTheme(R.drawable.bg_london);
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String selectQueryTask = "SELECT * FROM " + DB_TABLE_TASK;
+            Cursor cursorTask = db.rawQuery(selectQueryTask, null);
+            cursorTask.moveToPosition(-1);
+            while (cursorTask.moveToNext()) {
+                Task task = new Task();
+                task.setmID(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ID)));
+                task.setmName(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NAME)));
+                task.setmIsDone(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISDONE)));
+                task.setmIsImportant(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_ISIMPORTANT)));
+                task.setmRemind(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_REMIND)));
+                task.setmDeadline(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_DEADLINE)));
+                task.setmRepeat(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_REPEAT)));
+                task.setmFile(cursorTask.getInt(cursorTask.getColumnIndex(DB_COLUMN_FILE)));
+                task.setmNote(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_NOTE)));
+                task.setmCreatedTime(cursorTask.getString(cursorTask.getColumnIndex(DB_COLUMN_CREATEDTIME)));
+                if(!task.getmDeadline().equals("")) {
+                    list.getmListTasks().add(task);
+                }
+            }
+            db.close();
+        } catch (Exception e) {Log.v("GET_LIST_PLAN ", e.toString());}
         return list;
     }
 
@@ -296,6 +333,23 @@ public class DbHelper extends SQLiteOpenHelper {
             cursorTask.close();
             db.close();
         } catch (Exception e) {Log.v("GET_LIST ", e.toString());}
+        return list;
+    }
+
+    public TaskList getSpecList(int ID)
+    {
+        TaskList list = new TaskList();
+        try {
+            switch (ID) {
+                case 2:
+                    list = getImportantList();
+                    break;
+                case 3:
+                    list = getPlanList();
+                    break;
+            }
+        } catch (Exception e)
+        {}
         return list;
     }
 }

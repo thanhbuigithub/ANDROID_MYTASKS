@@ -105,6 +105,22 @@ public class MainActivity extends AppCompatActivity {
         lvMainList.setAdapter(mainListAdapter);
         lvMainSpec.setAdapter(specListAdapter);
 
+        TaskList importantList = new TaskList();
+        importantList.setmName("Quan trọng");
+        importantList.setmID(2);
+        importantList.setmIcon(26);
+        TaskList planList = new TaskList();
+        planList.setmName("Đã lên kế hoạch");
+        planList.setmID(3);
+        planList.setmIcon(27);
+//        TaskList todayList = new TaskList();
+//        todayList.setmName("Công việc hôm nay");
+//        todayList.setmID(1);
+//        todayList.setmIcon(R.drawable.checked_important);
+
+        mainSpec.add(importantList);
+        mainSpec.add(planList);
+
         List<TaskList> list = db.getAllList();
         mainList.addAll(list);
 
@@ -127,6 +143,18 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("DATABASE_NAME", mDatabaseUser);
                 bundle.putInt("LIST_ID", mainList.get(position).getmID());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        lvMainSpec.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                intent = new Intent(MainActivity.this, SpecListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("LIST_ID", mainSpec.get(position).getmID());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -190,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         srcIcons.add(R.drawable.icon_23);
         srcIcons.add(R.drawable.icon_24);
         srcIcons.add(R.drawable.icon_25);
+        srcIcons.add(R.drawable.checked_important);
+        srcIcons.add(R.drawable.ic_deadline_blue);
     }
 
 }
