@@ -75,7 +75,6 @@ public class SignIn_Activity extends AppCompatActivity {
     private void rememberMe(){
 
         if (bSaveLogin) {
-
             edUserName.setText(spLogin.getString("username", ""));
             edPass.setText(spLogin.getString("password", ""));
             cbSaveLogin.setChecked(true);

@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -59,18 +60,19 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton btnAdd;
     MainListView mainListAdapter;
     MainListView specListAdapter;
-
+    SharedPreferences spLogout;
     public static String mDatabaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbName = new Database_User(this);
+        spLogout = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
+        logOut();
         addIcon();
         getInfor();
         showDepart();
-        logOut();
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
         specListAdapter = new MainListView(this, R.layout.list_view, mainSpec);
@@ -218,8 +220,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(MainActivity.this,SignIn_Activity.class);
-                Bundle bundle = new Bundle();
-                intent.putExtras(bundle);
+                SharedPreferences.Editor editor = spLogout.edit();
+                editor.clear();
+                editor.apply();
                 startActivity(intent);
             }
         });
