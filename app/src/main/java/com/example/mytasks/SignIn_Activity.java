@@ -58,11 +58,11 @@ public class SignIn_Activity extends AppCompatActivity {
         spEditorLogin = spLogin.edit();
         bSaveLogin = spLogin.getBoolean("saveLogin", false);
 
-        //Remember me
-        rememberMe();
-
         //Nhận intent
         getIntentSignIn();
+
+        //Remember me
+        rememberMe();
 
         //Sign in database
         signIn();
