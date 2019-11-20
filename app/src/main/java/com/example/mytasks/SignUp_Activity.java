@@ -20,6 +20,7 @@ public class SignUp_Activity extends AppCompatActivity {
     View mView;
     TextView mTextViewLogin,mGoBack,mTextView_Foot;
     Database_User db;
+    SharedPreferences spAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class SignUp_Activity extends AppCompatActivity {
         setContentView(R.layout.signup_activity);
 
         db = new Database_User(this);
+        spAdd = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
         mTextView_Head=(TextView)findViewById(R.id.text_title);
         mTextView_Name=(TextView)findViewById(R.id.name);
@@ -91,11 +93,15 @@ public class SignUp_Activity extends AppCompatActivity {
                         mTextView_Foot.setVisibility(View.VISIBLE);
                         mTextViewLogin.setVisibility(View.VISIBLE);
                         mGoBack.setVisibility(View.GONE);
+
+                        SharedPreferences.Editor editor = spAdd.edit();
+                        editor.clear();
+                        editor.apply();
                         Intent SignInIntent = new Intent(SignUp_Activity.this,SignIn_Activity.class);
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("LoginWithGG", false);
-                        bundle.putString("username",mTextUsername.getText().toString());
-                        bundle.putString("password", mTextPassword.getText().toString());
+                        bundle.putString("username",muser);
+                        bundle.putString("password",mpass);
                         SignInIntent.putExtras(bundle);
                         startActivity(SignInIntent);
                         Toast.makeText(SignUp_Activity.this, "Đăng kí thành công !", Toast.LENGTH_SHORT).show();

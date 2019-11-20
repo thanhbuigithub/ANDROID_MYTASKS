@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout lExpandableView;
     Button bExpandMore;
     CardView cvCardView;
-    Button btLogout;
+    Button btLogout,btAddAccount;
     public static ArrayList<Integer> srcIcons;
     Database_User dbName;
     DbHelper db;
@@ -59,17 +60,20 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton btnAdd;
     MainListView mainListAdapter;
     MainListView specListAdapter;
-
+    SharedPreferences spLogout;
     public static String mDatabaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbName = new Database_User(this);
+        spLogout = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+
 
         addIcon();
         getInfor();
         showDepart();
+        addAccount();
         logOut();
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
@@ -210,7 +214,17 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-
+    private void addAccount(){
+        btAddAccount = findViewById(R.id.btAddAccount);
+        btAddAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(MainActivity.this,SignUp_Activity.class);
+                startActivity(intent);
+            }
+        });
+    }
     private void logOut(){
         btLogout = findViewById(R.id.btLogout);
         btLogout.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +232,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(MainActivity.this,SignIn_Activity.class);
-                Bundle bundle = new Bundle();
-                intent.putExtras(bundle);
+                SharedPreferences.Editor editor = spLogout.edit();
+                editor.clear();
+                editor.apply();
                 startActivity(intent);
             }
         });
