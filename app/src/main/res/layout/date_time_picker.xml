@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorDarkGray">
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorDarkGray">
+        android:background="@color/colorGrey">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_date"
@@ -54,6 +54,7 @@
         android:layout_weight=".5"
         android:layout_height="0dp"
         android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
@@ -61,16 +62,18 @@
             android:layout_width="match_parent"
             android:layout_weight=".5"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlue"
-            android:background="@color/colorDarkGray"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_background"
             android:text="Lưu" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_weight=".5"
             android:layout_height="wrap_content"
-            android:background="@color/colorDarkGray"
+            android:textColor="@color/colorGrey"
+            android:background="@null"
             android:text="Hủy bỏ" />
     </LinearLayout>
 </LinearLayout>

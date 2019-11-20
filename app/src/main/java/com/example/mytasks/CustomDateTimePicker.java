@@ -185,7 +185,6 @@ public class CustomDateTimePicker implements View.OnClickListener {
                 btnDate.setEnabled(false);
                 btnDate.setBackgroundResource(R.drawable.border_bottom);
                 btnTime.setBackgroundResource(R.color.colorWhite);
-                btnTime.setBackgroundResource(R.color.colorWhite);
                 btnTime.setTextColor(Color.GRAY);
                 btnDate.setTextColor(Color.BLUE);
                 if (viewSwitcher.getCurrentView() != datePicker) {
