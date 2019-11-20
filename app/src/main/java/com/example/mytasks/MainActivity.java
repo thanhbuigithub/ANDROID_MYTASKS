@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout lExpandableView;
     Button bExpandMore;
     CardView cvCardView;
-    Button btLogout;
+    Button btLogout,btAddAccount;
     public static ArrayList<Integer> srcIcons;
     Database_User dbName;
     DbHelper db;
@@ -69,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
         dbName = new Database_User(this);
         spLogout = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
-        logOut();
+
         addIcon();
         getInfor();
         showDepart();
+        addAccount();
+        logOut();
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
         specListAdapter = new MainListView(this, R.layout.list_view, mainSpec);
@@ -212,7 +214,17 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-
+    private void addAccount(){
+        btAddAccount = findViewById(R.id.btAddAccount);
+        btAddAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(MainActivity.this,SignUp_Activity.class);
+                startActivity(intent);
+            }
+        });
+    }
     private void logOut(){
         btLogout = findViewById(R.id.btLogout);
         btLogout.setOnClickListener(new View.OnClickListener() {
