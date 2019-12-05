@@ -39,7 +39,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout lExpandableView;
     Button bExpandMore;
     CardView cvCardView;
-    Button btLogout,btAddAccount;
+    Button btnLogout,btnLogoutGG;
+    boolean cLogin;
+    FirebaseAuth mAuth;
     public static ArrayList<Integer> srcIcons;
     Database_User dbName;
     DbHelper db;
@@ -69,12 +74,14 @@ public class MainActivity extends AppCompatActivity {
         dbName = new Database_User(this);
         spLogout = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
-
         addIcon();
         getInfor();
+        if(cLogin){
+            logOutGG();
+        }else {
+            logOut();
+        }
         showDepart();
-        addAccount();
-        logOut();
         addControl();
         mainListAdapter = new MainListView(this, R.layout.list_view, mainList);
         specListAdapter = new MainListView(this, R.layout.list_view, mainSpec);
@@ -205,33 +212,72 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
+        
         if (bundle != null) {
-            String mName = dbName.getName(bundle.getString("username", ""));
-            tvName.setText(mName);
-            tvEmail.setText(bundle.getString("username", ""));
-            mDatabaseUser = bundle.getString("username", "");
+            cLogin = bundle.getBoolean("LoginWithGG", false);
+            if (cLogin) {
+                tvName.setText(bundle.getString("personName"));
+                tvEmail.setText(bundle.getString("personEmail"));
+                Glide.with(this).load(bundle.getParcelable("personPhoto")).into(imView);
+                mDatabaseUser = bundle.getString("personEmail");
+            } else {
+                String mName = dbName.getName(bundle.getString("username", ""));
+                tvName.setText(mName);
+                tvEmail.setText(bundle.getString("username", ""));
+                mDatabaseUser = bundle.getString("username", "");
             }
+        }
     }
 
-    private void addAccount(){
-        btAddAccount = findViewById(R.id.btAddAccount);
-        btAddAccount.setOnClickListener(new View.OnClickListener() {
+    private void logOutGG(){
+        btnLogoutGG = findViewById(R.id.btnLogoutGG);
+        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setVisibility(View.GONE);
+        mAuth = FirebaseAuth.getInstance();
+        btnLogoutGG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(MainActivity.this,SignUp_Activity.class);
+                logoutCurrentUser();
+            }
+        });
+    }
+    private void logoutCurrentUser(){
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient signInClient = GoogleSignIn.getClient(MainActivity.this, signInOptions);
+        signInClient.revokeAccess().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(MainActivity.this, "Logged out successfully.", Toast.LENGTH_SHORT).show();
+                mAuth.signOut();
+                Intent intent = new Intent(MainActivity.this, SignIn_Activity.class);
+                SharedPreferences.Editor editor = spLogout.edit();
+                editor.clear();
+                editor.apply();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Unable to logout!", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         });
     }
     private void logOut(){
-        btLogout = findViewById(R.id.btLogout);
-        btLogout.setOnClickListener(new View.OnClickListener() {
+        btnLogout = findViewById(R.id.btnLogout);
+        btnLogoutGG = findViewById(R.id.btnLogoutGG);
+        btnLogoutGG.setVisibility(View.GONE);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(MainActivity.this,SignIn_Activity.class);
+                Toast.makeText(MainActivity.this, "Logged out successfully.", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = spLogout.edit();
                 editor.clear();
                 editor.apply();
@@ -259,4 +305,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

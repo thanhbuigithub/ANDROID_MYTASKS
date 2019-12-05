@@ -44,7 +44,7 @@
         android:textSize="15sp" />
 
     <TextView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/text_welcome2"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -57,13 +57,19 @@
         android:textSize="15dp"
         android:textStyle="bold" />
 
-    <com.google.android.gms.common.SignInButton
-        android:visibility="gone"
+    <Button
         android:id="@+id/sign_in_button"
         android:layout_below="@+id/text_welcome2"
-        android:layout_width="250dp"
+        android:text="Login with Google"
+        android:textAllCaps="false"
+        android:padding="10dp"
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/custom_btnsigningg"
+        android:drawableLeft="@drawable/ic_google"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:drawablePadding="10dp"
         />
 
     <View

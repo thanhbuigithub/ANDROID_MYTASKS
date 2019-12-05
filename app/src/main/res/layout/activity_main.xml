@@ -99,20 +99,19 @@
                 android:padding="5dp"
                 android:background="@color/colorBlack">
                 <Button
-                    android:id="@+id/btAddAccount"
+                    android:id="@+id/btnLogoutGG"
                     android:layout_width="match_parent"
                     android:textColor="#ffffff"
                     android:background="@drawable/button_rectangle"
-                    android:text="Thêm tài khoản đăng kí"
-                    android:layout_height="30dp"
-                    android:visibility="gone"/>
+                    android:text="Đăng xuất tài khoản"
+                    android:layout_height="30dp" />
 
                 <Button
-                    android:id="@+id/btLogout"
+                    android:id="@+id/btnLogout"
                     android:background="@drawable/button_rectangle"
                     android:textColor="#ffffff"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:text="Đăng xuất"
                     android:padding="5dp"
                     android:layout_height="30dp"/>
