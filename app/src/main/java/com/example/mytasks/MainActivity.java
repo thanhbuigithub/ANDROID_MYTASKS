@@ -9,14 +9,20 @@ import androidx.cardview.widget.CardView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,10 +49,23 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.security.auth.callback.Callback;
 
 public class MainActivity extends AppCompatActivity {
     ImageView imView;
@@ -61,16 +80,28 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Integer> srcIcons;
     Database_User dbName;
     DbHelper db;
-    ArrayList<TaskList> mainList, mainSpec;
+    public static ArrayList<TaskList> mainList, mainSpec;
     FloatingActionButton btnAdd;
-    MainListView mainListAdapter;
+    public static MainListView mainListAdapter;
     MainListView specListAdapter;
     SharedPreferences spLogout;
+    private static ConnectivityManager connMng;
     public static String mDatabaseUser;
+    private boolean dbExist;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dbRef = database.getReference();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    public static boolean thisActivity;
+    public static boolean firstCreate = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainActivity", "OnCreate");
         setContentView(R.layout.activity_main);
+        thisActivity = true;
+
         dbName = new Database_User(this);
         spLogout = getSharedPreferences("loginPrefs", MODE_PRIVATE);
 
@@ -158,8 +189,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addControl() {
+    private void addControl(){
+
+        if (firstCreate)
+        {
+            final File localFile = new File("data/data/com.example.mytasks/databases/" + mDatabaseUser);
+            dbExist = localFile.exists();
+
+            dbRef.child("users").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (mDatabaseUser != null && thisActivity) {
+                        RealTimeDownloadDb(mDatabaseUser);
+                        Toast.makeText(MainActivity.this, "Realtime Download", Toast.LENGTH_SHORT).show();
+                    }
+                    getDataFromDbToMainList();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            registerReceiver(internetStateReceiver, intentFilter);
+
+            firstCreate = false;
+        }
+
+
         db = new DbHelper(this, mDatabaseUser);
+        Log.d("MainActivity","Created database!");
+        //FireBaseHelper.getInstance().UploadFile(mDatabaseUser);
         lvMainList = (ListView) findViewById(R.id.lvMainList);
         lvMainSpec = (ListView) findViewById(R.id.lvMainSpec);
         btnAdd = (FloatingActionButton) findViewById(R.id.fabMainList);
@@ -172,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getDataFromDbToMainList();
         mainListAdapter.notifyDataSetChanged();
+//        Toast.makeText(this,"On Resume",Toast.LENGTH_LONG).show();
     }
 
     private void addIcon() {
@@ -302,6 +365,103 @@ public class MainActivity extends AppCompatActivity {
                     lExpandableView.setVisibility(View.GONE);
                     bExpandMore.setBackgroundResource(R.drawable.ic_expand_more_black_24dp);
                 }
+            }
+        });
+    }
+
+    private boolean isNetworkConnected(){
+        boolean have_WIFI = false;
+        boolean have_MobileData = false;
+        connMng = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connMng.getAllNetworkInfo();
+        for (NetworkInfo info:networkInfos){
+            if(info.getTypeName().equalsIgnoreCase("WIFI") && info.isConnected())
+                have_WIFI = true;
+            if(info.getTypeName().equalsIgnoreCase("MOBILE") && info.isConnected())
+                have_WIFI = true;
+        }
+        return have_WIFI || have_MobileData;
+    }
+
+    private BroadcastReceiver internetStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("MainActivity", "Start BroadcastReceiver");
+            ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,ProgressDialog.THEME_HOLO_DARK);
+            progressDialog.setTitle("Vui lòng kết nối internet!");
+            progressDialog.setCancelable(false);
+
+            if (isNetworkConnected() && mDatabaseUser != null)
+            {
+                //Internet connected
+                if (dbExist){
+                    //Upload database to firebase
+                    try {
+                        FireBaseHelper.getInstance(MainActivity.this).UploadUserFile(mDatabaseUser);
+                    }catch (Exception e){
+                        Log.d("MainActivity", " BroadcastReceiver Upload UserData Fail "+e.getMessage());
+                    }
+
+                }
+                else
+                {
+                    //Download database from firebase
+                    progressDialog.dismiss();
+                    dbExist = true;
+                    try {
+                        FireBaseHelper.getInstance(MainActivity.this).DownloadUserDatabase(mDatabaseUser);
+                        Log.d("MainActivity", " BroadcastReceiver Download UserData Success ");
+                    }catch (Exception e){
+                        Log.d("MainActivity", " BroadcastReceiver Download UserData Fail "+e.getMessage());
+                    }
+                }
+                Toast.makeText(MainActivity.this,"Online Mode",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                //Internet disconnected
+                if (!dbExist){
+                    progressDialog.show();
+                }
+                Toast.makeText(MainActivity.this,"Offline Mode",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        thisActivity = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        thisActivity = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(internetStateReceiver);
+    }
+
+    public void RealTimeDownloadDb(String filename){
+        StorageReference dbRef = storageRef.child(filename);
+
+        final File localFile = new File("data/data/com.example.mytasks/databases/"+filename);
+
+        dbRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                getDataFromDbToMainList();
+                Log.d("Realtime"," Download Success "+ localFile.getPath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.d("Realtime"," Download Fail - " + exception.toString());
             }
         });
     }

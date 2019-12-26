@@ -1,9 +1,15 @@
 package com.example.mytasks;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +43,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.File;
+
 public class SignIn_Activity extends AppCompatActivity {
     TextView tvIntro_02, tvIntro_03, tvRegister;
     CheckBox cbSaveLogin;
@@ -52,13 +60,27 @@ public class SignIn_Activity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     private static final String TAG = "GoogleActivity";
     ProgressDialog pDialog;
+    ConnectivityManager connMng;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_activity);
-
+        Log.d("MainActivity", "SignIn_Activity OnCreate");
+        connMng = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        File signupFile = new File("data/data/com.example.mytasks/databases/signup.db");
+        if (isNetworkConnected()){
+//            try {
+//                FireBaseHelper.getInstance(this).DownloadLoginDatabase("signup.db");
+//            }catch (Exception e){
+//                Log.d("SignIn_Activity", "Download Login Fail "+e.getMessage());
+//            }
+        } else if (!signupFile.exists()){
+            AlertDialog internetDialog = new AlertDialog.Builder(this,AlertDialog.THEME_HOLO_DARK).create();
+            internetDialog.setMessage("Vui lòng kết nối internet cho lần sử dụng đầu tiên");
+            internetDialog.setInverseBackgroundForced(true);
+            internetDialog.show();
+        }
         db = new Database_User(this);
-
         tvIntro_02 = (TextView) findViewById(R.id.text_welcome2);
         tvIntro_03 = (TextView) findViewById(R.id.text_welcome3);
         tvRegister = (TextView) findViewById(R.id.text_register);
@@ -120,15 +142,19 @@ public class SignIn_Activity extends AppCompatActivity {
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(SignIn_Activity.this, SignUp_Activity.class);
-                edUserName.setText(spLogin.getString("username", ""));
-                edPass.setText(spLogin.getString("password", ""));
-                cbSaveLogin.setChecked(false);
-                spEditorLogin.putBoolean("saveLogin", false);
-                spEditorLogin.putString("username", edUserName.getText().toString());
-                spEditorLogin.putString("password", edPass.getText().toString());
-                spEditorLogin.apply();
-                startActivity(registerIntent);
+                if (isNetworkConnected()) {
+                    Intent registerIntent = new Intent(SignIn_Activity.this, SignUp_Activity.class);
+                    edUserName.setText(spLogin.getString("username", ""));
+                    edPass.setText(spLogin.getString("password", ""));
+                    cbSaveLogin.setChecked(false);
+                    spEditorLogin.putBoolean("saveLogin", false);
+                    spEditorLogin.putString("username", edUserName.getText().toString());
+                    spEditorLogin.putString("password", edPass.getText().toString());
+                    spEditorLogin.apply();
+                    startActivity(registerIntent);
+                } else {
+                    Toast.makeText(SignIn_Activity.this,"Please connect to internet to sign up!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -212,6 +238,7 @@ public class SignIn_Activity extends AppCompatActivity {
             } catch (ApiException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
+                Log.d("GGLogin",e.getMessage());
                 if(pDialog.isShowing()){
                     hideProgressDialog();
                 }
@@ -276,6 +303,47 @@ public class SignIn_Activity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         updateUI(user);
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(internetStateReceiver,intentFilter);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(internetStateReceiver);
+    }
+
+    private BroadcastReceiver internetStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isNetworkConnected())
+            {
+                Toast.makeText(SignIn_Activity.this,"Internet Connected",Toast.LENGTH_SHORT).show();
+                try {
+                    FireBaseHelper.getInstance(SignIn_Activity.this).DownloadLoginDatabase("signup.db");
+                    Log.d("SignIn_Activity", " BroadcastReceiver Download Login Success ");
+                }catch (Exception e){
+                    Log.d("SignIn_Activity", " BroadcastReceiver Download Login Fail "+e.getMessage());
+                }
+            }
+            else{
+                Toast.makeText(SignIn_Activity.this,"Internet Disconnected",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+    private boolean isNetworkConnected(){
+        boolean have_WIFI = false;
+        boolean have_MobileData = false;
+        connMng = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connMng.getAllNetworkInfo();
+        for (NetworkInfo info:networkInfos){
+            if(info.getTypeName().equalsIgnoreCase("WIFI") && info.isConnected())
+                have_WIFI = true;
+            if(info.getTypeName().equalsIgnoreCase("MOBILE") && info.isConnected())
+                have_WIFI = true;
+        }
+        return have_WIFI || have_MobileData;
+    }
+
 }
 

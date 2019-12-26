@@ -3,6 +3,7 @@ package com.example.mytasks;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,8 @@ public class SignUp_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
+
+        Log.d("MainActivity","SignupAct OnCreate");
 
         db = new Database_User(this);
         spAdd = getSharedPreferences("loginPrefs", MODE_PRIVATE);
@@ -88,6 +91,7 @@ public class SignUp_Activity extends AppCompatActivity {
                 }
                 else if(mpass.equals(mpassagain)){
                     long val = db.addUser(mname, muser, mpass);
+                    FireBaseHelper.getInstance(SignUp_Activity.this).UploadFile("signup.db");
                     if (val > 0) {
                         mView.setVisibility(View.VISIBLE);
                         mTextView_Foot.setVisibility(View.VISIBLE);

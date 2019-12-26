@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,10 +45,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,13 +71,13 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListTaskActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
     //    ListView lvListTask;
-    RecyclerView recyclerViewTask;
-    public static TaskList list;
+    public static RecyclerView recyclerViewTask;
+    public TaskList list;
     //    ListTaskAdapter listTaskAdapter;
-    Task_RecyclerViewAdapter task_recyclerViewAdapter;
+    public Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
     FloatingActionButton fabListTask;
-    int listID;
+    public static int listID;
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -78,6 +90,12 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     public static CoordinatorLayout layout;
     public static CircleImageView circleImageView;
     public static ImageView iconImageview;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference dbRef = database.getReference();
+    public static boolean thisActivity;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    public static boolean firstCreate = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +103,29 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
         setContentView(R.layout.activity_list_tasks);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
+        Log.d("MainActivity","ListTaskActivity OnCreate");
+
+        thisActivity = true;
+
+        if (firstCreate){
+            dbRef.child("users").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (MainActivity.mDatabaseUser != null && thisActivity) {
+                        RealTimeDownloadDb(MainActivity.mDatabaseUser);
+                        Toast.makeText(ListTaskActivity.this, "List NotifyDataSetChange", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            firstCreate = false;
+        }
 
         layout = findViewById(R.id.coordinator);
 
@@ -128,6 +169,7 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
     @Override
     protected void onStart() {
         super.onStart();
+        thisActivity = true;
         if (listID != 0){
             list = db.getList(listID);
             iconPosition = (list.getmIcon()==null)? (-1): list.getmIcon();
@@ -620,8 +662,35 @@ public class ListTaskActivity extends AppCompatActivity implements Task_Recycler
 
     private void undoDelete(RecyclerView.ViewHolder viewHolder, Task mRecentlyDeletedItem) {
         db.insertNewTask(mRecentlyDeletedItem);
-        ListTaskActivity.list = db.getList(ListTaskActivity.list.getmID());
+        list = db.getList(list.getmID());
         recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(ListTaskActivity.this,R.layout.list_task, list.getmListTasks(), ListTaskActivity.this));
     }
 
+    public void RealTimeDownloadDb(String filename){
+        StorageReference dbRef = storageRef.child(filename);
+
+        final File localFile = new File("data/data/com.example.mytasks/databases/"+filename);
+
+        dbRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                list = db.getList(listID);
+                recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(ListTaskActivity.this,R.layout.list_task, list.getmListTasks(), ListTaskActivity.this));
+                Log.d("Realtime"," List "+listID+" Download Success "+ localFile.getPath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.d("Realtime"," Download Fail - " + exception.toString());
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        thisActivity = false;
+    }
 }

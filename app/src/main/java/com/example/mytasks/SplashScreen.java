@@ -7,7 +7,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SplashScreen extends MainActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SplashScreen extends AppCompatActivity {
     ImageView imageView;
     TextView textView;
     @Override

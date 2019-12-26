@@ -11,6 +11,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -31,10 +36,13 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_NOTE = "Note";
     public static final String DB_COLUMN_CREATEDTIME = "CreatedTime";
     public static final String DB_COLUMN_THEME = "Theme";
-
+    private Context context;
+    private String DB_NAME;
 
     public DbHelper(@Nullable Context context, String DB_NAME) {
         super(context, DB_NAME, null, DB_VER);
+        this.context = context;
+        this.DB_NAME = DB_NAME;
     }
 
     @Override
@@ -91,6 +99,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.insertWithOnConflict(DB_TABLE_LIST, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             db.close();
         } catch (Exception e) {Log.v("INSERT_NEW_LIST ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public void insertNewTask(Task task) {
@@ -111,6 +121,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.insertWithOnConflict(DB_TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             db.close();
         } catch (Exception e) {Log.v("INSERT_NEW_TASK ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public void deleteTask(Task task) {
@@ -119,6 +131,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.delete(DB_TABLE_TASK, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
             db.close();
         } catch (Exception e) {Log.v("DELETE_TASK ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public void deleteList(TaskList list) {
@@ -128,6 +142,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.delete(DB_TABLE_TASK, DB_COLUMN_IDLIST + " = ?", new String[]{String.valueOf(list.getmID())});
             db.close();
         } catch (Exception e) {Log.v("DELETE_LIST ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public ArrayList<TaskList> getAllList() {
@@ -191,6 +207,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.update(DB_TABLE_LIST, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(list.getmID())});
             db.close();
         } catch (Exception e) {Log.v("UPDATE_LIST ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public void updateTask(Task task) {
@@ -209,6 +227,8 @@ public class DbHelper extends SQLiteOpenHelper {
             db.update(DB_TABLE_TASK, values, DB_COLUMN_ID + " = ?", new String[]{String.valueOf(task.getmID())});
             db.close();
         } catch (Exception e) {Log.v("UPDATE_TASK ", e.toString());}
+
+        UploadToFirebase();
     }
 
     public TaskList getTodayList() {
@@ -389,5 +409,16 @@ public class DbHelper extends SQLiteOpenHelper {
         } catch (Exception e)
         {}
         return list;
+    }
+
+    private void UploadToFirebase()
+    {
+        //Upload to firebase
+        try {
+            FireBaseHelper.getInstance(context).UploadUserFile(DB_NAME);
+            Log.d("DbHelper", " Upload UserData Success ");
+        }catch (Exception e){
+            Log.d("DbHelper", " Upload UserData Fail " + e.getMessage());
+        }
     }
 }
