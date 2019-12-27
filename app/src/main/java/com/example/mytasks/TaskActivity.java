@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thefuntasty.hauler.DragDirection;
 import com.thefuntasty.hauler.HaulerView;
@@ -338,6 +339,7 @@ public class TaskActivity extends AppCompatActivity{
                 txtRemind.setText("Nhắc tôi");
                 onCancelDateSetted(txtRemind, btnCancelRemind);
                 currentTask.setmRemind("");
+                cancelAlarm();
             }
         });
 
@@ -478,6 +480,26 @@ public class TaskActivity extends AppCompatActivity{
 
         manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
     }
+
+    private void cancelAlarm() {
+        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent;
+        PendingIntent pendingIntent;
+
+        int code = Integer.parseInt(currentTask.getmIDList().toString() + currentTask.getmID().toString());
+
+        myIntent = new Intent(TaskActivity.this, AlarmReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("code", code);
+        bundle.putInt("taskID",currentTask.getmID());
+        bundle.putString("mUser", MainActivity.mDatabaseUser);
+        myIntent.putExtras(bundle);
+        pendingIntent = PendingIntent.getBroadcast(this, code, myIntent,PendingIntent.FLAG_ONE_SHOT);
+
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "canceled", Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
