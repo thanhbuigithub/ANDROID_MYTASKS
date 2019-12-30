@@ -68,6 +68,7 @@ public class FireBaseHelper {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
                 Log.d("FireBase"," Upload Success ");
+                ref.child("signupdb").setValue(Calendar.getInstance().getTimeInMillis());
             }
         });
     }
@@ -153,5 +154,6 @@ public class FireBaseHelper {
             }
         });
     }
+
 
 }

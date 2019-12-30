@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,10 +46,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,14 +71,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SpecListActivity extends AppCompatActivity implements Task_RecyclerViewAdapter.OnTaskListener{
-    RecyclerView recyclerViewTask;
+    public static RecyclerView recyclerViewTask;
     public static TaskList list;
     Task_RecyclerViewAdapter task_recyclerViewAdapter;
     DbHelper db;
-    int listID;
+    public static int listID;
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbarLayout;
-
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference dbRef = database.getReference();
+    public static boolean firstCreate = true;
+    public static boolean thisActivity;
     public static CoordinatorLayout layout;
 
     @SuppressLint("RestrictedApi")
@@ -76,6 +93,26 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
         setContentView(R.layout.activity_list_tasks);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
+        thisActivity = true;
+        if (firstCreate){
+            dbRef.child("users").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (MainActivity.mDatabaseUser != null && thisActivity) {
+                        RealTimeDownloadDb(MainActivity.mDatabaseUser);
+                        Toast.makeText(SpecListActivity.this, "List NotifyDataSetChange", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            firstCreate = false;
+        }
 
         layout = findViewById(R.id.coordinator);
 
@@ -99,6 +136,9 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
     @Override
     protected void onStart() {
         super.onStart();
+
+        thisActivity = true;
+
         if (listID != 0){
             list = db.getSpecList(listID);
         }
@@ -112,6 +152,12 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
         initActionBar(list.getmName());
         layout.setBackgroundResource(list.getmTheme());
         addEvent();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        thisActivity = false;
     }
 
     @Override
@@ -193,5 +239,27 @@ public class SpecListActivity extends AppCompatActivity implements Task_Recycler
             list = db.getSpecList(listID);
             recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(SpecListActivity.this, R.layout.list_task, list.getmListTasks(), SpecListActivity.this));
         }
+    }
+
+    public void RealTimeDownloadDb(String filename){
+        StorageReference dbRef = storageRef.child(filename);
+
+        final File localFile = new File("data/data/com.example.mytasks/databases/"+filename);
+
+        dbRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                list = db.getSpecList(listID);
+                recyclerViewTask.setAdapter(new Task_RecyclerViewAdapter(SpecListActivity.this, R.layout.list_task, list.getmListTasks(), SpecListActivity.this));
+                Log.d("Realtime"," List "+listID+" Download Success "+ localFile.getPath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.d("Realtime"," Download Fail - " + exception.toString());
+            }
+        });
     }
 }

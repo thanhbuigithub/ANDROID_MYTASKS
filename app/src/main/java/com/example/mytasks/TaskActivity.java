@@ -339,6 +339,7 @@ public class TaskActivity extends AppCompatActivity{
                 txtRemind.setText("Nhắc tôi");
                 onCancelDateSetted(txtRemind, btnCancelRemind);
                 currentTask.setmRemind("");
+                db.updateTask(currentTask);
                 cancelAlarm();
             }
         });
@@ -349,6 +350,7 @@ public class TaskActivity extends AppCompatActivity{
                 txtDeadline.setText("Thêm ngày đến hạn");
                 onCancelDateSetted(txtDeadline, btnCancelDeadline);
                 currentTask.setmDeadline("");
+                db.updateTask(currentTask);
                 txtRepeat.setText("Lặp lại");
                 onCancelDateSetted(txtRepeat, btnCancelRepeat);
                 currentTask.setmRepeat(0);
@@ -384,6 +386,7 @@ public class TaskActivity extends AppCompatActivity{
                     onDateSetted(txtDeadline, btnCancelDeadline);
                     onDeadlineReset();
                 }
+                db.updateTask(currentTask);
             }
 
             @Override

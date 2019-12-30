@@ -42,6 +42,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
@@ -61,11 +69,40 @@ public class SignIn_Activity extends AppCompatActivity {
     private static final String TAG = "GoogleActivity";
     ProgressDialog pDialog;
     ConnectivityManager connMng;
+    public static boolean firstCreate = true;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference dbRef = database.getReference();
+    public static boolean thisActivity;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_activity);
         Log.d("MainActivity", "SignIn_Activity OnCreate");
+        thisActivity = true;
+        if (firstCreate)
+        {
+            dbRef.child("signupdb").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (thisActivity) {
+                        RealTimeDownloadDb("signup.db");
+                        Toast.makeText(SignIn_Activity.this, "SingupDB Downloaded", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            registerReceiver(internetStateReceiver,intentFilter);
+
+            firstCreate = false;
+        }
         connMng = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         File signupFile = new File("data/data/com.example.mytasks/databases/signup.db");
         if (isNetworkConnected()){
@@ -303,13 +340,19 @@ public class SignIn_Activity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         updateUI(user);
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(internetStateReceiver,intentFilter);
+        thisActivity = true;
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        thisActivity = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(internetStateReceiver);
     }
 
@@ -343,6 +386,26 @@ public class SignIn_Activity extends AppCompatActivity {
                 have_WIFI = true;
         }
         return have_WIFI || have_MobileData;
+    }
+
+    public void RealTimeDownloadDb(String filename){
+        StorageReference dbRef = storageRef.child(filename);
+
+        final File localFile = new File("data/data/com.example.mytasks/databases/"+filename);
+
+        dbRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Log.d("Realtime"," Download Success "+ localFile.getPath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.d("Realtime"," Download Fail - " + exception.toString());
+            }
+        });
     }
 
 }
